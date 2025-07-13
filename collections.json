@@ -2864,9 +2864,9 @@
         ]
       },
       {
-        "id": "2cf7e8a3-fad7-413d-b17c-7519a9cf5fb5",
+        "id": "86fd126f-7672-4d83-93df-c61184d2fcf4",
         "name": "Cloud, Midgar Mercenary",
-        "set": "Final Fantasy",
+        "set": "fin",
         "set_code": "fin",
         "lang": "de",
         "is_proxy": false,
@@ -2876,10 +2876,128 @@
         "oracle_text": "When Cloud enters, search your library for an Equipment card, reveal it, put it into your hand, then shuffle.\nAs long as Cloud is equipped, if an ability of Cloud or an Equipment attached to it triggers, that ability triggers an additional time.",
         "mana_cost": "{W}{W}",
         "card_faces": null,
-        "collector_number": "10",
+        "collector_number": "427",
         "set_size": 586,
         "type_line": "Legendary Creature — Human Soldier Mercenary",
-        "prints_search_uri": "https://api.scryfall.com/cards/search?order=released&q=oracleid%3A33d2584b-bf29-4c22-bd45-14ba2fb98c0e&unique=prints"
+        "prints_search_uri": "https://api.scryfall.com/cards/search?order=released&q=oracleid%3A33d2584b-bf29-4c22-bd45-14ba2fb98c0e&unique=prints",
+        "object": "card",
+        "oracle_id": "33d2584b-bf29-4c22-bd45-14ba2fb98c0e",
+        "multiverse_ids": [],
+        "mtgo_id": 141823,
+        "tcgplayer_id": 630880,
+        "cardmarket_id": 824309,
+        "released_at": "2025-06-13",
+        "uri": "https://api.scryfall.com/cards/86fd126f-7672-4d83-93df-c61184d2fcf4",
+        "scryfall_uri": "https://scryfall.com/card/fin/427/cloud-midgar-mercenary?utm_source=api",
+        "layout": "normal",
+        "highres_image": true,
+        "image_status": "highres_scan",
+        "image_uris": {
+          "small": "https://cards.scryfall.io/small/front/8/6/86fd126f-7672-4d83-93df-c61184d2fcf4.jpg?1748707453",
+          "normal": "https://cards.scryfall.io/normal/front/8/6/86fd126f-7672-4d83-93df-c61184d2fcf4.jpg?1748707453",
+          "large": "https://cards.scryfall.io/large/front/8/6/86fd126f-7672-4d83-93df-c61184d2fcf4.jpg?1748707453",
+          "png": "https://cards.scryfall.io/png/front/8/6/86fd126f-7672-4d83-93df-c61184d2fcf4.png?1748707453",
+          "art_crop": "https://cards.scryfall.io/art_crop/front/8/6/86fd126f-7672-4d83-93df-c61184d2fcf4.jpg?1748707453",
+          "border_crop": "https://cards.scryfall.io/border_crop/front/8/6/86fd126f-7672-4d83-93df-c61184d2fcf4.jpg?1748707453"
+        },
+        "cmc": 2.0,
+        "power": "2",
+        "toughness": "1",
+        "colors": [
+          "W"
+        ],
+        "color_identity": [
+          "W"
+        ],
+        "keywords": [],
+        "legalities": {
+          "standard": "legal",
+          "future": "legal",
+          "historic": "legal",
+          "timeless": "legal",
+          "gladiator": "legal",
+          "pioneer": "legal",
+          "modern": "legal",
+          "legacy": "legal",
+          "pauper": "not_legal",
+          "vintage": "legal",
+          "penny": "not_legal",
+          "commander": "legal",
+          "oathbreaker": "legal",
+          "standardbrawl": "legal",
+          "brawl": "legal",
+          "alchemy": "legal",
+          "paupercommander": "not_legal",
+          "duel": "legal",
+          "oldschool": "not_legal",
+          "premodern": "not_legal",
+          "predh": "not_legal"
+        },
+        "games": [
+          "paper",
+          "arena"
+        ],
+        "reserved": false,
+        "game_changer": false,
+        "foil": true,
+        "nonfoil": true,
+        "finishes": [
+          "nonfoil",
+          "foil"
+        ],
+        "oversized": false,
+        "promo": false,
+        "reprint": false,
+        "variation": false,
+        "set_id": "d7beb4b7-e1ff-4d35-ab07-5700f17ea1ea",
+        "set_name": "Final Fantasy",
+        "set_type": "expansion",
+        "set_uri": "https://api.scryfall.com/sets/d7beb4b7-e1ff-4d35-ab07-5700f17ea1ea",
+        "set_search_uri": "https://api.scryfall.com/cards/search?order=set&q=e%3Afin&unique=prints",
+        "scryfall_set_uri": "https://scryfall.com/sets/fin?utm_source=api",
+        "rulings_uri": "https://api.scryfall.com/cards/86fd126f-7672-4d83-93df-c61184d2fcf4/rulings",
+        "digital": false,
+        "rarity": "mythic",
+        "card_back_id": "0aeebaf5-8c7d-4636-9e82-8c27447861f7",
+        "artist": "Kazto Furuya",
+        "artist_ids": [
+          "f22bfd3e-0bd8-4eda-ab6a-8b3bbb60da0b"
+        ],
+        "illustration_id": "64f68aac-ef63-4e4c-b035-04d89e91f007",
+        "border_color": "black",
+        "frame": "2015",
+        "frame_effects": [
+          "legendary",
+          "extendedart"
+        ],
+        "security_stamp": "triangle",
+        "full_art": false,
+        "textless": false,
+        "booster": false,
+        "story_spotlight": false,
+        "promo_types": [
+          "ffvii",
+          "boosterfun"
+        ],
+        "edhrec_rank": 5958,
+        "prices": {
+          "usd": "38.89",
+          "usd_foil": "93.91",
+          "usd_etched": null,
+          "eur": "39.80",
+          "eur_foil": "74.07",
+          "tix": null
+        },
+        "related_uris": {
+          "tcgplayer_infinite_articles": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&trafcat=tcgplayer.com%2Fsearch%2Farticles&u=https%3A%2F%2Fwww.tcgplayer.com%2Fsearch%2Farticles%3FproductLineName%3Dmagic%26q%3DCloud%252C%2BMidgar%2BMercenary",
+          "tcgplayer_infinite_decks": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&trafcat=tcgplayer.com%2Fsearch%2Fdecks&u=https%3A%2F%2Fwww.tcgplayer.com%2Fsearch%2Fdecks%3FproductLineName%3Dmagic%26q%3DCloud%252C%2BMidgar%2BMercenary",
+          "edhrec": "https://edhrec.com/route/?cc=Cloud%2C+Midgar+Mercenary"
+        },
+        "purchase_uris": {
+          "tcgplayer": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&u=https%3A%2F%2Fwww.tcgplayer.com%2Fproduct%2F630880%3Fpage%3D1",
+          "cardmarket": "https://www.cardmarket.com/en/Magic/Products?idProduct=824309&referrer=scryfall&utm_campaign=card_prices&utm_medium=text&utm_source=scryfall",
+          "cardhoarder": "https://www.cardhoarder.com/cards/141823?affiliate_id=scryfall&ref=card-profile&utm_campaign=affiliate&utm_medium=card&utm_source=scryfall"
+        }
       },
       {
         "id": "416d2d51-8f29-4e95-b037-e8c32b081e6c",
@@ -2972,9 +3090,9 @@
         "prints_search_uri": "https://api.scryfall.com/cards/search?order=released&q=oracleid%3Ad04e0975-f401-41b8-a9db-9bcf9cbbce66&unique=prints"
       },
       {
-        "id": "83c82209-47d5-4c4c-b8ec-96ab907e15d3",
+        "id": "7cb5acb6-14af-4e17-8e6c-b44122bd81e4",
         "name": "Sephiroth, Fabled SOLDIER // Sephiroth, One-Winged Angel",
-        "set": "Final Fantasy",
+        "set": "fin",
         "set_code": "fin",
         "lang": "de",
         "is_proxy": false,
@@ -2995,16 +3113,16 @@
             ],
             "power": "3",
             "toughness": "3",
-            "artist": "Tetsuya Nomura",
-            "artist_id": "a6c5195e-0d82-47d2-a286-ce1b893ca81c",
-            "illustration_id": "e1ea898e-d006-404a-9b5f-60656fc9c78a",
+            "artist": "Wisnu Tan",
+            "artist_id": "f2d36cdd-a4e9-43ba-b2ad-9d514f6706d4",
+            "illustration_id": "8f37cc66-d9b3-4c2b-ab50-ffd88fae33dd",
             "image_uris": {
-              "small": "https://cards.scryfall.io/small/front/8/3/83c82209-47d5-4c4c-b8ec-96ab907e15d3.jpg?1748707839",
-              "normal": "https://cards.scryfall.io/normal/front/8/3/83c82209-47d5-4c4c-b8ec-96ab907e15d3.jpg?1748707839",
-              "large": "https://cards.scryfall.io/large/front/8/3/83c82209-47d5-4c4c-b8ec-96ab907e15d3.jpg?1748707839",
-              "png": "https://cards.scryfall.io/png/front/8/3/83c82209-47d5-4c4c-b8ec-96ab907e15d3.png?1748707839",
-              "art_crop": "https://cards.scryfall.io/art_crop/front/8/3/83c82209-47d5-4c4c-b8ec-96ab907e15d3.jpg?1748707839",
-              "border_crop": "https://cards.scryfall.io/border_crop/front/8/3/83c82209-47d5-4c4c-b8ec-96ab907e15d3.jpg?1748707839"
+              "small": "https://cards.scryfall.io/small/front/7/c/7cb5acb6-14af-4e17-8e6c-b44122bd81e4.jpg?1748707880",
+              "normal": "https://cards.scryfall.io/normal/front/7/c/7cb5acb6-14af-4e17-8e6c-b44122bd81e4.jpg?1748707880",
+              "large": "https://cards.scryfall.io/large/front/7/c/7cb5acb6-14af-4e17-8e6c-b44122bd81e4.jpg?1748707880",
+              "png": "https://cards.scryfall.io/png/front/7/c/7cb5acb6-14af-4e17-8e6c-b44122bd81e4.png?1748707880",
+              "art_crop": "https://cards.scryfall.io/art_crop/front/7/c/7cb5acb6-14af-4e17-8e6c-b44122bd81e4.jpg?1748707880",
+              "border_crop": "https://cards.scryfall.io/border_crop/front/7/c/7cb5acb6-14af-4e17-8e6c-b44122bd81e4.jpg?1748707880"
             }
           },
           {
@@ -3021,23 +3139,148 @@
             ],
             "power": "5",
             "toughness": "5",
-            "artist": "Tetsuya Nomura",
-            "artist_id": "a6c5195e-0d82-47d2-a286-ce1b893ca81c",
-            "illustration_id": "48516443-5280-43b3-b678-1af35aa1d2e5",
+            "artist": "Wisnu Tan",
+            "artist_id": "f2d36cdd-a4e9-43ba-b2ad-9d514f6706d4",
+            "illustration_id": "677e4386-d715-45f9-95d7-aff24ff1ed3b",
             "image_uris": {
-              "small": "https://cards.scryfall.io/small/back/8/3/83c82209-47d5-4c4c-b8ec-96ab907e15d3.jpg?1748707839",
-              "normal": "https://cards.scryfall.io/normal/back/8/3/83c82209-47d5-4c4c-b8ec-96ab907e15d3.jpg?1748707839",
-              "large": "https://cards.scryfall.io/large/back/8/3/83c82209-47d5-4c4c-b8ec-96ab907e15d3.jpg?1748707839",
-              "png": "https://cards.scryfall.io/png/back/8/3/83c82209-47d5-4c4c-b8ec-96ab907e15d3.png?1748707839",
-              "art_crop": "https://cards.scryfall.io/art_crop/back/8/3/83c82209-47d5-4c4c-b8ec-96ab907e15d3.jpg?1748707839",
-              "border_crop": "https://cards.scryfall.io/border_crop/back/8/3/83c82209-47d5-4c4c-b8ec-96ab907e15d3.jpg?1748707839"
+              "small": "https://cards.scryfall.io/small/back/7/c/7cb5acb6-14af-4e17-8e6c-b44122bd81e4.jpg?1748707880",
+              "normal": "https://cards.scryfall.io/normal/back/7/c/7cb5acb6-14af-4e17-8e6c-b44122bd81e4.jpg?1748707880",
+              "large": "https://cards.scryfall.io/large/back/7/c/7cb5acb6-14af-4e17-8e6c-b44122bd81e4.jpg?1748707880",
+              "png": "https://cards.scryfall.io/png/back/7/c/7cb5acb6-14af-4e17-8e6c-b44122bd81e4.png?1748707880",
+              "art_crop": "https://cards.scryfall.io/art_crop/back/7/c/7cb5acb6-14af-4e17-8e6c-b44122bd81e4.jpg?1748707880",
+              "border_crop": "https://cards.scryfall.io/border_crop/back/7/c/7cb5acb6-14af-4e17-8e6c-b44122bd81e4.jpg?1748707880"
             }
           }
         ],
-        "collector_number": "317",
+        "collector_number": "451",
         "set_size": 586,
         "type_line": "Legendary Creature — Human Avatar Soldier // Legendary Creature — Angel Nightmare Avatar",
-        "prints_search_uri": "https://api.scryfall.com/cards/search?order=released&q=oracleid%3A70113003-be5e-406a-9aec-cb480468c36d&unique=prints"
+        "prints_search_uri": "https://api.scryfall.com/cards/search?order=released&q=oracleid%3A70113003-be5e-406a-9aec-cb480468c36d&unique=prints",
+        "object": "card",
+        "oracle_id": "70113003-be5e-406a-9aec-cb480468c36d",
+        "multiverse_ids": [],
+        "mtgo_id": 141879,
+        "tcgplayer_id": 630980,
+        "cardmarket_id": 824317,
+        "released_at": "2025-06-13",
+        "uri": "https://api.scryfall.com/cards/7cb5acb6-14af-4e17-8e6c-b44122bd81e4",
+        "scryfall_uri": "https://scryfall.com/card/fin/451/sephiroth-fabled-soldier-sephiroth-one-winged-angel?utm_source=api",
+        "layout": "transform",
+        "highres_image": true,
+        "image_status": "highres_scan",
+        "cmc": 3.0,
+        "color_identity": [
+          "B"
+        ],
+        "keywords": [
+          "Flying",
+          "Transform",
+          "Super Nova"
+        ],
+        "all_parts": [
+          {
+            "object": "related_card",
+            "id": "db95465a-2a58-44d7-9439-edd18c9505f0",
+            "component": "combo_piece",
+            "name": "Sephiroth, Fabled SOLDIER // Sephiroth, One-Winged Angel",
+            "type_line": "Legendary Creature — Human Avatar Soldier // Legendary Creature — Angel Nightmare Avatar",
+            "uri": "https://api.scryfall.com/cards/db95465a-2a58-44d7-9439-edd18c9505f0"
+          },
+          {
+            "object": "related_card",
+            "id": "03165625-1cb9-4e7b-85be-df400adc4487",
+            "component": "combo_piece",
+            "name": "Sephiroth, One-Winged Angel Emblem",
+            "type_line": "Emblem",
+            "uri": "https://api.scryfall.com/cards/03165625-1cb9-4e7b-85be-df400adc4487"
+          }
+        ],
+        "legalities": {
+          "standard": "legal",
+          "future": "legal",
+          "historic": "legal",
+          "timeless": "legal",
+          "gladiator": "legal",
+          "pioneer": "legal",
+          "modern": "legal",
+          "legacy": "legal",
+          "pauper": "not_legal",
+          "vintage": "legal",
+          "penny": "not_legal",
+          "commander": "legal",
+          "oathbreaker": "legal",
+          "standardbrawl": "legal",
+          "brawl": "legal",
+          "alchemy": "legal",
+          "paupercommander": "not_legal",
+          "duel": "legal",
+          "oldschool": "not_legal",
+          "premodern": "not_legal",
+          "predh": "not_legal"
+        },
+        "games": [
+          "paper",
+          "arena"
+        ],
+        "reserved": false,
+        "game_changer": false,
+        "foil": true,
+        "nonfoil": true,
+        "finishes": [
+          "nonfoil",
+          "foil"
+        ],
+        "oversized": false,
+        "promo": false,
+        "reprint": false,
+        "variation": false,
+        "set_id": "d7beb4b7-e1ff-4d35-ab07-5700f17ea1ea",
+        "set_name": "Final Fantasy",
+        "set_type": "expansion",
+        "set_uri": "https://api.scryfall.com/sets/d7beb4b7-e1ff-4d35-ab07-5700f17ea1ea",
+        "set_search_uri": "https://api.scryfall.com/cards/search?order=set&q=e%3Afin&unique=prints",
+        "scryfall_set_uri": "https://scryfall.com/sets/fin?utm_source=api",
+        "rulings_uri": "https://api.scryfall.com/cards/7cb5acb6-14af-4e17-8e6c-b44122bd81e4/rulings",
+        "digital": false,
+        "rarity": "mythic",
+        "artist": "Wisnu Tan",
+        "artist_ids": [
+          "f2d36cdd-a4e9-43ba-b2ad-9d514f6706d4"
+        ],
+        "border_color": "black",
+        "frame": "2015",
+        "frame_effects": [
+          "legendary",
+          "extendedart"
+        ],
+        "security_stamp": "triangle",
+        "full_art": false,
+        "textless": false,
+        "booster": false,
+        "story_spotlight": false,
+        "promo_types": [
+          "ffvii",
+          "boosterfun"
+        ],
+        "edhrec_rank": 4683,
+        "prices": {
+          "usd": "45.46",
+          "usd_foil": "102.43",
+          "usd_etched": null,
+          "eur": "51.57",
+          "eur_foil": "144.38",
+          "tix": null
+        },
+        "related_uris": {
+          "tcgplayer_infinite_articles": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&trafcat=tcgplayer.com%2Fsearch%2Farticles&u=https%3A%2F%2Fwww.tcgplayer.com%2Fsearch%2Farticles%3FproductLineName%3Dmagic%26q%3DSephiroth%252C%2BFabled%2BSOLDIER%2B%252F%252F%2BSephiroth%252C%2BOne-Winged%2BAngel",
+          "tcgplayer_infinite_decks": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&trafcat=tcgplayer.com%2Fsearch%2Fdecks&u=https%3A%2F%2Fwww.tcgplayer.com%2Fsearch%2Fdecks%3FproductLineName%3Dmagic%26q%3DSephiroth%252C%2BFabled%2BSOLDIER%2B%252F%252F%2BSephiroth%252C%2BOne-Winged%2BAngel",
+          "edhrec": "https://edhrec.com/route/?cc=Sephiroth%2C+Fabled+SOLDIER"
+        },
+        "purchase_uris": {
+          "tcgplayer": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&u=https%3A%2F%2Fwww.tcgplayer.com%2Fproduct%2F630980%3Fpage%3D1",
+          "cardmarket": "https://www.cardmarket.com/en/Magic/Products?idProduct=824317&referrer=scryfall&utm_campaign=card_prices&utm_medium=text&utm_source=scryfall",
+          "cardhoarder": "https://www.cardhoarder.com/cards/141879?affiliate_id=scryfall&ref=card-profile&utm_campaign=affiliate&utm_medium=card&utm_source=scryfall"
+        }
       }
     ]
   }

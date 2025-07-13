@@ -1,0 +1,455 @@
+# ui_search.py
+# Such- und Kartenanzeige-UI
+import os
+import json
+import requests
+from PyQt6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLineEdit, QPushButton, QScrollArea, QLabel, QComboBox, QCheckBox, QMessageBox, QFrame
+from PyQt6.QtGui import QPixmap
+from PyQt6.QtCore import Qt
+from dialogs import CardSelectorDialog, VariantSelector
+from utils import get_cached_image
+
+
+
+###############################################################
+# --- MOVE TO ui_search.py ---
+class MTGDesktopManager(QWidget):
+    def __init__(self, return_to_menu):
+        self.return_to_menu = return_to_menu
+        super().__init__()
+        self.setWindowTitle("MTG Desktop Manager")
+        self.setStyleSheet("background-color: #1e1e1e; color: white; font-size: 14px;")
+        self.init_ui()
+        self.current_card_data = None
+        self.current_language = 'en'
+
+    def init_ui(self):
+        top_bar = QHBoxLayout()
+        back_button = QPushButton("← Hauptmenü")
+        back_button.clicked.connect(self.return_to_menu)
+        top_bar.addWidget(back_button)
+        layout = QVBoxLayout()
+        layout.addLayout(top_bar)  # <-- Top-Bar mit Zurück-Button einfügen
+
+        search_layout = QHBoxLayout()
+        self.search_input = QLineEdit()
+        self.search_input.setPlaceholderText("Kartennamen eingeben (auch Teil möglich)...")
+        self.search_input.setStyleSheet("background-color: #2e2e2e; color: white; padding: 5px;")
+        self.search_input.returnPressed.connect(self.search_card)
+        search_layout.addWidget(self.search_input)
+
+        search_button = QPushButton("Suchen")
+        search_button.clicked.connect(self.search_card)
+        search_layout.addWidget(search_button)
+
+        reset_button = QPushButton("Zurücksetzen")
+        reset_button.clicked.connect(self.clear_all)
+        search_layout.addWidget(reset_button)
+
+        layout.addLayout(search_layout)
+
+        self.language_toggle_button = QPushButton("Karte auf Deutsch anzeigen")
+        self.language_toggle_button.setVisible(False)
+        self.language_toggle_button.clicked.connect(self.toggle_card_language)
+        layout.addWidget(self.language_toggle_button)
+
+        self.variant_button = QPushButton("Alle Varianten anzeigen")
+        self.variant_button.setVisible(False)
+        self.variant_button.clicked.connect(self.show_variants)
+        layout.addWidget(self.variant_button)
+
+        scroll = QScrollArea()
+        scroll.setWidgetResizable(True)
+        scroll.setStyleSheet('''
+            QScrollBar:vertical, QScrollBar:horizontal {
+                background: transparent;
+                width: 16px;
+                height: 16px;
+                margin: 0px;
+                border: none;
+            }
+            QScrollBar::groove:vertical, QScrollBar::groove:horizontal {
+                background: #444;
+                border-radius: 8px;
+                margin: 2px;
+            }
+            QScrollBar::handle:vertical, QScrollBar::handle:horizontal {
+                background: #888;
+                min-height: 36px;
+                min-width: 36px;
+                border-radius: 50%;
+                margin: 4px;
+                border: none;
+                width: 8px;
+                height: 8px;
+            }
+            QScrollBar::handle:vertical:hover, QScrollBar::handle:horizontal:hover {
+                background: #aaa;
+            }
+            QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical,
+            QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {
+                height: 0px;
+                width: 0px;
+                border: none;
+                background: none;
+            }
+            QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical,
+            QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {
+                background: none;
+            }
+        ''')
+        self.result_container = QWidget()
+        self.result_area = QVBoxLayout()
+        self.result_container.setLayout(self.result_area)
+        scroll.setWidget(self.result_container)
+        layout.addWidget(scroll)
+
+        self.setLayout(layout)
+
+    def clear_result_area(self):
+        while self.result_area.count():
+            item = self.result_area.takeAt(0)
+            widget = item.widget()
+            layout = item.layout()
+            if widget:
+                widget.deleteLater()
+            elif layout:
+                while layout.count():
+                    sub_item = layout.takeAt(0)
+                    sub_widget = sub_item.widget()
+                    if sub_widget:
+                        sub_widget.deleteLater()
+                layout.deleteLater()
+
+    def clear_all(self):
+        self.search_input.clear()
+        self.clear_result_area()
+        self.current_card_data = None
+        self.language_toggle_button.setVisible(False)
+        self.variant_button.setVisible(False)
+
+    def search_card(self):
+        card_name = self.search_input.text().strip()
+        if not card_name:
+            return
+
+        self.clear_result_area()
+
+        direct_url = f"https://api.scryfall.com/cards/named?fuzzy={card_name}"
+        response = requests.get(direct_url)
+
+        if response.status_code == 200:
+            self.current_card_data = response.json()
+            print(f"DEBUG: Direct search result: {self.current_card_data}")  # Debugging
+            self.current_language = self.current_card_data.get('lang', 'en')
+            self.search_input.setText(self.current_card_data.get("name", card_name))
+            self.load_selected_card(self.current_card_data)
+            return
+
+        search_url = f"https://api.scryfall.com/cards/search?q={card_name}&unique=cards"
+        search_response = requests.get(search_url)
+        if search_response.status_code == 200:
+            data = search_response.json()
+            print(f"DEBUG: Search results: {data}")  # Debugging
+            if data.get("total_cards", 0) > 1:
+                dialog = CardSelectorDialog(data["data"], self.load_selected_card)
+                dialog.exec()
+                return
+
+    def load_selected_card(self, card_data):
+        self.clear_result_area()
+        self.current_card_data = card_data
+        print(f"DEBUG: Selected card data: {self.current_card_data}")  # Debugging
+        self.current_language = card_data.get('lang', 'en')
+        self.search_input.setText(card_data.get("name", ""))
+        self.display_card(card_data)
+        self.check_for_de_language(card_data)
+        self.variant_button.setVisible(True)
+
+    def toggle_card_language(self):
+        if not self.current_card_data:
+            return
+        oracle_id = self.current_card_data.get("oracle_id")
+        if not oracle_id:
+            return
+
+        new_lang = "de" if self.current_language == "en" else "en"
+        url = f"https://api.scryfall.com/cards/search?q=oracleid:{oracle_id}+lang:{new_lang}"
+        response = requests.get(url)
+        if response.status_code == 200:
+            data = response.json()
+            if data["total_cards"] > 0:
+                self.load_selected_card(data["data"][0])
+                self.language_toggle_button.setText(
+                    "Karte auf Englisch anzeigen" if new_lang == "de" else "Karte auf Deutsch anzeigen"
+                )
+
+    def check_for_de_language(self, card_data):
+        oracle_id = card_data.get("oracle_id")
+        url = f"https://api.scryfall.com/cards/search?q=oracleid:{oracle_id}+lang:de"
+        response = requests.get(url)
+        if response.status_code == 200:
+            data = response.json()
+            if data["total_cards"] > 0:
+                self.language_toggle_button.setVisible(True)
+                self.language_toggle_button.setText("Karte auf Deutsch anzeigen")
+            else:
+                self.language_toggle_button.setVisible(False)
+
+    def show_variants(self):
+        if not self.current_card_data:
+            return
+        prints_url = self.current_card_data.get("prints_search_uri")
+        if not prints_url:
+            return
+        print(f"DEBUG: Prints URL: {prints_url}")  # Debugging
+        selector = VariantSelector(prints_url, self.load_selected_card)
+        selector.exec()
+
+    def display_card(self, card):
+        collections_file = "collections.json"
+
+        def add_to_collection():
+            current = self.current_card_data if hasattr(self, 'current_card_data') and self.current_card_data else card
+            print(f"DEBUG: Card being added to collection: {current}")  # Debugging
+            if not os.path.exists(collections_file):
+                with open(collections_file, "w", encoding="utf-8") as f:
+                    json.dump([], f)
+            with open(collections_file, "r", encoding="utf-8") as f:
+                collections = json.load(f)
+
+            selected_index = collection_selector.currentIndex()
+            if selected_index < 0 or selected_index >= len(collections):
+                QMessageBox.warning(self, "Fehler", "Keine gültige Sammlung ausgewählt.")
+                return
+
+            selected_collection = collections[selected_index]
+            proxy = proxy_checkbox.isChecked()
+            # Sprache aus Dropdown
+            lang_selected = language_selector.currentText().lower()
+
+            # Immer das größte verfügbare Bild cachen (large > normal > small), egal ob Flipkarte oder nicht
+            image_uris = None
+            if current.get("card_faces") and isinstance(current["card_faces"], list):
+                # Flipkarte: cache für jedes Face das beste Bild
+                for face in current["card_faces"]:
+                    image_uris_face = face.get("image_uris")
+                    if image_uris_face:
+                        for key in ["large", "normal", "small"]:
+                            if image_uris_face.get(key):
+                                img_path = get_cached_image(image_uris_face[key], face.get('id'), fallback_name=face.get('name'), fallback_set=current.get('set_code') or current.get('set'))
+                                if img_path and os.path.exists(img_path):
+                                    print(f"DEBUG: Flipkarte: Image cached at: {img_path}")
+                                else:
+                                    print("DEBUG: Flipkarte: Failed to cache image.")
+                                break
+            else:
+                # Nicht-Flipkarte: bestes Bild suchen
+                image_uris = current.get("image_uris")
+                img_path = None
+                if isinstance(image_uris, dict):
+                    for key in ["large", "normal", "small"]:
+                        if image_uris.get(key):
+                            img_path = get_cached_image(image_uris[key], current.get('id'), fallback_name=current.get('name'), fallback_set=current.get('set_code') or current.get('set'))
+                            if img_path and os.path.exists(img_path):
+                                print(f"DEBUG: Image cached at: {img_path}")
+                            else:
+                                print("DEBUG: Failed to cache image.")
+                            break
+                elif isinstance(image_uris, str):
+                    img_path = get_cached_image(image_uris, current.get('id'), fallback_name=current.get('name'), fallback_set=current.get('set_code') or current.get('set'))
+                    if img_path and os.path.exists(img_path):
+                        print(f"DEBUG: Image cached at: {img_path}")
+                    else:
+                        print("DEBUG: Failed to cache image.")
+                else:
+                    print("DEBUG: No image URL found.")
+
+            set_code = current.get("set") or current.get("set_code") or current.get("set_id")
+            set_size = current.get("set_size")
+            if not set_size and set_code:
+                try:
+                    set_api_url = f"https://api.scryfall.com/sets/{set_code}"
+                    resp = requests.get(set_api_url, timeout=3)
+                    if resp.status_code == 200:
+                        set_data = resp.json()
+                        set_size = set_data.get("card_count")
+                except Exception as e:
+                    print(f"Fehler beim Laden von set_size: {e}")
+                    set_size = None
+
+            # Bestimme die tatsächlich verwendete Bild-URL für den Eintrag
+            best_image_url = None
+            if current.get("card_faces") and isinstance(current["card_faces"], list):
+                # Flipkarte: nimm das größte Bild des ersten Faces
+                face = current["card_faces"][0]
+                image_uris_face = face.get("image_uris")
+                if image_uris_face:
+                    for key in ["large", "normal", "small"]:
+                        if image_uris_face.get(key):
+                            best_image_url = image_uris_face[key]
+                            break
+            else:
+                image_uris = current.get("image_uris")
+                if isinstance(image_uris, dict):
+                    for key in ["large", "normal", "small"]:
+                        if image_uris.get(key):
+                            best_image_url = image_uris[key]
+                            break
+                elif isinstance(image_uris, str):
+                    best_image_url = image_uris
+
+            # Preis bei Proxy immer 0
+            eur_value = 0 if proxy else current.get("prices", {}).get("eur", 0)
+            new_entry = {
+                "id": current.get("id"),
+                "name": current.get("name"),
+                "set": current.get("set_name"),
+                "set_code": set_code,
+                "lang": lang_selected,
+                "is_proxy": proxy,
+                "eur": eur_value,
+                "image_url": best_image_url,
+                "count": 1,
+                "oracle_text": current.get("oracle_text"),
+                "mana_cost": current.get("mana_cost"),
+                "card_faces": current.get("card_faces"),
+                "collector_number": current.get("collector_number"),
+                "set_size": set_size,
+                "type_line": current.get("type_line", ""),
+                "prints_search_uri": current.get("prints_search_uri")  # NEU: Varianten-URL speichern
+            }
+
+            print(f"DEBUG: New entry being added: {new_entry}")  # Debugging
+            selected_collection["cards"].append(new_entry)
+            with open(collections_file, "w", encoding="utf-8") as f:
+                json.dump(collections, f, indent=2, ensure_ascii=False)
+
+            QMessageBox.information(self, "Erfolg", f"Karte wurde zur Sammlung '{selected_collection['name']}' hinzugefügt.")
+
+        self.clear_result_area()
+
+        name = QLabel(f"<b>{card['name']}</b>")
+        name.setStyleSheet("font-size: 30px; font-weight: bold; margin-bottom: 4px;")
+        name.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
+        self.result_area.addWidget(name)
+        # Kompakte Infozeile: Manakosten | Set | Nummer (nur einmal, auch bei Flipkarten)
+        mana_cost = card.get('mana_cost', '')
+        set_code = card.get('set_code') or card.get('set') or ''
+        collector_number = card.get('collector_number', '')
+        set_size = card.get('set_size', '?')
+        set_code_disp = set_code.upper() if set_code else ''
+        info_parts = []
+        if mana_cost:
+            info_parts.append(f"<span style='color:#b0b0b0;'>Manakosten: {mana_cost}</span>")
+        if set_code_disp:
+            info_parts.append(f"<span style='color:#b0b0b0;'>Set: {set_code_disp}</span>")
+        if collector_number:
+            info_parts.append(f"<span style='color:#b0b0b0;'>Nr: {collector_number}/{set_size}</span>")
+        if info_parts:
+            info_label = QLabel(" | ".join(info_parts))
+            info_label.setStyleSheet("font-size: 16px; margin-bottom: 4px;")
+            info_label.setTextFormat(Qt.TextFormat.RichText)
+            info_label.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
+            self.result_area.addWidget(info_label)
+        # Set-Name ausgeschrieben immer anzeigen
+        set_name = card.get('set_name', '')
+        if set_name:
+            set_label = QLabel(f"Set-Name: {set_name}")
+            set_label.setStyleSheet("font-size: 16px; margin-bottom: 8px;")
+            set_label.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
+            self.result_area.addWidget(set_label)
+        type_line = QLabel(f"Typ: {card.get('type_line', '-')}")
+        type_line.setStyleSheet("font-size: 18px; margin-bottom: 4px;")
+        type_line.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
+        self.result_area.addWidget(type_line)
+        price = QLabel(f"Preis (EUR): {card['prices'].get('eur', 'Nicht verfügbar')}")
+        price.setStyleSheet("font-size: 20px; font-weight: bold; color: #ffd700; margin-bottom: 12px;")
+        price.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
+        self.result_area.addWidget(price)
+
+        # Oracle-Text mit besserer Trennung für Flip-/DFC-Karten
+        if "card_faces" in card and isinstance(card["card_faces"], list) and len(card["card_faces"]) > 1:
+            for idx, face in enumerate(card["card_faces"]):
+                face_name = face.get('name', '')
+                face_text = face.get('oracle_text', '')
+                face_label = QLabel(f"<b>{face_name}</b><br>{face_text}")
+                face_label.setStyleSheet("background-color: #2e2e2e; color: white; padding: 8px; border-radius: 4px;")
+                face_label.setWordWrap(True)
+                face_label.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
+                self.result_area.addWidget(face_label)
+                if idx < len(card["card_faces"]) - 1:
+                    line = QFrame()
+                    line.setFrameShape(QFrame.Shape.HLine)
+                    line.setFrameShadow(QFrame.Shadow.Sunken)
+                    line.setStyleSheet("color: #888; margin: 8px 0;")
+                    self.result_area.addWidget(line)
+        else:
+            oracle_text = card.get("oracle_text", "Kein Text verfügbar")
+            oracle_label = QLabel(oracle_text.strip())
+            oracle_label.setStyleSheet("background-color: #2e2e2e; color: white; padding: 8px; border-radius: 4px;")
+            oracle_label.setWordWrap(True)
+            oracle_label.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
+            self.result_area.addWidget(oracle_label)
+
+        # Kartenbilder zentriert anzeigen
+        image_row = QHBoxLayout()
+        image_row.setAlignment(Qt.AlignmentFlag.AlignHCenter)
+        if "card_faces" in card:
+            for face in card["card_faces"]:
+                img_url = face.get("image_uris", {}).get("large")
+                img_path = get_cached_image(img_url, face.get('id')) if img_url else None
+                label = QLabel()
+                if img_path and os.path.exists(img_path):
+                    pixmap = QPixmap(img_path)
+                    pixmap = pixmap.scaled(360, 510, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation)
+                    label.setPixmap(pixmap)
+                label.setAlignment(Qt.AlignmentFlag.AlignHCenter)
+                if not (img_path and os.path.exists(img_path)):
+                    label.setText("Kein Bild")
+                image_row.addWidget(label)
+        else:
+            img_url = card.get("image_uris", {}).get("large")
+            img_path = get_cached_image(img_url, card.get('id')) if img_url else None
+            label = QLabel()
+            if img_path and os.path.exists(img_path):
+                pixmap = QPixmap(img_path)
+                pixmap = pixmap.scaled(360, 510, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation)
+                label.setPixmap(pixmap)
+            label.setAlignment(Qt.AlignmentFlag.AlignHCenter)
+            if not (img_path and os.path.exists(img_path)):
+                label.setText("Kein Bild")
+            image_row.addWidget(label)
+
+        wrapper = QWidget()
+        wrapper.setLayout(image_row)
+        self.result_area.addWidget(wrapper)
+
+        # Sammlung hinzufügen UI
+        control_row = QHBoxLayout()
+        collection_selector = QComboBox()
+        # Sprachauswahl (Dropdown)
+        language_selector = QComboBox()
+        language_selector.addItem("DE")
+        language_selector.addItem("ENG")
+        # Proxy-Checkbox größer machen
+        proxy_checkbox = QCheckBox("Als Proxy")
+        proxy_checkbox.setStyleSheet("font-size: 22px; min-height: 32px; min-width: 32px; padding: 8px 16px;")
+        add_button = QPushButton("Zur Sammlung hinzufügen")
+        add_button.clicked.connect(add_to_collection)
+
+        # Sammlungen laden
+        if os.path.exists("collections.json"):
+            with open("collections.json", "r", encoding="utf-8") as f:
+                collections = json.load(f)
+                for c in collections:
+                    collection_selector.addItem(c["name"])
+
+        control_row.addWidget(collection_selector)
+        control_row.addWidget(language_selector)
+        control_row.addWidget(proxy_checkbox)
+        control_row.addWidget(add_button)
+
+        control_widget = QWidget()
+        control_widget.setLayout(control_row)
+        self.result_area.addWidget(control_widget)

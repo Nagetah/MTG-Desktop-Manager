@@ -2882,22 +2882,162 @@
         "prints_search_uri": "https://api.scryfall.com/cards/search?order=released&q=oracleid%3A33d2584b-bf29-4c22-bd45-14ba2fb98c0e&unique=prints"
       },
       {
-        "id": "f0b73ab0-b8eb-4a6f-a8d9-25d56fdf740a",
-        "name": "Cloud, Midgar Mercenary",
+        "id": "416d2d51-8f29-4e95-b037-e8c32b081e6c",
+        "name": "Mana Drain",
+        "set": "Iconic Masters",
+        "set_code": "ima",
+        "lang": "de",
+        "is_proxy": false,
+        "eur": "37.55",
+        "image_url": "https://cards.scryfall.io/large/front/4/1/416d2d51-8f29-4e95-b037-e8c32b081e6c.jpg?1562848002",
+        "count": 1,
+        "oracle_text": "Counter target spell. At the beginning of your next main phase, add an amount of {C} equal to that spell's mana value.",
+        "mana_cost": "{U}{U}",
+        "card_faces": null,
+        "collector_number": "65",
+        "set_size": 249,
+        "type_line": "Instant",
+        "prints_search_uri": "https://api.scryfall.com/cards/search?order=released&q=oracleid%3A74d3277a-38e5-4732-afed-084a56148f20&unique=prints"
+      },
+      {
+        "id": "f0e572d0-f2d0-4b92-ade3-d3ffafb75aa0",
+        "name": "Black Market",
+        "set": "Fallout",
+        "set_code": "pip",
+        "lang": "de",
+        "is_proxy": false,
+        "eur": null,
+        "image_url": "https://cards.scryfall.io/large/front/f/0/f0e572d0-f2d0-4b92-ade3-d3ffafb75aa0.jpg?1718608614",
+        "count": 1,
+        "oracle_text": "Whenever a creature dies, put a charge counter on this enchantment.\nAt the beginning of your first main phase, add {B} for each charge counter on this enchantment.",
+        "mana_cost": "{3}{B}{B}",
+        "card_faces": null,
+        "collector_number": "711",
+        "set_size": 1068,
+        "type_line": "Enchantment",
+        "prints_search_uri": "https://api.scryfall.com/cards/search?order=released&q=oracleid%3A21338b71-37f5-4121-9b84-565025ebcd17&unique=prints"
+      },
+      {
+        "id": "522aa72b-2b8c-484c-872b-f082101cee35",
+        "name": "Get Lost",
+        "set": "The Lost Caverns of Ixalan",
+        "set_code": "lci",
+        "lang": "de",
+        "is_proxy": false,
+        "eur": "5.74",
+        "image_url": "https://cards.scryfall.io/large/front/5/2/522aa72b-2b8c-484c-872b-f082101cee35.jpg?1699043186",
+        "count": 1,
+        "oracle_text": "Destroy target creature, enchantment, or planeswalker. Its controller creates two Map tokens. (They're artifacts with \"{1}, {T}, Sacrifice this token: Target creature you control explores. Activate only as a sorcery.\")",
+        "mana_cost": "{1}{W}",
+        "card_faces": null,
+        "collector_number": "14",
+        "set_size": 416,
+        "type_line": "Instant",
+        "prints_search_uri": "https://api.scryfall.com/cards/search?order=released&q=oracleid%3A522dd417-364b-44ab-8ca9-fb55db5f26a6&unique=prints"
+      },
+      {
+        "id": "fc7d1912-7e27-49ef-bd98-375d975a42b0",
+        "name": "Starting Town",
         "set": "Final Fantasy",
         "set_code": "fin",
         "lang": "de",
         "is_proxy": false,
-        "eur": null,
-        "image_url": "https://cards.scryfall.io/large/front/f/0/f0b73ab0-b8eb-4a6f-a8d9-25d56fdf740a.jpg?1748707571",
+        "eur": "9.17",
+        "image_url": "https://cards.scryfall.io/large/front/f/c/fc7d1912-7e27-49ef-bd98-375d975a42b0.jpg?1748706861",
         "count": 1,
-        "oracle_text": "When Cloud enters, search your library for an Equipment card, reveal it, put it into your hand, then shuffle.\nAs long as Cloud is equipped, if an ability of Cloud or an Equipment attached to it triggers, that ability triggers an additional time.",
-        "mana_cost": "{W}{W}",
+        "oracle_text": "This land enters tapped unless it's your first, second, or third turn of the game.\n{T}: Add {C}.\n{T}, Pay 1 life: Add one mana of any color.",
+        "mana_cost": "",
         "card_faces": null,
-        "collector_number": "520",
+        "collector_number": "289",
         "set_size": 586,
-        "type_line": "Legendary Creature — Human Soldier Mercenary",
-        "prints_search_uri": "https://api.scryfall.com/cards/search?order=released&q=oracleid%3A33d2584b-bf29-4c22-bd45-14ba2fb98c0e&unique=prints"
+        "type_line": "Land — Town",
+        "prints_search_uri": "https://api.scryfall.com/cards/search?order=released&q=oracleid%3Ad04e0975-f401-41b8-a9db-9bcf9cbbce66&unique=prints"
+      },
+      {
+        "id": "fc7d1912-7e27-49ef-bd98-375d975a42b0",
+        "name": "Starting Town",
+        "set": "Final Fantasy",
+        "set_code": "fin",
+        "lang": "de",
+        "is_proxy": false,
+        "eur": "9.17",
+        "image_url": "https://cards.scryfall.io/large/front/f/c/fc7d1912-7e27-49ef-bd98-375d975a42b0.jpg?1748706861",
+        "count": 1,
+        "oracle_text": "This land enters tapped unless it's your first, second, or third turn of the game.\n{T}: Add {C}.\n{T}, Pay 1 life: Add one mana of any color.",
+        "mana_cost": "",
+        "card_faces": null,
+        "collector_number": "289",
+        "set_size": 586,
+        "type_line": "Land — Town",
+        "prints_search_uri": "https://api.scryfall.com/cards/search?order=released&q=oracleid%3Ad04e0975-f401-41b8-a9db-9bcf9cbbce66&unique=prints"
+      },
+      {
+        "id": "83c82209-47d5-4c4c-b8ec-96ab907e15d3",
+        "name": "Sephiroth, Fabled SOLDIER // Sephiroth, One-Winged Angel",
+        "set": "Final Fantasy",
+        "set_code": "fin",
+        "lang": "de",
+        "is_proxy": false,
+        "eur": "80.42",
+        "image_url": "https://cards.scryfall.io/large/front/8/3/83c82209-47d5-4c4c-b8ec-96ab907e15d3.jpg?1748707839",
+        "count": 1,
+        "oracle_text": null,
+        "mana_cost": null,
+        "card_faces": [
+          {
+            "object": "card_face",
+            "name": "Sephiroth, Fabled SOLDIER",
+            "mana_cost": "{2}{B}",
+            "type_line": "Legendary Creature — Human Avatar Soldier",
+            "oracle_text": "Whenever Sephiroth enters or attacks, you may sacrifice another creature. If you do, draw a card.\nWhenever another creature dies, target opponent loses 1 life and you gain 1 life. If this is the fourth time this ability has resolved this turn, transform Sephiroth.",
+            "colors": [
+              "B"
+            ],
+            "power": "3",
+            "toughness": "3",
+            "artist": "Tetsuya Nomura",
+            "artist_id": "a6c5195e-0d82-47d2-a286-ce1b893ca81c",
+            "illustration_id": "e1ea898e-d006-404a-9b5f-60656fc9c78a",
+            "image_uris": {
+              "small": "https://cards.scryfall.io/small/front/8/3/83c82209-47d5-4c4c-b8ec-96ab907e15d3.jpg?1748707839",
+              "normal": "https://cards.scryfall.io/normal/front/8/3/83c82209-47d5-4c4c-b8ec-96ab907e15d3.jpg?1748707839",
+              "large": "https://cards.scryfall.io/large/front/8/3/83c82209-47d5-4c4c-b8ec-96ab907e15d3.jpg?1748707839",
+              "png": "https://cards.scryfall.io/png/front/8/3/83c82209-47d5-4c4c-b8ec-96ab907e15d3.png?1748707839",
+              "art_crop": "https://cards.scryfall.io/art_crop/front/8/3/83c82209-47d5-4c4c-b8ec-96ab907e15d3.jpg?1748707839",
+              "border_crop": "https://cards.scryfall.io/border_crop/front/8/3/83c82209-47d5-4c4c-b8ec-96ab907e15d3.jpg?1748707839"
+            }
+          },
+          {
+            "object": "card_face",
+            "name": "Sephiroth, One-Winged Angel",
+            "mana_cost": "",
+            "type_line": "Legendary Creature — Angel Nightmare Avatar",
+            "oracle_text": "Flying\nSuper Nova — As this creature transforms into Sephiroth, One-Winged Angel, you get an emblem with \"Whenever a creature dies, target opponent loses 1 life and you gain 1 life.\"\nWhenever Sephiroth attacks, you may sacrifice any number of other creatures. If you do, draw that many cards.",
+            "colors": [
+              "B"
+            ],
+            "color_indicator": [
+              "B"
+            ],
+            "power": "5",
+            "toughness": "5",
+            "artist": "Tetsuya Nomura",
+            "artist_id": "a6c5195e-0d82-47d2-a286-ce1b893ca81c",
+            "illustration_id": "48516443-5280-43b3-b678-1af35aa1d2e5",
+            "image_uris": {
+              "small": "https://cards.scryfall.io/small/back/8/3/83c82209-47d5-4c4c-b8ec-96ab907e15d3.jpg?1748707839",
+              "normal": "https://cards.scryfall.io/normal/back/8/3/83c82209-47d5-4c4c-b8ec-96ab907e15d3.jpg?1748707839",
+              "large": "https://cards.scryfall.io/large/back/8/3/83c82209-47d5-4c4c-b8ec-96ab907e15d3.jpg?1748707839",
+              "png": "https://cards.scryfall.io/png/back/8/3/83c82209-47d5-4c4c-b8ec-96ab907e15d3.png?1748707839",
+              "art_crop": "https://cards.scryfall.io/art_crop/back/8/3/83c82209-47d5-4c4c-b8ec-96ab907e15d3.jpg?1748707839",
+              "border_crop": "https://cards.scryfall.io/border_crop/back/8/3/83c82209-47d5-4c4c-b8ec-96ab907e15d3.jpg?1748707839"
+            }
+          }
+        ],
+        "collector_number": "317",
+        "set_size": 586,
+        "type_line": "Legendary Creature — Human Avatar Soldier // Legendary Creature — Angel Nightmare Avatar",
+        "prints_search_uri": "https://api.scryfall.com/cards/search?order=released&q=oracleid%3A70113003-be5e-406a-9aec-cb480468c36d&unique=prints"
       }
     ]
   }

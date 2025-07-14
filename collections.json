@@ -604,6 +604,24 @@
         "type_line": "Land",
         "prints_search_uri": "https://api.scryfall.com/cards/search?order=released&q=oracleid%3A23467047-6dba-4498-b783-1ebc4f74b8c2&unique=prints",
         "purchase_price": 100.0
+      },
+      {
+        "id": "bd3d4b4b-cf31-4f89-8140-9650edb03c7b",
+        "name": "Ancient Tomb",
+        "set": "Ultimate Masters",
+        "set_code": "uma",
+        "lang": "de",
+        "is_proxy": false,
+        "eur": "84.57",
+        "image_url": "https://cards.scryfall.io/large/front/b/d/bd3d4b4b-cf31-4f89-8140-9650edb03c7b.jpg?1582753000",
+        "count": 1,
+        "oracle_text": "{T}: Add {C}{C}. This land deals 2 damage to you.",
+        "mana_cost": "",
+        "card_faces": null,
+        "collector_number": "236",
+        "set_size": 254,
+        "type_line": "Land",
+        "prints_search_uri": "https://api.scryfall.com/cards/search?order=released&q=oracleid%3A23467047-6dba-4498-b783-1ebc4f74b8c2&unique=prints"
       }
     ],
     "color": "#aaff00"

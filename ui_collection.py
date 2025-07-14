@@ -232,7 +232,7 @@ class CollectionViewer(QWidget):
             # --- Info-Block (Name, Preis, Editieren, Löschen, Proxy, Oracle-Text) ---
             info_layout = QVBoxLayout()
             info_layout.setSpacing(2)
-            # Name + Sprache | Preis (Proxy = immer 0 €)
+            # Name + Sprache | Preis (Proxy = immer 0 €) | Kaufwert
             name_price_row = QHBoxLayout()
             lang_disp = card.get('lang', 'en').upper()
             name_lang = f"{card['name']} - {lang_disp}"
@@ -241,6 +241,7 @@ class CollectionViewer(QWidget):
             name_label.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
             name_price_row.addWidget(name_label)
             eur = card.get('eur')
+            purchase_price = card.get('purchase_price')
             if card.get('is_proxy'):
                 price_str = "0 €"
             else:
@@ -249,6 +250,24 @@ class CollectionViewer(QWidget):
             price_label.setStyleSheet("font-size: 20px; font-weight: bold; color: #ffd700; margin-bottom: 2px; margin-left: 8px;")
             price_label.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
             name_price_row.addWidget(price_label)
+            # Kaufwert anzeigen, wenn vorhanden
+            if purchase_price is not None:
+                try:
+                    eur_f = float(eur) if eur not in (None, '', 'Nicht verfügbar', 0, '0') else 0
+                    kauf_f = float(purchase_price)
+                    diff = eur_f - kauf_f
+                    if diff > 0:
+                        color = '#4caf50'  # grün
+                    elif diff < 0:
+                        color = '#e53935'  # rot
+                    else:
+                        color = '#cccccc'  # neutral
+                    kaufwert_label = QLabel(f"Kaufwert: {kauf_f:.2f} €")
+                    kaufwert_label.setStyleSheet(f"font-size: 16px; font-weight: 500; margin-left: 12px; color: {color};")
+                    kaufwert_label.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
+                    name_price_row.addWidget(kaufwert_label)
+                except Exception:
+                    pass
             name_price_row.addStretch(1)
             # --- Mülleimer-Button (Karte löschen) ---
             del_btn = QPushButton()
@@ -408,6 +427,7 @@ class CollectionViewer(QWidget):
                 update_image(card_obj)
                 layout.addWidget(image_label)
 
+
                 # Sprache
                 # --- Sprache auswählen (DE/ENG) ---
                 lang_row = QHBoxLayout()
@@ -419,6 +439,24 @@ class CollectionViewer(QWidget):
                 lang_row.addWidget(lang_label)
                 lang_row.addWidget(lang_selector)
                 layout.addLayout(lang_row)
+
+                # Kaufwert (Purchase Price) editierbar
+                purchase_row = QHBoxLayout()
+                purchase_label = QLabel("Kaufwert (€):")
+                from PyQt6.QtWidgets import QLineEdit
+                purchase_edit = QLineEdit()
+                purchase_edit.setPlaceholderText("z.B. 3.50")
+                purchase_edit.setFixedWidth(100)
+                # Vorbelegen, falls vorhanden
+                kaufwert_vorher = card_obj.get('purchase_price')
+                if kaufwert_vorher is not None:
+                    try:
+                        purchase_edit.setText(str(float(kaufwert_vorher)))
+                    except Exception:
+                        purchase_edit.setText(str(kaufwert_vorher))
+                purchase_row.addWidget(purchase_label)
+                purchase_row.addWidget(purchase_edit)
+                layout.addLayout(purchase_row)
 
                 # Proxy
                 # --- Proxy-Checkbox ---
@@ -542,6 +580,16 @@ class CollectionViewer(QWidget):
                         except Exception:
                             eur = 0
                         edited_card['eur'] = eur
+                    # Kaufwert übernehmen
+                    kaufwert_str = purchase_edit.text().replace(",", ".").strip()
+                    try:
+                        kaufwert_float = float(kaufwert_str) if kaufwert_str else None
+                    except Exception:
+                        kaufwert_float = None
+                    if kaufwert_float is not None:
+                        edited_card['purchase_price'] = kaufwert_float
+                    elif 'purchase_price' in edited_card:
+                        del edited_card['purchase_price']
                     # Bild(er) direkt cachen wie beim Hinzufügen
                     if edited_card.get("card_faces") and isinstance(edited_card["card_faces"], list):
                         for face in edited_card["card_faces"]:

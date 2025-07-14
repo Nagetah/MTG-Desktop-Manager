@@ -117,24 +117,46 @@ class MainWindow(QWidget):
                 QMessageBox.information(self, "Gelöscht", f"Die Sammlung '{name}' wurde gelöscht.")
 
         def load_collections(self):
+            from PyQt6.QtWidgets import QListWidgetItem
+            from PyQt6.QtGui import QPixmap, QPainter, QColor, QIcon
             self.list_widget.clear()
             if os.path.exists("collections.json"):
                 with open("collections.json", "r", encoding="utf-8") as f:
                     collections = json.load(f)
                     for col in collections:
-                        self.list_widget.addItem(f"{col['name']} | {len(col['cards'])} Karten | Wert: {sum(float(c.get('eur') or 0) for c in col['cards']):.2f} €")
+                        # Farbigen Punkt als Icon erzeugen
+                        color = col.get('color', '#888888')
+                        pix = QPixmap(28, 28)
+                        pix.fill(QColor(0,0,0,0))
+                        painter = QPainter(pix)
+                        painter.setRenderHint(QPainter.RenderHint.Antialiasing)
+                        painter.setBrush(QColor(color))
+                        painter.setPen(QColor(color))
+                        painter.drawEllipse(4, 4, 20, 20)
+                        painter.end()
+                        item = QListWidgetItem(f"{col['name']} | {len(col['cards'])} Karten | Wert: {sum(float(c.get('eur') or 0) for c in col['cards']):.2f} €")
+                        item.setIcon(QIcon(pix))
+                        self.list_widget.addItem(item)
 
         def create_collection(self):
+            from PyQt6.QtWidgets import QColorDialog
+            from PyQt6.QtGui import QColor
             collections = []
             if os.path.exists("collections.json"):
                 with open("collections.json", "r", encoding="utf-8") as f:
                     collections = json.load(f)
             name, ok = QInputDialog.getText(self, "Sammlung benennen", "Name der neuen Sammlung:")
-            if ok and name:
-                collections.append({"name": name, "cards": []})
-                with open("collections.json", "w", encoding="utf-8") as f:
-                    json.dump(collections, f, indent=2, ensure_ascii=False)
-                self.load_collections()
+            if not (ok and name):
+                return
+            # Farbauswahl-Dialog anzeigen
+            color = QColorDialog.getColor()
+            if not color.isValid():
+                color = QColor("#888888")
+            color_hex = color.name()
+            collections.append({"name": name, "cards": [], "color": color_hex})
+            with open("collections.json", "w", encoding="utf-8") as f:
+                json.dump(collections, f, indent=2, ensure_ascii=False)
+            self.load_collections()
 import sys
 from PyQt6.QtWidgets import QApplication
 app = QApplication(sys.argv)

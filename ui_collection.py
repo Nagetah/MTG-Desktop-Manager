@@ -331,6 +331,7 @@ class CollectionViewer(QWidget):
             # Funktion zum Öffnen des Editier-Dialogs für eine Karte
             # Hier kann man Sprache, Proxy-Status und Variante ändern
             def open_edit_dialog(card_obj):
+                import requests
                 from PyQt6.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QLabel, QComboBox, QCheckBox, QPushButton, QMessageBox
                 import copy
                 from PyQt6.QtGui import QPixmap
@@ -428,6 +429,38 @@ class CollectionViewer(QWidget):
                 proxy_row.addWidget(proxy_checkbox)
                 layout.addLayout(proxy_row)
 
+                # Event: Wenn Proxy-Status geändert wird, Preis ggf. live nachladen
+                def on_proxy_changed(state):
+                    if proxy_checkbox.isChecked():
+                        edited_card['eur'] = 0
+                    else:
+                        # Hole Preis aus Scryfall-API für die aktuelle Variante
+                        oracle_id = edited_card.get('oracle_id')
+                        lang = edited_card.get('lang', 'en')
+                        set_code = edited_card.get('set_code') or edited_card.get('set')
+                        collector_number = edited_card.get('collector_number')
+                        # Suche nach exakter Karte (oracle_id, set, collector_number, lang)
+                        price = None
+                        try:
+                            if oracle_id and set_code and collector_number:
+                                url = f"https://api.scryfall.com/cards/{set_code.lower()}/{collector_number}/{lang.lower()}"
+                                resp = requests.get(url, timeout=4)
+                                if resp.status_code == 200:
+                                    data = resp.json()
+                                    price = data.get('prices', {}).get('eur')
+                            if price is None and 'prices' in edited_card and isinstance(edited_card['prices'], dict):
+                                price = edited_card['prices'].get('eur')
+                            if price is None:
+                                price = edited_card.get('eur')
+                            try:
+                                price = float(price)
+                            except Exception:
+                                price = 0
+                            edited_card['eur'] = price
+                        except Exception as e:
+                            edited_card['eur'] = 0
+                proxy_checkbox.stateChanged.connect(on_proxy_changed)
+
                 # Variante ändern (über Scryfall Prints-API)
                 # --- Variante ändern (öffnet VariantSelector-Dialog) ---
                 variant_row = QHBoxLayout()
@@ -466,6 +499,19 @@ class CollectionViewer(QWidget):
                         for k in new_card:
                             if k not in ('is_proxy','lang','count'):
                                 edited_card[k] = new_card[k]
+                        # Preis der neuen Variante übernehmen, außer Proxy ist aktiv
+                        if not edited_card.get('is_proxy'):
+                            eur = None
+                            # Scryfall-API: Preis kann unter 'prices'->'eur' liegen
+                            if 'prices' in new_card and isinstance(new_card['prices'], dict):
+                                eur = new_card['prices'].get('eur')
+                            if eur is None:
+                                eur = new_card.get('eur')
+                            try:
+                                eur = float(eur)
+                            except Exception:
+                                eur = 0
+                            edited_card['eur'] = eur
                         # Setze Info-Label neu
                         info_label.setText(f"Set: {edited_card.get('set','')} | Nr: {edited_card.get('collector_number','')} | Sprache: {lang_selector.currentText()}")
                         # Bild aktualisieren
@@ -481,9 +527,21 @@ class CollectionViewer(QWidget):
                     # Übernehme Änderungen
                     edited_card['lang'] = lang_selector.currentText().lower()
                     edited_card['is_proxy'] = proxy_checkbox.isChecked()
-                    # Preis bei Proxy immer 0
+                    # Preis bei Proxy immer 0, sonst aktuellen Preis aus Variante setzen
                     if edited_card['is_proxy']:
                         edited_card['eur'] = 0
+                    else:
+                        eur = None
+                        # Scryfall-API: Preis kann unter 'prices'->'eur' liegen
+                        if 'prices' in edited_card and isinstance(edited_card['prices'], dict):
+                            eur = edited_card['prices'].get('eur')
+                        if eur is None:
+                            eur = edited_card.get('eur')
+                        try:
+                            eur = float(eur)
+                        except Exception:
+                            eur = 0
+                        edited_card['eur'] = eur
                     # Bild(er) direkt cachen wie beim Hinzufügen
                     if edited_card.get("card_faces") and isinstance(edited_card["card_faces"], list):
                         for face in edited_card["card_faces"]:

@@ -1,5 +1,12 @@
+
 import os
 import json
+import io
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
+from PyQt6.QtGui import QImage, QPixmap
+from PyQt6.QtCore import Qt
 from ui_startscreen import StartScreen
 from ui_search import MTGDesktopManager
 from ui_collection import CollectionViewer
@@ -45,12 +52,25 @@ class MainWindow(QWidget):
         self.collection_view.load_collections()
         self.stack.setCurrentWidget(self.collection_view)
 
+    import matplotlib
+    matplotlib.use('Agg')
+    import matplotlib.pyplot as plt
+    import io
+    from PyQt6.QtGui import QImage
+
     class CollectionOverview(QWidget):
         def __init__(self, return_to_menu):
             super().__init__()
             self.return_to_menu = return_to_menu
             self.setStyleSheet("background-color: #1e1e1e; color: white;")
             layout = QVBoxLayout()
+
+            # --- Kreisdiagramm für alle Sammlungen ---
+            diagram_label = QLabel()
+            diagram_label.setAlignment(Qt.AlignmentFlag.AlignHCenter)
+            diagram_label.setStyleSheet("margin-bottom: 18px;")
+            self.diagram_label = diagram_label
+            layout.addWidget(diagram_label)
 
             top_bar = QHBoxLayout()
             back_button = QPushButton("← Hauptmenü")
@@ -76,6 +96,68 @@ class MainWindow(QWidget):
 
             self.setLayout(layout)
             self.load_collections()
+
+        def update_overview_diagram(self, collections):
+            # Summiere alle Karten aller Sammlungen
+            all_cards = []
+            for col in collections:
+                all_cards.extend([c for c in col.get('cards', []) if isinstance(c, dict)])
+            marktwert = sum(float(c.get('eur') or 0) for c in all_cards)
+            einkauf = sum(float(c.get('purchase_price') or 0) for c in all_cards)
+            diff = marktwert - einkauf
+            num_cards = len(all_cards)
+            percent = (diff / einkauf * 100) if einkauf > 0 else 0
+
+            # Farben
+            color_bg = '#1e1e1e'  # Exakter Hintergrund wie das Programm
+            color_gain = '#4caf50'  # Grün für Gewinn
+            color_loss = '#e53935'  # Rot für Verlust
+
+            # Anteile und Farben pro Sammlung (nach Marktwert inkl. Wertsteigerung)
+            values = []
+            colors = []
+            for col in collections:
+                col_cards = [c for c in col.get('cards', []) if isinstance(c, dict)]
+                col_value = sum(float(c.get('eur') or 0) for c in col_cards)
+                if col_value > 0:
+                    values.append(col_value)
+                    colors.append(col.get('color', '#888888'))
+
+            # Falls alles 0 ist, Dummy-Wert für leeres Diagramm
+            if not values or sum(values) == 0:
+                values = [1]
+                colors = ['#444444']
+
+            fig, ax = plt.subplots(figsize=(3.5, 3.5), dpi=100)
+            wedges, texts = ax.pie(values, colors=colors, startangle=90, wedgeprops=dict(width=0.22, edgecolor=color_bg))
+            plt.setp(wedges, linewidth=2, edgecolor=color_bg)
+            ax.set(aspect="equal")
+            plt.subplots_adjust(left=0, right=1, top=1, bottom=0)
+            ax.set_facecolor(color_bg)
+            fig.patch.set_facecolor(color_bg)
+
+            # Text im Kreis: Entwicklung, Marktwert, Kartenzahl
+            if einkauf > 0:
+                diff_str = f"+{diff:.0f}" if diff >= 0 else f"{diff:.0f}"
+                percent_str = f"(+{percent:.1f}%)" if diff >= 0 else f"({percent:.1f}%)"
+            else:
+                diff_str = "0"
+                percent_str = "(0%)"
+            mw_str = f"{marktwert:.0f} €"
+            card_str = f"{num_cards} Karten"
+            text_color = color_gain if diff >= 0 else color_loss
+            ax.text(0, 0.32, f"{diff_str} {percent_str}", ha='center', va='center', fontsize=14, color=text_color, fontweight='bold')
+            ax.text(0, 0.08, mw_str, ha='center', va='center', fontsize=22, color='white', fontweight='bold')
+            ax.text(0, -0.18, card_str, ha='center', va='center', fontsize=13, color='#cccccc')
+
+            buf = io.BytesIO()
+            plt.savefig(buf, format='png', bbox_inches='tight', transparent=False)
+            plt.close(fig)
+            buf.seek(0)
+            qimg = QImage.fromData(buf.getvalue())
+            pixmap = QPixmap.fromImage(qimg)
+            buf.close()
+            self.diagram_label.setPixmap(pixmap)
 
         def open_collection(self, item):
             # Hole den Namen der Sammlung aus dem Item (wird als Data gespeichert)
@@ -135,68 +217,71 @@ class MainWindow(QWidget):
             from PyQt6.QtWidgets import QListWidgetItem, QWidget, QHBoxLayout, QLabel, QSizePolicy
             from PyQt6.QtGui import QPixmap, QPainter, QColor, QIcon
             self.list_widget.clear()
+            collections = []
             if os.path.exists("collections.json"):
                 with open("collections.json", "r", encoding="utf-8") as f:
                     collections = json.load(f)
-                    for col in collections:
-                        # Farbigen Punkt als Icon erzeugen
-                        color = col.get('color', '#888888')
-                        pix = QPixmap(28, 28)
-                        pix.fill(QColor(0,0,0,0))
-                        painter = QPainter(pix)
-                        painter.setRenderHint(QPainter.RenderHint.Antialiasing)
-                        painter.setBrush(QColor(color))
-                        painter.setPen(QColor(color))
-                        painter.drawEllipse(4, 4, 20, 20)
-                        painter.end()
-                        # Summen berechnen
-                        marktwert = sum(float(c.get('eur') or 0) for c in col['cards'])
-                        einkauf = sum(float(c.get('purchase_price') or 0) for c in col['cards'])
-                        diff = marktwert - einkauf
-                        # Widget für Zeile bauen
-                        row_widget = QWidget()
-                        row_layout = QHBoxLayout()
-                        row_layout.setContentsMargins(2,2,2,2)
-                        # Farbkreis
-                        icon_label = QLabel()
-                        icon_label.setPixmap(pix)
-                        icon_label.setFixedWidth(32)
-                        row_layout.addWidget(icon_label)
-                        # Name
-                        name_label = QLabel(col['name'])
-                        name_label.setStyleSheet("font-size: 18px; font-weight: bold;")
-                        row_layout.addWidget(name_label)
-                        # Kartenanzahl
-                        count_label = QLabel(f"| {len(col['cards'])} Karten |")
-                        count_label.setStyleSheet("font-size: 16px; margin-left: 8px;")
-                        row_layout.addWidget(count_label)
-                        # Marktwert
-                        marktwert_label = QLabel(f"Marktwert: {marktwert:.2f} €")
-                        marktwert_label.setStyleSheet("font-size: 16px; color: #ffd700; margin-left: 8px;")
-                        row_layout.addWidget(marktwert_label)
-                        # Kaufwert + Differenz
-                        if einkauf > 0:
-                            if diff > 0:
-                                diff_color = '#4caf50'  # grün
-                                diff_symbol = '▲'
-                            elif diff < 0:
-                                diff_color = '#e53935'  # rot
-                                diff_symbol = '▼'
-                            else:
-                                diff_color = '#cccccc'  # neutral
-                                diff_symbol = '•'
-                            kaufwert_label = QLabel(f"Kaufwert: {einkauf:.2f} €")
-                            kaufwert_label.setStyleSheet(f"font-size: 16px; margin-left: 8px; color: {diff_color};")
-                            row_layout.addWidget(kaufwert_label)
-                            diff_label = QLabel(f"{diff_symbol} {abs(diff):.2f} €")
-                            diff_label.setStyleSheet(f"font-size: 16px; margin-left: 4px; color: {diff_color}; font-weight: bold;")
-                            row_layout.addWidget(diff_label)
-                        row_layout.addStretch(1)
-                        row_widget.setLayout(row_layout)
-                        item = QListWidgetItem()
-                        item.setSizeHint(row_widget.sizeHint())
-                        self.list_widget.addItem(item)
-                        self.list_widget.setItemWidget(item, row_widget)
+            # Update das Kreisdiagramm mit allen Sammlungen
+            self.update_overview_diagram(collections)
+            for col in collections:
+                # Farbigen Punkt als Icon erzeugen
+                color = col.get('color', '#888888')
+                pix = QPixmap(28, 28)
+                pix.fill(QColor(0,0,0,0))
+                painter = QPainter(pix)
+                painter.setRenderHint(QPainter.RenderHint.Antialiasing)
+                painter.setBrush(QColor(color))
+                painter.setPen(QColor(color))
+                painter.drawEllipse(4, 4, 20, 20)
+                painter.end()
+                # Summen berechnen
+                marktwert = sum(float(c.get('eur') or 0) for c in col['cards'])
+                einkauf = sum(float(c.get('purchase_price') or 0) for c in col['cards'])
+                diff = marktwert - einkauf
+                # Widget für Zeile bauen
+                row_widget = QWidget()
+                row_layout = QHBoxLayout()
+                row_layout.setContentsMargins(2,2,2,2)
+                # Farbkreis
+                icon_label = QLabel()
+                icon_label.setPixmap(pix)
+                icon_label.setFixedWidth(32)
+                row_layout.addWidget(icon_label)
+                # Name
+                name_label = QLabel(col['name'])
+                name_label.setStyleSheet("font-size: 18px; font-weight: bold;")
+                row_layout.addWidget(name_label)
+                # Kartenanzahl
+                count_label = QLabel(f"| {len(col['cards'])} Karten |")
+                count_label.setStyleSheet("font-size: 16px; margin-left: 8px;")
+                row_layout.addWidget(count_label)
+                # Marktwert
+                marktwert_label = QLabel(f"Marktwert: {marktwert:.2f} €")
+                marktwert_label.setStyleSheet("font-size: 16px; color: #ffd700; margin-left: 8px;")
+                row_layout.addWidget(marktwert_label)
+                # Kaufwert + Differenz
+                if einkauf > 0:
+                    if diff > 0:
+                        diff_color = '#4caf50'  # grün
+                        diff_symbol = '▲'
+                    elif diff < 0:
+                        diff_color = '#e53935'  # rot
+                        diff_symbol = '▼'
+                    else:
+                        diff_color = '#cccccc'  # neutral
+                        diff_symbol = '•'
+                    kaufwert_label = QLabel(f"Kaufwert: {einkauf:.2f} €")
+                    kaufwert_label.setStyleSheet(f"font-size: 16px; margin-left: 8px; color: {diff_color};")
+                    row_layout.addWidget(kaufwert_label)
+                    diff_label = QLabel(f"{diff_symbol} {abs(diff):.2f} €")
+                    diff_label.setStyleSheet(f"font-size: 16px; margin-left: 4px; color: {diff_color}; font-weight: bold;")
+                    row_layout.addWidget(diff_label)
+                row_layout.addStretch(1)
+                row_widget.setLayout(row_layout)
+                item = QListWidgetItem()
+                item.setSizeHint(row_widget.sizeHint())
+                self.list_widget.addItem(item)
+                self.list_widget.setItemWidget(item, row_widget)
 
         def create_collection(self):
             from PyQt6.QtWidgets import QColorDialog

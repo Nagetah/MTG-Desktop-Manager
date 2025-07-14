@@ -90,6 +90,13 @@ class ClickableLabel(QLabel):
             dlg.setMinimumHeight(700)
             dlg.setAttribute(Qt.WidgetAttribute.WA_DeleteOnClose)
             dlg.exec()
+
+import matplotlib
+matplotlib.use('Agg')  # Kein GUI-Backend nötig
+import matplotlib.pyplot as plt
+import io
+from PyQt6.QtGui import QImage
+
 class CollectionViewer(QWidget):
     def __init__(self, collection_data, return_to_menu, stack_widget=None, scroll_value=None):
         super().__init__()
@@ -142,6 +149,71 @@ class CollectionViewer(QWidget):
         title.setStyleSheet("font-size: 30px; font-weight: bold; padding: 22px 0 22px 0;")
         top_bar.addWidget(title)
         layout.addLayout(top_bar)
+
+        # --- Kreisdiagramm: Marktwert vs. Kaufwert, Entwicklung, Kartenzahl ---
+        marktwert = sum(float(c.get('eur') or 0) for c in self.collection['cards'] if isinstance(c, dict))
+        einkauf = sum(float(c.get('purchase_price') or 0) for c in self.collection['cards'] if isinstance(c, dict))
+        diff = marktwert - einkauf
+        num_cards = len([c for c in self.collection['cards'] if isinstance(c, dict)])
+        percent = (diff / einkauf * 100) if einkauf > 0 else 0
+
+        # Farben
+        color_bg = '#1e1e1e'  # Exakter Hintergrund wie das Programm
+        color_gain = '#4caf50'  # Grün für Gewinn
+        color_loss = '#e53935'  # Rot für Verlust
+        color_coll = self.collection.get('color', '#888888')  # Sammlungsfarbe
+
+        # Daten für das Diagramm
+        if diff >= 0:
+            values = [einkauf, max(0, diff)]
+            colors = [color_coll, color_gain]
+        else:
+            values = [max(0, marktwert), abs(diff)]
+            colors = [color_coll, color_loss]
+
+        # Falls alles 0 ist, Dummy-Wert für leeres Diagramm
+        if not any(values):
+            values = [1]
+            colors = ['#444444']
+
+        fig, ax = plt.subplots(figsize=(3.5, 3.5), dpi=100)
+        wedges, texts = ax.pie(values, colors=colors, startangle=90, wedgeprops=dict(width=0.22, edgecolor=color_bg))
+        plt.setp(wedges, linewidth=2, edgecolor=color_bg)
+        ax.set(aspect="equal")
+        plt.subplots_adjust(left=0, right=1, top=1, bottom=0)
+        ax.set_facecolor(color_bg)
+        fig.patch.set_facecolor(color_bg)
+
+        # Text im Kreis: Entwicklung, Marktwert, Kartenzahl
+        if einkauf > 0:
+            diff_str = f"+{diff:.0f}" if diff >= 0 else f"{diff:.0f}"
+            percent_str = f"(+{percent:.1f}%)" if diff >= 0 else f"({percent:.1f}%)"
+        else:
+            diff_str = "0"
+            percent_str = "(0%)"
+        mw_str = f"{marktwert:.0f} €"
+        card_str = f"{num_cards} Karten"
+        text_color = color_gain if diff >= 0 else color_loss
+        ax.text(0, 0.32, f"{diff_str} {percent_str}", ha='center', va='center', fontsize=14, color=text_color, fontweight='bold')
+        ax.text(0, 0.08, mw_str, ha='center', va='center', fontsize=22, color='white', fontweight='bold')
+        ax.text(0, -0.18, card_str, ha='center', va='center', fontsize=13, color='#cccccc')
+
+        # Bild als Bytes speichern
+        buf = io.BytesIO()
+        plt.savefig(buf, format='png', bbox_inches='tight', transparent=False)
+        plt.close(fig)
+        buf.seek(0)
+        # In QPixmap laden
+        qimg = QImage.fromData(buf.getvalue())
+        pixmap = QPixmap.fromImage(qimg)
+        buf.close()
+
+        # Diagramm-Label
+        diagram_label = QLabel()
+        diagram_label.setPixmap(pixmap)
+        diagram_label.setAlignment(Qt.AlignmentFlag.AlignHCenter)
+        diagram_label.setStyleSheet("margin-bottom: 18px;")
+        layout.addWidget(diagram_label)
 
         # --- Scrollbarer Bereich für Kartenliste ---
         scroll = QScrollArea()

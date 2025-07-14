@@ -209,6 +209,7 @@ class MTGDesktopManager(QWidget):
     def display_card(self, card):
         collections_file = "collections.json"
 
+
         def add_to_collection():
             current = self.current_card_data if hasattr(self, 'current_card_data') and self.current_card_data else card
             print(f"DEBUG: Card being added to collection: {current}")  # Debugging
@@ -227,6 +228,13 @@ class MTGDesktopManager(QWidget):
             proxy = proxy_checkbox.isChecked()
             # Sprache aus Dropdown
             lang_selected = language_selector.currentText().lower()
+
+            # Kaufwert aus Eingabefeld
+            kaufwert_str = purchase_edit.text().replace(",", ".").strip()
+            try:
+                kaufwert_float = float(kaufwert_str) if kaufwert_str else None
+            except Exception:
+                kaufwert_float = None
 
             # Immer das größte verfügbare Bild cachen (large > normal > small), egal ob Flipkarte oder nicht
             image_uris = None
@@ -319,6 +327,8 @@ class MTGDesktopManager(QWidget):
                 "type_line": current.get("type_line", ""),
                 "prints_search_uri": current.get("prints_search_uri")  # NEU: Varianten-URL speichern
             }
+            if kaufwert_float is not None:
+                new_entry["purchase_price"] = kaufwert_float
 
             print(f"DEBUG: New entry being added: {new_entry}")  # Debugging
             selected_collection["cards"].append(new_entry)
@@ -435,6 +445,11 @@ class MTGDesktopManager(QWidget):
         # Proxy-Checkbox größer machen
         proxy_checkbox = QCheckBox("Als Proxy")
         proxy_checkbox.setStyleSheet("font-size: 22px; min-height: 32px; min-width: 32px; padding: 8px 16px;")
+        # Kaufwert-Eingabefeld
+        from PyQt6.QtWidgets import QLineEdit
+        purchase_edit = QLineEdit()
+        purchase_edit.setPlaceholderText("Kaufwert (€)")
+        purchase_edit.setFixedWidth(100)
         add_button = QPushButton("Zur Sammlung hinzufügen")
         add_button.clicked.connect(add_to_collection)
 
@@ -448,6 +463,7 @@ class MTGDesktopManager(QWidget):
         control_row.addWidget(collection_selector)
         control_row.addWidget(language_selector)
         control_row.addWidget(proxy_checkbox)
+        control_row.addWidget(purchase_edit)
         control_row.addWidget(add_button)
 
         control_widget = QWidget()

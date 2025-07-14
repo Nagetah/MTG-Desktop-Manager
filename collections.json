@@ -51,7 +51,264 @@
   },
   {
     "name": "Testv14",
-    "cards": [],
+    "cards": [
+      {
+        "id": "9f347fa7-301f-4bc5-954c-b910a840a23b",
+        "name": "Dion, Bahamut's Dominant // Bahamut, Warden of Light",
+        "set": "Final Fantasy",
+        "set_code": "fin",
+        "lang": "eng",
+        "is_proxy": false,
+        "eur": null,
+        "image_url": "https://cards.scryfall.io/large/front/9/f/9f347fa7-301f-4bc5-954c-b910a840a23b.jpg?1748707902",
+        "count": 1,
+        "oracle_text": null,
+        "mana_cost": null,
+        "card_faces": [
+          {
+            "object": "card_face",
+            "name": "Dion, Bahamut's Dominant",
+            "mana_cost": "{3}{W}",
+            "type_line": "Legendary Creature — Human Noble Knight",
+            "oracle_text": "Dragonfire Dive — During your turn, Dion and other Knights you control have flying.\nWhen Dion enters, create a 2/2 white Knight creature token.\n{4}{W}{W}, {T}: Exile Dion, then return it to the battlefield transformed under its owner's control. Activate only as a sorcery.",
+            "colors": [
+              "W"
+            ],
+            "power": "3",
+            "toughness": "3",
+            "artist": "Maji",
+            "artist_id": "78420533-7750-4c14-977b-51340e30a270",
+            "illustration_id": "ddd44706-0b7f-4d83-ad4c-d374933d5e53",
+            "image_uris": {
+              "small": "https://cards.scryfall.io/small/front/9/f/9f347fa7-301f-4bc5-954c-b910a840a23b.jpg?1748707902",
+              "normal": "https://cards.scryfall.io/normal/front/9/f/9f347fa7-301f-4bc5-954c-b910a840a23b.jpg?1748707902",
+              "large": "https://cards.scryfall.io/large/front/9/f/9f347fa7-301f-4bc5-954c-b910a840a23b.jpg?1748707902",
+              "png": "https://cards.scryfall.io/png/front/9/f/9f347fa7-301f-4bc5-954c-b910a840a23b.png?1748707902",
+              "art_crop": "https://cards.scryfall.io/art_crop/front/9/f/9f347fa7-301f-4bc5-954c-b910a840a23b.jpg?1748707902",
+              "border_crop": "https://cards.scryfall.io/border_crop/front/9/f/9f347fa7-301f-4bc5-954c-b910a840a23b.jpg?1748707902"
+            }
+          },
+          {
+            "object": "card_face",
+            "name": "Bahamut, Warden of Light",
+            "mana_cost": "",
+            "type_line": "Legendary Enchantment Creature — Saga Dragon",
+            "oracle_text": "(As this Saga enters and after your draw step, add a lore counter.)\nI, II — Wings of Light — Put a +1/+1 counter on each other creature you control. Those creatures gain flying until end of turn.\nIII — Gigaflare — Destroy target permanent. Exile Bahamut, then return it to the battlefield (front face up).\nFlying",
+            "colors": [
+              "W"
+            ],
+            "color_indicator": [
+              "W"
+            ],
+            "power": "5",
+            "toughness": "5",
+            "artist": "Maji",
+            "artist_id": "78420533-7750-4c14-977b-51340e30a270",
+            "illustration_id": "3272515d-ba11-44e5-a35b-660a13eaccc4",
+            "image_uris": {
+              "small": "https://cards.scryfall.io/small/back/9/f/9f347fa7-301f-4bc5-954c-b910a840a23b.jpg?1748707902",
+              "normal": "https://cards.scryfall.io/normal/back/9/f/9f347fa7-301f-4bc5-954c-b910a840a23b.jpg?1748707902",
+              "large": "https://cards.scryfall.io/large/back/9/f/9f347fa7-301f-4bc5-954c-b910a840a23b.jpg?1748707902",
+              "png": "https://cards.scryfall.io/png/back/9/f/9f347fa7-301f-4bc5-954c-b910a840a23b.png?1748707902",
+              "art_crop": "https://cards.scryfall.io/art_crop/back/9/f/9f347fa7-301f-4bc5-954c-b910a840a23b.jpg?1748707902",
+              "border_crop": "https://cards.scryfall.io/border_crop/back/9/f/9f347fa7-301f-4bc5-954c-b910a840a23b.jpg?1748707902"
+            }
+          }
+        ],
+        "collector_number": "521",
+        "set_size": 586,
+        "type_line": "Legendary Creature — Human Noble Knight // Legendary Enchantment Creature — Saga Dragon",
+        "prints_search_uri": "https://api.scryfall.com/cards/search?order=released&q=oracleid%3A4a0cc2a2-3711-473a-b2c5-b1e52b34e4fb&unique=prints"
+      },
+      {
+        "id": "95318d85-4a08-47ac-a43d-ea83c0bea81c",
+        "name": "Summon: Bahamut",
+        "set": "Final Fantasy",
+        "set_code": "fin",
+        "lang": "de",
+        "is_proxy": false,
+        "eur": "25.18",
+        "image_url": "https://cards.scryfall.io/large/front/9/5/95318d85-4a08-47ac-a43d-ea83c0bea81c.jpg?1748705758",
+        "count": 1,
+        "oracle_text": "(As this Saga enters and after your draw step, add a lore counter. Sacrifice after IV.)\nI, II — Destroy up to one target nonland permanent.\nIII — Draw two cards.\nIV — Mega Flare — This creature deals damage equal to the total mana value of other permanents you control to each opponent.\nFlying",
+        "mana_cost": "{9}",
+        "card_faces": null,
+        "collector_number": "1",
+        "set_size": 586,
+        "type_line": "Enchantment Creature — Saga Dragon",
+        "prints_search_uri": "https://api.scryfall.com/cards/search?order=released&q=oracleid%3Afe9f6825-597b-4d80-ab7c-f4ee4e824b6f&unique=prints"
+      },
+      {
+        "id": "071daca8-ccc6-4707-843e-adac40dd1588",
+        "name": "Fury",
+        "set": "Modern Horizons 2",
+        "set_code": "mh2",
+        "lang": "de",
+        "is_proxy": false,
+        "eur": "6.92",
+        "image_url": "https://cards.scryfall.io/large/front/0/7/071daca8-ccc6-4707-843e-adac40dd1588.jpg?1702814093",
+        "count": 1,
+        "oracle_text": "Double strike\nWhen this creature enters, it deals 4 damage divided as you choose among any number of target creatures and/or planeswalkers.\nEvoke—Exile a red card from your hand.",
+        "mana_cost": "{3}{R}{R}",
+        "card_faces": null,
+        "collector_number": "313",
+        "set_size": 494,
+        "type_line": "Creature — Elemental Incarnation",
+        "prints_search_uri": "https://api.scryfall.com/cards/search?order=released&q=oracleid%3Afbf9f8c5-849f-45d5-8129-5fc683c21a04&unique=prints"
+      },
+      {
+        "id": "8fcf3fbb-1ddd-437e-81c1-f5a3133f5ee8",
+        "name": "Kefka, Court Mage // Kefka, Ruler of Ruin",
+        "set": "Final Fantasy",
+        "set_code": "fin",
+        "lang": "de",
+        "is_proxy": false,
+        "eur": 4.95,
+        "image_url": "https://cards.scryfall.io/large/front/8/f/8fcf3fbb-1ddd-437e-81c1-f5a3133f5ee8.jpg?1748707830",
+        "count": 1,
+        "oracle_text": null,
+        "mana_cost": null,
+        "card_faces": [
+          {
+            "object": "card_face",
+            "name": "Kefka, Court Mage",
+            "mana_cost": "{2}{U}{B}{R}",
+            "type_line": "Legendary Creature — Human Wizard",
+            "oracle_text": "Whenever Kefka enters or attacks, each player discards a card. Then you draw a card for each card type among cards discarded this way.\n{8}: Each opponent sacrifices a permanent of their choice. Transform Kefka. Activate only as a sorcery.",
+            "colors": [
+              "B",
+              "R",
+              "U"
+            ],
+            "power": "4",
+            "toughness": "5",
+            "artist": "Xui Ton",
+            "artist_id": "2349ac50-eafc-443e-b0ff-1b646175f017",
+            "illustration_id": "455961aa-6636-424e-9c45-ce183146f72d",
+            "image_uris": {
+              "small": "https://cards.scryfall.io/small/front/8/f/8fcf3fbb-1ddd-437e-81c1-f5a3133f5ee8.jpg?1748707830",
+              "normal": "https://cards.scryfall.io/normal/front/8/f/8fcf3fbb-1ddd-437e-81c1-f5a3133f5ee8.jpg?1748707830",
+              "large": "https://cards.scryfall.io/large/front/8/f/8fcf3fbb-1ddd-437e-81c1-f5a3133f5ee8.jpg?1748707830",
+              "png": "https://cards.scryfall.io/png/front/8/f/8fcf3fbb-1ddd-437e-81c1-f5a3133f5ee8.png?1748707830",
+              "art_crop": "https://cards.scryfall.io/art_crop/front/8/f/8fcf3fbb-1ddd-437e-81c1-f5a3133f5ee8.jpg?1748707830",
+              "border_crop": "https://cards.scryfall.io/border_crop/front/8/f/8fcf3fbb-1ddd-437e-81c1-f5a3133f5ee8.jpg?1748707830"
+            }
+          },
+          {
+            "object": "card_face",
+            "name": "Kefka, Ruler of Ruin",
+            "mana_cost": "",
+            "type_line": "Legendary Creature — Avatar Wizard",
+            "oracle_text": "Flying\nWhenever an opponent loses life during your turn, you draw that many cards.",
+            "colors": [
+              "B",
+              "R",
+              "U"
+            ],
+            "color_indicator": [
+              "B",
+              "R",
+              "U"
+            ],
+            "power": "5",
+            "toughness": "7",
+            "flavor_text": "The end draws near.",
+            "artist": "Xui Ton",
+            "artist_id": "2349ac50-eafc-443e-b0ff-1b646175f017",
+            "illustration_id": "eb11f846-3db2-492f-8130-9cb4a298b1b6",
+            "image_uris": {
+              "small": "https://cards.scryfall.io/small/back/8/f/8fcf3fbb-1ddd-437e-81c1-f5a3133f5ee8.jpg?1748707830",
+              "normal": "https://cards.scryfall.io/normal/back/8/f/8fcf3fbb-1ddd-437e-81c1-f5a3133f5ee8.jpg?1748707830",
+              "large": "https://cards.scryfall.io/large/back/8/f/8fcf3fbb-1ddd-437e-81c1-f5a3133f5ee8.jpg?1748707830",
+              "png": "https://cards.scryfall.io/png/back/8/f/8fcf3fbb-1ddd-437e-81c1-f5a3133f5ee8.png?1748707830",
+              "art_crop": "https://cards.scryfall.io/art_crop/back/8/f/8fcf3fbb-1ddd-437e-81c1-f5a3133f5ee8.jpg?1748707830",
+              "border_crop": "https://cards.scryfall.io/border_crop/back/8/f/8fcf3fbb-1ddd-437e-81c1-f5a3133f5ee8.jpg?1748707830"
+            }
+          }
+        ],
+        "collector_number": "231",
+        "set_size": 586,
+        "type_line": "Legendary Creature — Human Wizard // Legendary Creature — Avatar Wizard",
+        "prints_search_uri": "https://api.scryfall.com/cards/search?order=released&q=oracleid%3A6d3ca5cb-781d-4608-b7f1-38c020536376&unique=prints",
+        "purchase_price": 5.5
+      },
+      {
+        "id": "06b7ca77-7194-4a0b-a650-4afd7afb50eb",
+        "name": "Kefka, Court Mage // Kefka, Ruler of Ruin",
+        "set": "Final Fantasy",
+        "set_code": "fin",
+        "lang": "de",
+        "is_proxy": false,
+        "eur": 9.69,
+        "image_url": "https://cards.scryfall.io/large/front/0/6/06b7ca77-7194-4a0b-a650-4afd7afb50eb.jpg?1748707894",
+        "count": 1,
+        "oracle_text": null,
+        "mana_cost": null,
+        "card_faces": [
+          {
+            "object": "card_face",
+            "name": "Kefka, Court Mage",
+            "mana_cost": "{2}{U}{B}{R}",
+            "type_line": "Legendary Creature — Human Wizard",
+            "oracle_text": "Whenever Kefka enters or attacks, each player discards a card. Then you draw a card for each card type among cards discarded this way.\n{8}: Each opponent sacrifices a permanent of their choice. Transform Kefka. Activate only as a sorcery.",
+            "colors": [
+              "B",
+              "R",
+              "U"
+            ],
+            "power": "4",
+            "toughness": "5",
+            "artist": "Xui Ton",
+            "artist_id": "2349ac50-eafc-443e-b0ff-1b646175f017",
+            "illustration_id": "455961aa-6636-424e-9c45-ce183146f72d",
+            "image_uris": {
+              "small": "https://cards.scryfall.io/small/front/0/6/06b7ca77-7194-4a0b-a650-4afd7afb50eb.jpg?1748707894",
+              "normal": "https://cards.scryfall.io/normal/front/0/6/06b7ca77-7194-4a0b-a650-4afd7afb50eb.jpg?1748707894",
+              "large": "https://cards.scryfall.io/large/front/0/6/06b7ca77-7194-4a0b-a650-4afd7afb50eb.jpg?1748707894",
+              "png": "https://cards.scryfall.io/png/front/0/6/06b7ca77-7194-4a0b-a650-4afd7afb50eb.png?1748707894",
+              "art_crop": "https://cards.scryfall.io/art_crop/front/0/6/06b7ca77-7194-4a0b-a650-4afd7afb50eb.jpg?1748707894",
+              "border_crop": "https://cards.scryfall.io/border_crop/front/0/6/06b7ca77-7194-4a0b-a650-4afd7afb50eb.jpg?1748707894"
+            }
+          },
+          {
+            "object": "card_face",
+            "name": "Kefka, Ruler of Ruin",
+            "mana_cost": "",
+            "type_line": "Legendary Creature — Avatar Wizard",
+            "oracle_text": "Flying\nWhenever an opponent loses life during your turn, you draw that many cards.",
+            "colors": [
+              "B",
+              "R",
+              "U"
+            ],
+            "color_indicator": [
+              "B",
+              "R",
+              "U"
+            ],
+            "power": "5",
+            "toughness": "7",
+            "flavor_text": "The end draws near.",
+            "artist": "Xui Ton",
+            "artist_id": "2349ac50-eafc-443e-b0ff-1b646175f017",
+            "illustration_id": "eb11f846-3db2-492f-8130-9cb4a298b1b6",
+            "image_uris": {
+              "small": "https://cards.scryfall.io/small/back/0/6/06b7ca77-7194-4a0b-a650-4afd7afb50eb.jpg?1748707894",
+              "normal": "https://cards.scryfall.io/normal/back/0/6/06b7ca77-7194-4a0b-a650-4afd7afb50eb.jpg?1748707894",
+              "large": "https://cards.scryfall.io/large/back/0/6/06b7ca77-7194-4a0b-a650-4afd7afb50eb.jpg?1748707894",
+              "png": "https://cards.scryfall.io/png/back/0/6/06b7ca77-7194-4a0b-a650-4afd7afb50eb.png?1748707894",
+              "art_crop": "https://cards.scryfall.io/art_crop/back/0/6/06b7ca77-7194-4a0b-a650-4afd7afb50eb.jpg?1748707894",
+              "border_crop": "https://cards.scryfall.io/border_crop/back/0/6/06b7ca77-7194-4a0b-a650-4afd7afb50eb.jpg?1748707894"
+            }
+          }
+        ],
+        "collector_number": "496",
+        "set_size": 586,
+        "type_line": "Legendary Creature — Human Wizard // Legendary Creature — Avatar Wizard",
+        "prints_search_uri": "https://api.scryfall.com/cards/search?order=released&q=oracleid%3A6d3ca5cb-781d-4608-b7f1-38c020536376&unique=prints",
+        "purchase_price": 3.54
+      }
+    ],
     "color": "#ffffff"
   }
 ]

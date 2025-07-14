@@ -78,7 +78,22 @@ class MainWindow(QWidget):
             self.load_collections()
 
         def open_collection(self, item):
-            collection_name = item.text().split('|')[0].strip()
+            # Hole den Namen der Sammlung aus dem Item (wird als Data gespeichert)
+            collection_name = None
+            # Suche nach dem Widget-Index, um das passende Item zu finden
+            for i in range(self.list_widget.count()):
+                if self.list_widget.item(i) is item:
+                    # Wir haben das Item gefunden, jetzt das Widget auslesen
+                    widget = self.list_widget.itemWidget(item)
+                    if widget:
+                        # Der Name steht im zweiten Widget (Label)
+                        name_label = widget.layout().itemAt(1).widget()
+                        if name_label:
+                            collection_name = name_label.text()
+                    break
+            if not collection_name:
+                # Fallback: versuche alten Weg
+                collection_name = item.text().split('|')[0].strip()
             if not os.path.exists("collections.json"):
                 QMessageBox.warning(self, "Fehler", "Sammlung nicht gefunden.")
                 return
@@ -117,7 +132,7 @@ class MainWindow(QWidget):
                 QMessageBox.information(self, "Gelöscht", f"Die Sammlung '{name}' wurde gelöscht.")
 
         def load_collections(self):
-            from PyQt6.QtWidgets import QListWidgetItem
+            from PyQt6.QtWidgets import QListWidgetItem, QWidget, QHBoxLayout, QLabel, QSizePolicy
             from PyQt6.QtGui import QPixmap, QPainter, QColor, QIcon
             self.list_widget.clear()
             if os.path.exists("collections.json"):
@@ -134,9 +149,54 @@ class MainWindow(QWidget):
                         painter.setPen(QColor(color))
                         painter.drawEllipse(4, 4, 20, 20)
                         painter.end()
-                        item = QListWidgetItem(f"{col['name']} | {len(col['cards'])} Karten | Wert: {sum(float(c.get('eur') or 0) for c in col['cards']):.2f} €")
-                        item.setIcon(QIcon(pix))
+                        # Summen berechnen
+                        marktwert = sum(float(c.get('eur') or 0) for c in col['cards'])
+                        einkauf = sum(float(c.get('purchase_price') or 0) for c in col['cards'])
+                        diff = marktwert - einkauf
+                        # Widget für Zeile bauen
+                        row_widget = QWidget()
+                        row_layout = QHBoxLayout()
+                        row_layout.setContentsMargins(2,2,2,2)
+                        # Farbkreis
+                        icon_label = QLabel()
+                        icon_label.setPixmap(pix)
+                        icon_label.setFixedWidth(32)
+                        row_layout.addWidget(icon_label)
+                        # Name
+                        name_label = QLabel(col['name'])
+                        name_label.setStyleSheet("font-size: 18px; font-weight: bold;")
+                        row_layout.addWidget(name_label)
+                        # Kartenanzahl
+                        count_label = QLabel(f"| {len(col['cards'])} Karten |")
+                        count_label.setStyleSheet("font-size: 16px; margin-left: 8px;")
+                        row_layout.addWidget(count_label)
+                        # Marktwert
+                        marktwert_label = QLabel(f"Marktwert: {marktwert:.2f} €")
+                        marktwert_label.setStyleSheet("font-size: 16px; color: #ffd700; margin-left: 8px;")
+                        row_layout.addWidget(marktwert_label)
+                        # Kaufwert + Differenz
+                        if einkauf > 0:
+                            if diff > 0:
+                                diff_color = '#4caf50'  # grün
+                                diff_symbol = '▲'
+                            elif diff < 0:
+                                diff_color = '#e53935'  # rot
+                                diff_symbol = '▼'
+                            else:
+                                diff_color = '#cccccc'  # neutral
+                                diff_symbol = '•'
+                            kaufwert_label = QLabel(f"Kaufwert: {einkauf:.2f} €")
+                            kaufwert_label.setStyleSheet(f"font-size: 16px; margin-left: 8px; color: {diff_color};")
+                            row_layout.addWidget(kaufwert_label)
+                            diff_label = QLabel(f"{diff_symbol} {abs(diff):.2f} €")
+                            diff_label.setStyleSheet(f"font-size: 16px; margin-left: 4px; color: {diff_color}; font-weight: bold;")
+                            row_layout.addWidget(diff_label)
+                        row_layout.addStretch(1)
+                        row_widget.setLayout(row_layout)
+                        item = QListWidgetItem()
+                        item.setSizeHint(row_widget.sizeHint())
                         self.list_widget.addItem(item)
+                        self.list_widget.setItemWidget(item, row_widget)
 
         def create_collection(self):
             from PyQt6.QtWidgets import QColorDialog

@@ -627,6 +627,126 @@ class CollectionViewer(QWidget):
 
         self._build_card_widgets(grid, filtered_cards)
     # Entfernt: doppelte __init__ mit self.card_grid = grid (war fehlerhaft und hat das Layout zerstört)
+
+    def import_deck_text(self):
+        """
+        Öffnet einen Dialog, in den der Nutzer eine Deckliste (Text) einfügen kann. Importiert Karten per Scryfall.
+        """
+        from PyQt6.QtWidgets import QDialog, QVBoxLayout, QTextEdit, QPushButton, QMessageBox, QLabel
+        import requests
+        import re
+        dlg = QDialog(self)
+        dlg.setWindowTitle("Deck importieren")
+        dlg.setMinimumWidth(480)
+        layout = QVBoxLayout()
+        layout.addWidget(QLabel("Füge hier deine Deckliste ein (z.B. aus Moxfield, Archidekt, etc.):"))
+        textedit = QTextEdit()
+        textedit.setPlaceholderText("z.B.\n4 Lightning Bolt\n2 Mountain\n...")
+        layout.addWidget(textedit)
+        import_btn = QPushButton("Import starten")
+        layout.addWidget(import_btn)
+        dlg.setLayout(layout)
+
+
+        def do_import():
+            lines = textedit.toPlainText().splitlines()
+            cards = []
+            for line in lines:
+                line = line.strip()
+                if not line or line.startswith("//"):
+                    continue
+                # Versuche: Menge Name (SET) Nummer [*F*]
+                m = re.match(r"(\d+)[xX]?\s+(.+)", line)
+                if not m:
+                    continue
+                qty = int(m.group(1))
+                rest = m.group(2).strip()
+                # Extrahiere Set-Code und Nummer, falls vorhanden
+                # z.B. "Cardname (SET) 123" oder "Cardname (SET) 123 *F*"
+                set_match = re.match(r"(.+?)\s*\(([^)]+)\)\s*([\w-]+)?", rest)
+                if set_match:
+                    name = set_match.group(1).strip()
+                    set_code = set_match.group(2).strip()
+                    collector_number = set_match.group(3).strip() if set_match.group(3) else None
+                else:
+                    # Fallback: nur Name
+                    name = rest
+                    set_code = None
+                    collector_number = None
+                # Scryfall-Query bauen
+                try:
+                    if set_code and collector_number:
+                        # Suche nach Set+Nummer
+                        scry_url = f"https://api.scryfall.com/cards/{set_code.lower()}/{collector_number}"
+                        scry_resp = requests.get(scry_url, timeout=6)
+                        if scry_resp.status_code != 200:
+                            # Fallback: nur Name
+                            scry_url = f"https://api.scryfall.com/cards/named?exact={requests.utils.quote(name)}"
+                            scry_resp = requests.get(scry_url, timeout=6)
+                    elif set_code:
+                        # Suche nach Name + Set
+                        scry_url = f"https://api.scryfall.com/cards/named?exact={requests.utils.quote(name)}&set={set_code.lower()}"
+                        scry_resp = requests.get(scry_url, timeout=6)
+                        if scry_resp.status_code != 200:
+                            scry_url = f"https://api.scryfall.com/cards/named?exact={requests.utils.quote(name)}"
+                            scry_resp = requests.get(scry_url, timeout=6)
+                    else:
+                        scry_url = f"https://api.scryfall.com/cards/named?exact={requests.utils.quote(name)}"
+                        scry_resp = requests.get(scry_url, timeout=6)
+                    if scry_resp.status_code != 200:
+                        continue
+                    scry_card = scry_resp.json()
+                except Exception:
+                    continue
+                for _ in range(qty):
+                    card_entry = {
+                        "id": scry_card.get("id"),
+                        "name": scry_card.get("name"),
+                        "set": scry_card.get("set"),
+                        "set_code": scry_card.get("set"),
+                        "collector_number": scry_card.get("collector_number"),
+                        "lang": scry_card.get("lang", "en"),
+                        "image_uris": scry_card.get("image_uris"),
+                        "card_faces": scry_card.get("card_faces"),
+                        "oracle_text": scry_card.get("oracle_text"),
+                        "type_line": scry_card.get("type_line"),
+                        "mana_cost": scry_card.get("mana_cost"),
+                        "eur": scry_card.get("prices", {}).get("eur"),
+                        "purchase_price": None,
+                        "is_proxy": False,
+                        "prints_search_uri": scry_card.get("prints_search_uri"),
+                        "set_size": scry_card.get("set_size"),
+                    }
+                    cards.append(card_entry)
+            if not cards:
+                QMessageBox.warning(dlg, "Fehler", "Keine Karten im Text gefunden oder alle Karten konnten nicht erkannt werden.")
+                return
+            try:
+                with open("collections.json", "r", encoding="utf-8") as f:
+                    collections = json.load(f)
+                for c in collections:
+                    if c["name"] == self.collection["name"]:
+                        c["cards"].extend(cards)
+                        break
+                with open("collections.json", "w", encoding="utf-8") as f:
+                    json.dump(collections, f, indent=2, ensure_ascii=False)
+                QMessageBox.information(dlg, "Import erfolgreich", f"{len(cards)} Karten wurden importiert.")
+                dlg.accept()
+                # Ansicht neu laden
+                stack = self.stack_widget or find_parent_with_attr(self, widget_type=QStackedWidget)
+                if stack:
+                    idx = stack.indexOf(self)
+                    stack.removeWidget(self)
+                    self.deleteLater()
+                    new_viewer = CollectionViewer(self.collection, self.return_to_menu, stack_widget=stack)
+                    stack.insertWidget(idx, new_viewer)
+                    stack.setCurrentWidget(new_viewer)
+            except Exception as e:
+                QMessageBox.critical(dlg, "Fehler", f"Fehler beim Hinzufügen der Karten: {e}")
+
+        import_btn.clicked.connect(do_import)
+        dlg.exec()
+
     def __init__(self, collection_data, return_to_menu, stack_widget=None, scroll_value=None):
         super().__init__()
         # --- Sammlung laden ---
@@ -679,6 +799,11 @@ class CollectionViewer(QWidget):
                 parent.show_collections()
         back_to_collections_button.clicked.connect(go_to_collections)
         btns_layout.addWidget(back_to_collections_button)
+        # --- Moxfield-Import-Button ---
+        import_btn = QPushButton("Deck importieren")
+        import_btn.setStyleSheet("margin-left: 10px; background-color: #0078d7; color: white; font-weight: bold;")
+        import_btn.clicked.connect(self.import_deck_text)
+        btns_layout.addWidget(import_btn)
         btns_layout.addStretch(1)
         bar_row.addLayout(btns_layout, 2)
         # Rechte Seite: Suche und Sortierung

@@ -1,149 +1,5 @@
 [
   {
-    "name": "Testv12",
-    "cards": [
-      {
-        "id": "d585e218-3dc8-4fbd-8ad2-795fbc9b2155",
-        "name": "The Earth Crystal",
-        "set": "fin",
-        "set_code": "fin",
-        "lang": "de",
-        "is_proxy": false,
-        "eur": 5.27,
-        "purchase_price": 12.0,
-        "image_url": "https://cards.scryfall.io/large/front/9/2/9240303a-73a3-4daf-b5fc-090ce7cbd92a.jpg?1748707074",
-        "count": 1,
-        "oracle_text": "Green spells you cast cost {1} less to cast.\nIf one or more +1/+1 counters would be put on a creature you control, twice that many +1/+1 counters are put on that creature instead.\n{4}{G}{G}, {T}: Distribute two +1/+1 counters among one or two target creatures you control.",
-        "mana_cost": "{2}{G}{G}",
-        "card_faces": null,
-        "collector_number": "184",
-        "set_size": 586,
-        "type_line": "Legendary Artifact",
-        "prints_search_uri": "https://api.scryfall.com/cards/search?order=released&q=oracleid%3A5e7ef7fe-968b-4ada-9fe4-6fda0541aafc&unique=prints",
-        "object": "card",
-        "oracle_id": "5e7ef7fe-968b-4ada-9fe4-6fda0541aafc",
-        "multiverse_ids": [],
-        "tcgplayer_id": 633136,
-        "released_at": "2025-06-13",
-        "uri": "https://api.scryfall.com/cards/d585e218-3dc8-4fbd-8ad2-795fbc9b2155",
-        "scryfall_uri": "https://scryfall.com/card/fin/184/the-earth-crystal?utm_source=api",
-        "layout": "normal",
-        "highres_image": true,
-        "image_status": "highres_scan",
-        "image_uris": {
-          "small": "https://cards.scryfall.io/small/front/d/5/d585e218-3dc8-4fbd-8ad2-795fbc9b2155.jpg?1748706448",
-          "normal": "https://cards.scryfall.io/normal/front/d/5/d585e218-3dc8-4fbd-8ad2-795fbc9b2155.jpg?1748706448",
-          "large": "https://cards.scryfall.io/large/front/d/5/d585e218-3dc8-4fbd-8ad2-795fbc9b2155.jpg?1748706448",
-          "png": "https://cards.scryfall.io/png/front/d/5/d585e218-3dc8-4fbd-8ad2-795fbc9b2155.png?1748706448",
-          "art_crop": "https://cards.scryfall.io/art_crop/front/d/5/d585e218-3dc8-4fbd-8ad2-795fbc9b2155.jpg?1748706448",
-          "border_crop": "https://cards.scryfall.io/border_crop/front/d/5/d585e218-3dc8-4fbd-8ad2-795fbc9b2155.jpg?1748706448"
-        },
-        "cmc": 4.0,
-        "colors": [
-          "G"
-        ],
-        "color_identity": [
-          "G"
-        ],
-        "keywords": [],
-        "legalities": {
-          "standard": "legal",
-          "future": "legal",
-          "historic": "legal",
-          "timeless": "legal",
-          "gladiator": "legal",
-          "pioneer": "legal",
-          "modern": "legal",
-          "legacy": "legal",
-          "pauper": "not_legal",
-          "vintage": "legal",
-          "penny": "not_legal",
-          "commander": "legal",
-          "oathbreaker": "legal",
-          "standardbrawl": "legal",
-          "brawl": "legal",
-          "alchemy": "legal",
-          "paupercommander": "not_legal",
-          "duel": "legal",
-          "oldschool": "not_legal",
-          "premodern": "not_legal",
-          "predh": "not_legal"
-        },
-        "games": [
-          "paper",
-          "arena"
-        ],
-        "reserved": false,
-        "game_changer": false,
-        "foil": true,
-        "nonfoil": true,
-        "finishes": [
-          "nonfoil",
-          "foil"
-        ],
-        "oversized": false,
-        "promo": false,
-        "reprint": false,
-        "variation": false,
-        "set_id": "d7beb4b7-e1ff-4d35-ab07-5700f17ea1ea",
-        "set_name": "Final Fantasy",
-        "set_type": "expansion",
-        "set_uri": "https://api.scryfall.com/sets/d7beb4b7-e1ff-4d35-ab07-5700f17ea1ea",
-        "set_search_uri": "https://api.scryfall.com/cards/search?order=set&q=e%3Afin&unique=prints",
-        "scryfall_set_uri": "https://scryfall.com/sets/fin?utm_source=api",
-        "rulings_uri": "https://api.scryfall.com/cards/d585e218-3dc8-4fbd-8ad2-795fbc9b2155/rulings",
-        "digital": false,
-        "rarity": "rare",
-        "card_back_id": "0aeebaf5-8c7d-4636-9e82-8c27447861f7",
-        "artist": "Pablo Mendoza",
-        "artist_ids": [
-          "57f8d135-42e9-46e2-bb00-eff941b3152b"
-        ],
-        "illustration_id": "06f51796-2ec7-41a0-97d5-acd30fdfaad2",
-        "border_color": "black",
-        "frame": "2015",
-        "frame_effects": [
-          "legendary"
-        ],
-        "security_stamp": "triangle",
-        "full_art": false,
-        "textless": false,
-        "booster": true,
-        "story_spotlight": false,
-        "promo_types": [
-          "ffiii"
-        ],
-        "edhrec_rank": 5449,
-        "prices": {
-          "usd": "5.16",
-          "usd_foil": "5.63",
-          "usd_etched": null,
-          "eur": "5.27",
-          "eur_foil": "6.51",
-          "tix": null
-        },
-        "related_uris": {
-          "tcgplayer_infinite_articles": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&trafcat=tcgplayer.com%2Fsearch%2Farticles&u=https%3A%2F%2Fwww.tcgplayer.com%2Fsearch%2Farticles%3FproductLineName%3Dmagic%26q%3DThe%2BEarth%2BCrystal",
-          "tcgplayer_infinite_decks": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&trafcat=tcgplayer.com%2Fsearch%2Fdecks&u=https%3A%2F%2Fwww.tcgplayer.com%2Fsearch%2Fdecks%3FproductLineName%3Dmagic%26q%3DThe%2BEarth%2BCrystal",
-          "edhrec": "https://edhrec.com/route/?cc=The+Earth+Crystal"
-        },
-        "purchase_uris": {
-          "tcgplayer": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&u=https%3A%2F%2Fwww.tcgplayer.com%2Fproduct%2F633136%3Fpage%3D1",
-          "cardmarket": "https://www.cardmarket.com/en/Magic/Products?idProduct=826606&referrer=scryfall&utm_campaign=card_prices&utm_medium=text&utm_source=scryfall",
-          "cardhoarder": "https://www.cardhoarder.com/cards/141307?affiliate_id=scryfall&ref=card-profile&utm_campaign=affiliate&utm_medium=card&utm_source=scryfall"
-        },
-        "mtgo_id": 141307,
-        "cardmarket_id": 826606,
-        "preview": {
-          "source": "Collider",
-          "source_uri": "https://collider.com/magic-the-gathering-final-fantasy-crystal-card-images/",
-          "previewed_at": "2025-05-20"
-        }
-      }
-    ],
-    "color": "#aa55ff"
-  },
-  {
     "name": "Testv13",
     "cards": [
       {
@@ -391,36 +247,32 @@
         "purchase_price": 20.0
       },
       {
-        "id": "071daca8-ccc6-4707-843e-adac40dd1588",
-        "name": "Fury",
-        "set": "Modern Horizons 2",
-        "set_code": "mh2",
-        "lang": "de",
-        "is_proxy": false,
-        "eur": 6.92,
-        "image_url": "https://cards.scryfall.io/large/front/0/7/071daca8-ccc6-4707-843e-adac40dd1588.jpg?1702814093",
-        "count": 1,
-        "oracle_text": "Double strike\nWhen this creature enters, it deals 4 damage divided as you choose among any number of target creatures and/or planeswalkers.\nEvoke—Exile a red card from your hand.",
-        "mana_cost": "{3}{R}{R}",
-        "card_faces": null,
-        "collector_number": "313",
-        "set_size": 494,
-        "type_line": "Creature — Elemental Incarnation",
-        "prints_search_uri": "https://api.scryfall.com/cards/search?order=released&q=oracleid%3Afbf9f8c5-849f-45d5-8129-5fc683c21a04&unique=prints",
-        "purchase_price": 2.5
-      },
-      {
-        "id": "8fcf3fbb-1ddd-437e-81c1-f5a3133f5ee8",
+        "object": "card",
+        "id": "0cadfe0e-9cdf-4e64-b143-f996c76bf93b",
+        "oracle_id": "6d3ca5cb-781d-4608-b7f1-38c020536376",
+        "multiverse_ids": [],
+        "mtgo_id": 141613,
+        "tcgplayer_id": 630851,
+        "cardmarket_id": 824258,
         "name": "Kefka, Court Mage // Kefka, Ruler of Ruin",
-        "set": "Final Fantasy",
-        "set_code": "fin",
-        "lang": "de",
-        "is_proxy": false,
-        "eur": 4.95,
-        "image_url": "https://cards.scryfall.io/large/front/8/f/8fcf3fbb-1ddd-437e-81c1-f5a3133f5ee8.jpg?1748707830",
-        "count": 1,
-        "oracle_text": null,
-        "mana_cost": null,
+        "lang": "en",
+        "released_at": "2025-06-13",
+        "uri": "https://api.scryfall.com/cards/0cadfe0e-9cdf-4e64-b143-f996c76bf93b",
+        "scryfall_uri": "https://scryfall.com/card/fin/322/kefka-court-mage-kefka-ruler-of-ruin?utm_source=api",
+        "layout": "transform",
+        "highres_image": true,
+        "image_status": "highres_scan",
+        "cmc": 5.0,
+        "type_line": "Legendary Creature — Human Wizard // Legendary Creature — Avatar Wizard",
+        "color_identity": [
+          "B",
+          "R",
+          "U"
+        ],
+        "keywords": [
+          "Flying",
+          "Transform"
+        ],
         "card_faces": [
           {
             "object": "card_face",
@@ -435,16 +287,16 @@
             ],
             "power": "4",
             "toughness": "5",
-            "artist": "Xui Ton",
-            "artist_id": "2349ac50-eafc-443e-b0ff-1b646175f017",
-            "illustration_id": "455961aa-6636-424e-9c45-ce183146f72d",
+            "artist": "Yoshitaka Amano",
+            "artist_id": "71c0c461-d1a6-4d7f-b01f-352e7228cf8a",
+            "illustration_id": "bc5cb355-fe4f-4b89-92d5-8581392e1363",
             "image_uris": {
-              "small": "https://cards.scryfall.io/small/front/8/f/8fcf3fbb-1ddd-437e-81c1-f5a3133f5ee8.jpg?1748707830",
-              "normal": "https://cards.scryfall.io/normal/front/8/f/8fcf3fbb-1ddd-437e-81c1-f5a3133f5ee8.jpg?1748707830",
-              "large": "https://cards.scryfall.io/large/front/8/f/8fcf3fbb-1ddd-437e-81c1-f5a3133f5ee8.jpg?1748707830",
-              "png": "https://cards.scryfall.io/png/front/8/f/8fcf3fbb-1ddd-437e-81c1-f5a3133f5ee8.png?1748707830",
-              "art_crop": "https://cards.scryfall.io/art_crop/front/8/f/8fcf3fbb-1ddd-437e-81c1-f5a3133f5ee8.jpg?1748707830",
-              "border_crop": "https://cards.scryfall.io/border_crop/front/8/f/8fcf3fbb-1ddd-437e-81c1-f5a3133f5ee8.jpg?1748707830"
+              "small": "https://cards.scryfall.io/small/front/0/c/0cadfe0e-9cdf-4e64-b143-f996c76bf93b.jpg?1748707842",
+              "normal": "https://cards.scryfall.io/normal/front/0/c/0cadfe0e-9cdf-4e64-b143-f996c76bf93b.jpg?1748707842",
+              "large": "https://cards.scryfall.io/large/front/0/c/0cadfe0e-9cdf-4e64-b143-f996c76bf93b.jpg?1748707842",
+              "png": "https://cards.scryfall.io/png/front/0/c/0cadfe0e-9cdf-4e64-b143-f996c76bf93b.png?1748707842",
+              "art_crop": "https://cards.scryfall.io/art_crop/front/0/c/0cadfe0e-9cdf-4e64-b143-f996c76bf93b.jpg?1748707842",
+              "border_crop": "https://cards.scryfall.io/border_crop/front/0/c/0cadfe0e-9cdf-4e64-b143-f996c76bf93b.jpg?1748707842"
             }
           },
           {
@@ -465,25 +317,113 @@
             ],
             "power": "5",
             "toughness": "7",
-            "flavor_text": "The end draws near.",
-            "artist": "Xui Ton",
-            "artist_id": "2349ac50-eafc-443e-b0ff-1b646175f017",
-            "illustration_id": "eb11f846-3db2-492f-8130-9cb4a298b1b6",
+            "flavor_text": "\"Life... Dreams... Hope... Where do they come from? And where do they go? Such meaningless things... I'll destroy them all!\"",
+            "artist": "Yoshitaka Amano",
+            "artist_id": "71c0c461-d1a6-4d7f-b01f-352e7228cf8a",
+            "illustration_id": "c8c53244-8997-479a-9959-874af949b68a",
             "image_uris": {
-              "small": "https://cards.scryfall.io/small/back/8/f/8fcf3fbb-1ddd-437e-81c1-f5a3133f5ee8.jpg?1748707830",
-              "normal": "https://cards.scryfall.io/normal/back/8/f/8fcf3fbb-1ddd-437e-81c1-f5a3133f5ee8.jpg?1748707830",
-              "large": "https://cards.scryfall.io/large/back/8/f/8fcf3fbb-1ddd-437e-81c1-f5a3133f5ee8.jpg?1748707830",
-              "png": "https://cards.scryfall.io/png/back/8/f/8fcf3fbb-1ddd-437e-81c1-f5a3133f5ee8.png?1748707830",
-              "art_crop": "https://cards.scryfall.io/art_crop/back/8/f/8fcf3fbb-1ddd-437e-81c1-f5a3133f5ee8.jpg?1748707830",
-              "border_crop": "https://cards.scryfall.io/border_crop/back/8/f/8fcf3fbb-1ddd-437e-81c1-f5a3133f5ee8.jpg?1748707830"
+              "small": "https://cards.scryfall.io/small/back/0/c/0cadfe0e-9cdf-4e64-b143-f996c76bf93b.jpg?1748707842",
+              "normal": "https://cards.scryfall.io/normal/back/0/c/0cadfe0e-9cdf-4e64-b143-f996c76bf93b.jpg?1748707842",
+              "large": "https://cards.scryfall.io/large/back/0/c/0cadfe0e-9cdf-4e64-b143-f996c76bf93b.jpg?1748707842",
+              "png": "https://cards.scryfall.io/png/back/0/c/0cadfe0e-9cdf-4e64-b143-f996c76bf93b.png?1748707842",
+              "art_crop": "https://cards.scryfall.io/art_crop/back/0/c/0cadfe0e-9cdf-4e64-b143-f996c76bf93b.jpg?1748707842",
+              "border_crop": "https://cards.scryfall.io/border_crop/back/0/c/0cadfe0e-9cdf-4e64-b143-f996c76bf93b.jpg?1748707842"
             }
           }
         ],
-        "collector_number": "231",
-        "set_size": 586,
-        "type_line": "Legendary Creature — Human Wizard // Legendary Creature — Avatar Wizard",
+        "legalities": {
+          "standard": "legal",
+          "future": "legal",
+          "historic": "legal",
+          "timeless": "legal",
+          "gladiator": "legal",
+          "pioneer": "legal",
+          "modern": "legal",
+          "legacy": "legal",
+          "pauper": "not_legal",
+          "vintage": "legal",
+          "penny": "not_legal",
+          "commander": "legal",
+          "oathbreaker": "legal",
+          "standardbrawl": "legal",
+          "brawl": "legal",
+          "alchemy": "legal",
+          "paupercommander": "not_legal",
+          "duel": "legal",
+          "oldschool": "not_legal",
+          "premodern": "not_legal",
+          "predh": "not_legal"
+        },
+        "games": [
+          "paper",
+          "arena"
+        ],
+        "reserved": false,
+        "game_changer": false,
+        "foil": true,
+        "nonfoil": true,
+        "finishes": [
+          "nonfoil",
+          "foil"
+        ],
+        "oversized": false,
+        "promo": false,
+        "reprint": false,
+        "variation": false,
+        "set_id": "d7beb4b7-e1ff-4d35-ab07-5700f17ea1ea",
+        "set": "fin",
+        "set_name": "Final Fantasy",
+        "set_type": "expansion",
+        "set_uri": "https://api.scryfall.com/sets/d7beb4b7-e1ff-4d35-ab07-5700f17ea1ea",
+        "set_search_uri": "https://api.scryfall.com/cards/search?order=set&q=e%3Afin&unique=prints",
+        "scryfall_set_uri": "https://scryfall.com/sets/fin?utm_source=api",
+        "rulings_uri": "https://api.scryfall.com/cards/0cadfe0e-9cdf-4e64-b143-f996c76bf93b/rulings",
         "prints_search_uri": "https://api.scryfall.com/cards/search?order=released&q=oracleid%3A6d3ca5cb-781d-4608-b7f1-38c020536376&unique=prints",
-        "purchase_price": 5.5
+        "collector_number": "322",
+        "digital": false,
+        "rarity": "mythic",
+        "artist": "Yoshitaka Amano",
+        "artist_ids": [
+          "71c0c461-d1a6-4d7f-b01f-352e7228cf8a"
+        ],
+        "border_color": "borderless",
+        "frame": "2015",
+        "frame_effects": [
+          "legendary",
+          "inverted"
+        ],
+        "security_stamp": "triangle",
+        "full_art": true,
+        "textless": false,
+        "booster": false,
+        "story_spotlight": false,
+        "promo_types": [
+          "ffvi",
+          "boosterfun"
+        ],
+        "edhrec_rank": 8656,
+        "prices": {
+          "usd": "32.08",
+          "usd_foil": "95.84",
+          "usd_etched": null,
+          "eur": "28.02",
+          "eur_foil": "125.64",
+          "tix": null
+        },
+        "related_uris": {
+          "tcgplayer_infinite_articles": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&trafcat=tcgplayer.com%2Fsearch%2Farticles&u=https%3A%2F%2Fwww.tcgplayer.com%2Fsearch%2Farticles%3FproductLineName%3Dmagic%26q%3DKefka%252C%2BCourt%2BMage%2B%252F%252F%2BKefka%252C%2BRuler%2Bof%2BRuin",
+          "tcgplayer_infinite_decks": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&trafcat=tcgplayer.com%2Fsearch%2Fdecks&u=https%3A%2F%2Fwww.tcgplayer.com%2Fsearch%2Fdecks%3FproductLineName%3Dmagic%26q%3DKefka%252C%2BCourt%2BMage%2B%252F%252F%2BKefka%252C%2BRuler%2Bof%2BRuin",
+          "edhrec": "https://edhrec.com/route/?cc=Kefka%2C+Court+Mage"
+        },
+        "purchase_uris": {
+          "tcgplayer": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&u=https%3A%2F%2Fwww.tcgplayer.com%2Fproduct%2F630851%3Fpage%3D1",
+          "cardmarket": "https://www.cardmarket.com/en/Magic/Products?idProduct=824258&referrer=scryfall&utm_campaign=card_prices&utm_medium=text&utm_source=scryfall",
+          "cardhoarder": "https://www.cardhoarder.com/cards/141613?affiliate_id=scryfall&ref=card-profile&utm_campaign=affiliate&utm_medium=card&utm_source=scryfall"
+        },
+        "eur": "28.02",
+        "set_size": 586,
+        "is_proxy": false,
+        "purchase_price": 5.0
       },
       {
         "id": "06b7ca77-7194-4a0b-a650-4afd7afb50eb",
@@ -560,25 +500,6 @@
         "type_line": "Legendary Creature — Human Wizard // Legendary Creature — Avatar Wizard",
         "prints_search_uri": "https://api.scryfall.com/cards/search?order=released&q=oracleid%3A6d3ca5cb-781d-4608-b7f1-38c020536376&unique=prints",
         "purchase_price": 3.54
-      },
-      {
-        "id": "cce4eb99-d960-4ab7-911a-bb4ea74d1775",
-        "name": "Gogo, Master of Mimicry",
-        "set": "Final Fantasy",
-        "set_code": "fin",
-        "lang": "de",
-        "is_proxy": false,
-        "eur": "4.58",
-        "image_url": "https://cards.scryfall.io/large/front/c/c/cce4eb99-d960-4ab7-911a-bb4ea74d1775.jpg?1748705954",
-        "count": 1,
-        "oracle_text": "{X}{X}, {T}: Copy target activated or triggered ability you control X times. You may choose new targets for the copies. This ability can't be copied and X can't be 0. (Mana abilities can't be targeted.)",
-        "mana_cost": "{2}{U}",
-        "card_faces": null,
-        "collector_number": "54",
-        "set_size": 586,
-        "type_line": "Legendary Creature — Wizard",
-        "prints_search_uri": "https://api.scryfall.com/cards/search?order=released&q=oracleid%3A61586052-7d69-489c-84c4-0359228d131b&unique=prints",
-        "purchase_price": 2.0
       }
     ],
     "color": "#ffffff"
@@ -622,8 +543,139 @@
         "set_size": 254,
         "type_line": "Land",
         "prints_search_uri": "https://api.scryfall.com/cards/search?order=released&q=oracleid%3A23467047-6dba-4498-b783-1ebc4f74b8c2&unique=prints"
+      },
+      {
+        "id": "f5a4970b-2ba6-4c91-a301-369369cdf360",
+        "name": "Grave Pact",
+        "set": "Commander Masters",
+        "set_code": "cmm",
+        "lang": "de",
+        "is_proxy": false,
+        "eur": "14.34",
+        "image_url": "https://cards.scryfall.io/large/front/f/5/f5a4970b-2ba6-4c91-a301-369369cdf360.jpg?1689997226",
+        "count": 1,
+        "oracle_text": "Whenever a creature you control dies, each other player sacrifices a creature of their choice.",
+        "mana_cost": "{1}{B}{B}{B}",
+        "card_faces": null,
+        "collector_number": "165",
+        "set_size": 1067,
+        "type_line": "Enchantment",
+        "prints_search_uri": "https://api.scryfall.com/cards/search?order=released&q=oracleid%3A6f4ac4a4-53ec-4bc9-8f5c-d4b801d867b2&unique=prints",
+        "purchase_price": 5.0
       }
     ],
     "color": "#aaff00"
+  },
+  {
+    "name": "Testv16",
+    "cards": [
+      {
+        "id": "c7f2c2d5-e052-49e8-b5de-712858c2ea78",
+        "name": "Y'shtola, Night's Blessed",
+        "set": "Final Fantasy Commander",
+        "set_code": "fic",
+        "lang": "de",
+        "is_proxy": false,
+        "eur": "5.50",
+        "image_url": "https://cards.scryfall.io/large/front/c/7/c7f2c2d5-e052-49e8-b5de-712858c2ea78.jpg?1752052932",
+        "count": 1,
+        "oracle_text": "Vigilance\nAt the beginning of each end step, if a player lost 4 or more life this turn, you draw a card.\nWhenever you cast a noncreature spell with mana value 3 or greater, Y'shtola deals 2 damage to each opponent and you gain 2 life.",
+        "mana_cost": "{1}{W}{U}{B}",
+        "card_faces": null,
+        "collector_number": "7",
+        "set_size": 444,
+        "type_line": "Legendary Creature — Cat Warlock",
+        "prints_search_uri": "https://api.scryfall.com/cards/search?order=released&q=oracleid%3A3268251a-8292-44f9-9267-c961b182f739&unique=prints",
+        "purchase_price": 2.0
+      },
+      {
+        "id": "83c82209-47d5-4c4c-b8ec-96ab907e15d3",
+        "name": "Sephiroth, Fabled SOLDIER // Sephiroth, One-Winged Angel",
+        "set": "Final Fantasy",
+        "set_code": "fin",
+        "lang": "eng",
+        "is_proxy": true,
+        "eur": 0,
+        "image_url": "https://cards.scryfall.io/large/front/8/3/83c82209-47d5-4c4c-b8ec-96ab907e15d3.jpg?1748707839",
+        "count": 1,
+        "oracle_text": null,
+        "mana_cost": null,
+        "card_faces": [
+          {
+            "object": "card_face",
+            "name": "Sephiroth, Fabled SOLDIER",
+            "mana_cost": "{2}{B}",
+            "type_line": "Legendary Creature — Human Avatar Soldier",
+            "oracle_text": "Whenever Sephiroth enters or attacks, you may sacrifice another creature. If you do, draw a card.\nWhenever another creature dies, target opponent loses 1 life and you gain 1 life. If this is the fourth time this ability has resolved this turn, transform Sephiroth.",
+            "colors": [
+              "B"
+            ],
+            "power": "3",
+            "toughness": "3",
+            "artist": "Tetsuya Nomura",
+            "artist_id": "a6c5195e-0d82-47d2-a286-ce1b893ca81c",
+            "illustration_id": "e1ea898e-d006-404a-9b5f-60656fc9c78a",
+            "image_uris": {
+              "small": "https://cards.scryfall.io/small/front/8/3/83c82209-47d5-4c4c-b8ec-96ab907e15d3.jpg?1748707839",
+              "normal": "https://cards.scryfall.io/normal/front/8/3/83c82209-47d5-4c4c-b8ec-96ab907e15d3.jpg?1748707839",
+              "large": "https://cards.scryfall.io/large/front/8/3/83c82209-47d5-4c4c-b8ec-96ab907e15d3.jpg?1748707839",
+              "png": "https://cards.scryfall.io/png/front/8/3/83c82209-47d5-4c4c-b8ec-96ab907e15d3.png?1748707839",
+              "art_crop": "https://cards.scryfall.io/art_crop/front/8/3/83c82209-47d5-4c4c-b8ec-96ab907e15d3.jpg?1748707839",
+              "border_crop": "https://cards.scryfall.io/border_crop/front/8/3/83c82209-47d5-4c4c-b8ec-96ab907e15d3.jpg?1748707839"
+            }
+          },
+          {
+            "object": "card_face",
+            "name": "Sephiroth, One-Winged Angel",
+            "mana_cost": "",
+            "type_line": "Legendary Creature — Angel Nightmare Avatar",
+            "oracle_text": "Flying\nSuper Nova — As this creature transforms into Sephiroth, One-Winged Angel, you get an emblem with \"Whenever a creature dies, target opponent loses 1 life and you gain 1 life.\"\nWhenever Sephiroth attacks, you may sacrifice any number of other creatures. If you do, draw that many cards.",
+            "colors": [
+              "B"
+            ],
+            "color_indicator": [
+              "B"
+            ],
+            "power": "5",
+            "toughness": "5",
+            "artist": "Tetsuya Nomura",
+            "artist_id": "a6c5195e-0d82-47d2-a286-ce1b893ca81c",
+            "illustration_id": "48516443-5280-43b3-b678-1af35aa1d2e5",
+            "image_uris": {
+              "small": "https://cards.scryfall.io/small/back/8/3/83c82209-47d5-4c4c-b8ec-96ab907e15d3.jpg?1748707839",
+              "normal": "https://cards.scryfall.io/normal/back/8/3/83c82209-47d5-4c4c-b8ec-96ab907e15d3.jpg?1748707839",
+              "large": "https://cards.scryfall.io/large/back/8/3/83c82209-47d5-4c4c-b8ec-96ab907e15d3.jpg?1748707839",
+              "png": "https://cards.scryfall.io/png/back/8/3/83c82209-47d5-4c4c-b8ec-96ab907e15d3.png?1748707839",
+              "art_crop": "https://cards.scryfall.io/art_crop/back/8/3/83c82209-47d5-4c4c-b8ec-96ab907e15d3.jpg?1748707839",
+              "border_crop": "https://cards.scryfall.io/border_crop/back/8/3/83c82209-47d5-4c4c-b8ec-96ab907e15d3.jpg?1748707839"
+            }
+          }
+        ],
+        "collector_number": "317",
+        "set_size": 586,
+        "type_line": "Legendary Creature — Human Avatar Soldier // Legendary Creature — Angel Nightmare Avatar",
+        "prints_search_uri": "https://api.scryfall.com/cards/search?order=released&q=oracleid%3A70113003-be5e-406a-9aec-cb480468c36d&unique=prints"
+      },
+      {
+        "id": "d105068a-d4f1-4971-b5a0-72806a798497",
+        "name": "Sol Ring",
+        "set": "Final Fantasy Commander",
+        "set_code": "fic",
+        "lang": "de",
+        "is_proxy": false,
+        "eur": "1.98",
+        "image_url": "https://cards.scryfall.io/large/front/d/1/d105068a-d4f1-4971-b5a0-72806a798497.jpg?1748705460",
+        "count": 1,
+        "oracle_text": "{T}: Add {C}{C}.",
+        "mana_cost": "{1}",
+        "card_faces": null,
+        "collector_number": "357",
+        "set_size": 444,
+        "type_line": "Artifact",
+        "prints_search_uri": "https://api.scryfall.com/cards/search?order=released&q=oracleid%3A6ad8011d-3471-4369-9d68-b264cc027487&unique=prints",
+        "purchase_price": 2.0
+      }
+    ],
+    "color": "#0000ff"
   }
 ]

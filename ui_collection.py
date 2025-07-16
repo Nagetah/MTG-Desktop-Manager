@@ -807,7 +807,100 @@ class CollectionViewer(QWidget):
         import_btn.setStyleSheet("margin-left: 10px; background-color: #0078d7; color: white; font-weight: bold;")
         import_btn.clicked.connect(self.import_deck_text)
         btns_layout.addWidget(import_btn)
+        # --- Deck Exportieren Button ---
+        export_btn = QPushButton("Deck exportieren")
+        export_btn.setStyleSheet("margin-left: 10px; background-color: #4caf50; color: white; font-weight: bold;")
+        export_btn.clicked.connect(self.export_deck_text)
+        btns_layout.addWidget(export_btn)
         btns_layout.addStretch(1)
+        bar_row.addLayout(btns_layout, 2)
+        # Rechte Seite: Suche und Sortierung
+        search_sort_layout = QHBoxLayout()
+        self.search_field = QLineEdit()
+        self.search_field.setPlaceholderText("Nach Name suchen...")
+        self.search_field.setFixedWidth(220)
+        search_sort_layout.addWidget(self.search_field)
+        self.sort_dropdown = QComboBox()
+        self.sort_dropdown.addItems(["Name (A-Z)", "Name (Z-A)"])
+        self.sort_dropdown.setFixedWidth(160)
+        search_sort_layout.addWidget(self.sort_dropdown)
+        search_sort_layout.addStretch(1)
+        bar_row.addLayout(search_sort_layout, 1)
+        layout.addLayout(bar_row)
+
+        # Signalverbindungen für Live-Filter und Sortierung
+        self.search_field.textChanged.connect(self._refresh_card_list)
+        self.sort_dropdown.currentIndexChanged.connect(self._refresh_card_list)
+
+        # --- Scrollbarer Bereich für Kartenliste ---
+        scroll = QScrollArea()
+        scroll.setWidgetResizable(True)
+        content = QWidget()
+        grid = QVBoxLayout()
+        content.setLayout(grid)
+        content.setMinimumWidth(400)
+        scroll.setWidget(content)
+        layout.addWidget(scroll)
+        self.setLayout(layout)
+
+        # --- Kartenliste aufbauen ---
+        search_text = self.search_field.text().strip().lower() if hasattr(self, 'search_field') else ""
+        sort_mode = self.sort_dropdown.currentText() if hasattr(self, 'sort_dropdown') else "Name (A-Z)"
+        filtered_cards = [c for c in self.collection["cards"] if isinstance(c, dict) and search_text in c.get('name','').lower()]
+        if sort_mode == "Name (A-Z)":
+            filtered_cards.sort(key=lambda c: c.get('name','').lower())
+        elif sort_mode == "Name (Z-A)":
+            filtered_cards.sort(key=lambda c: c.get('name','').lower(), reverse=True)
+        self._build_card_widgets(grid, filtered_cards)
+    def export_deck_text(self):
+        from PyQt6.QtWidgets import QDialog, QVBoxLayout, QTextEdit, QPushButton, QLabel
+        dlg = QDialog(self)
+        dlg.setWindowTitle("Deck exportieren")
+        dlg.setMinimumWidth(480)
+        layout = QVBoxLayout()
+        layout.addWidget(QLabel("Kopiere den Text und füge ihn z.B. in Moxfield ein:"))
+        textedit = QTextEdit()
+        textedit.setReadOnly(True)
+        deck_text = self._generate_moxfield_deck_text()
+        textedit.setText(deck_text)
+        layout.addWidget(textedit)
+        close_btn = QPushButton("Schließen")
+        close_btn.clicked.connect(dlg.accept)
+        layout.addWidget(close_btn)
+        dlg.setLayout(layout)
+        dlg.exec()
+
+    def _generate_moxfield_deck_text(self):
+        # Zähle Karten nach Name, Set, Nummer, Foil, ggf. Doppelseiten
+        from collections import Counter, defaultdict
+        card_lines = []
+        # Gruppiere Karten nach Name, Set, Nummer, Foil, Faces
+        def card_key(card):
+            # Doppelseiten: Name als 'Face1 // Face2' wenn vorhanden
+            if card.get('card_faces') and isinstance(card['card_faces'], list) and len(card['card_faces']) > 1:
+                name = ' // '.join([f.get('name', '') for f in card['card_faces']])
+            else:
+                name = card.get('name', '')
+            set_code = card.get('set_code') or card.get('set') or ''
+            collector_number = card.get('collector_number', '')
+            foil = card.get('is_foil', False) or (str(card.get('collector_number', '')).endswith('*F*'))
+            # Moxfield: Foil wird als *F* am Ende dargestellt
+            return (name, set_code, collector_number, foil)
+        # Zähle alle Karten
+        counter = defaultdict(int)
+        for card in self.collection.get('cards', []):
+            key = card_key(card)
+            counter[key] += 1
+        for (name, set_code, collector_number, foil), qty in counter.items():
+            line = f"{qty} {name}"
+            if set_code:
+                line += f" ({set_code.upper()})"
+            if collector_number:
+                line += f" {collector_number}"
+            if foil:
+                line += " *F*"
+            card_lines.append(line)
+        return '\n'.join(card_lines)
         bar_row.addLayout(btns_layout, 2)
         # Rechte Seite: Suche und Sortierung
         search_sort_layout = QHBoxLayout()

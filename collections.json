@@ -589,17 +589,31 @@
         "purchase_price": 2.0
       },
       {
+        "object": "card",
         "id": "83c82209-47d5-4c4c-b8ec-96ab907e15d3",
+        "oracle_id": "70113003-be5e-406a-9aec-cb480468c36d",
+        "multiverse_ids": [],
+        "mtgo_id": 141759,
+        "tcgplayer_id": 630959,
+        "cardmarket_id": 824254,
         "name": "Sephiroth, Fabled SOLDIER // Sephiroth, One-Winged Angel",
-        "set": "Final Fantasy",
-        "set_code": "fin",
-        "lang": "eng",
-        "is_proxy": true,
-        "eur": 0,
-        "image_url": "https://cards.scryfall.io/large/front/8/3/83c82209-47d5-4c4c-b8ec-96ab907e15d3.jpg?1748707839",
-        "count": 1,
-        "oracle_text": null,
-        "mana_cost": null,
+        "lang": "en",
+        "released_at": "2025-06-13",
+        "uri": "https://api.scryfall.com/cards/83c82209-47d5-4c4c-b8ec-96ab907e15d3",
+        "scryfall_uri": "https://scryfall.com/card/fin/317/sephiroth-fabled-soldier-sephiroth-one-winged-angel?utm_source=api",
+        "layout": "transform",
+        "highres_image": true,
+        "image_status": "highres_scan",
+        "cmc": 3.0,
+        "type_line": "Legendary Creature — Human Avatar Soldier // Legendary Creature — Angel Nightmare Avatar",
+        "color_identity": [
+          "B"
+        ],
+        "keywords": [
+          "Flying",
+          "Transform",
+          "Super Nova"
+        ],
         "card_faces": [
           {
             "object": "card_face",
@@ -651,10 +665,118 @@
             }
           }
         ],
+        "all_parts": [
+          {
+            "object": "related_card",
+            "id": "db95465a-2a58-44d7-9439-edd18c9505f0",
+            "component": "combo_piece",
+            "name": "Sephiroth, Fabled SOLDIER // Sephiroth, One-Winged Angel",
+            "type_line": "Legendary Creature — Human Avatar Soldier // Legendary Creature — Angel Nightmare Avatar",
+            "uri": "https://api.scryfall.com/cards/db95465a-2a58-44d7-9439-edd18c9505f0"
+          },
+          {
+            "object": "related_card",
+            "id": "03165625-1cb9-4e7b-85be-df400adc4487",
+            "component": "combo_piece",
+            "name": "Sephiroth, One-Winged Angel Emblem",
+            "type_line": "Emblem",
+            "uri": "https://api.scryfall.com/cards/03165625-1cb9-4e7b-85be-df400adc4487"
+          }
+        ],
+        "legalities": {
+          "standard": "legal",
+          "future": "legal",
+          "historic": "legal",
+          "timeless": "legal",
+          "gladiator": "legal",
+          "pioneer": "legal",
+          "modern": "legal",
+          "legacy": "legal",
+          "pauper": "not_legal",
+          "vintage": "legal",
+          "penny": "not_legal",
+          "commander": "legal",
+          "oathbreaker": "legal",
+          "standardbrawl": "legal",
+          "brawl": "legal",
+          "alchemy": "legal",
+          "paupercommander": "not_legal",
+          "duel": "legal",
+          "oldschool": "not_legal",
+          "premodern": "not_legal",
+          "predh": "not_legal"
+        },
+        "games": [
+          "paper",
+          "arena"
+        ],
+        "reserved": false,
+        "game_changer": false,
+        "foil": true,
+        "nonfoil": true,
+        "finishes": [
+          "nonfoil",
+          "foil"
+        ],
+        "oversized": false,
+        "promo": false,
+        "reprint": false,
+        "variation": false,
+        "set_id": "d7beb4b7-e1ff-4d35-ab07-5700f17ea1ea",
+        "set": "fin",
+        "set_name": "Final Fantasy",
+        "set_type": "expansion",
+        "set_uri": "https://api.scryfall.com/sets/d7beb4b7-e1ff-4d35-ab07-5700f17ea1ea",
+        "set_search_uri": "https://api.scryfall.com/cards/search?order=set&q=e%3Afin&unique=prints",
+        "scryfall_set_uri": "https://scryfall.com/sets/fin?utm_source=api",
+        "rulings_uri": "https://api.scryfall.com/cards/83c82209-47d5-4c4c-b8ec-96ab907e15d3/rulings",
+        "prints_search_uri": "https://api.scryfall.com/cards/search?order=released&q=oracleid%3A70113003-be5e-406a-9aec-cb480468c36d&unique=prints",
         "collector_number": "317",
+        "digital": false,
+        "rarity": "mythic",
+        "artist": "Tetsuya Nomura",
+        "artist_ids": [
+          "a6c5195e-0d82-47d2-a286-ce1b893ca81c"
+        ],
+        "border_color": "borderless",
+        "frame": "2015",
+        "frame_effects": [
+          "legendary",
+          "inverted"
+        ],
+        "security_stamp": "triangle",
+        "full_art": true,
+        "textless": false,
+        "booster": false,
+        "story_spotlight": false,
+        "promo_types": [
+          "ffvii",
+          "boosterfun"
+        ],
+        "edhrec_rank": 4589,
+        "prices": {
+          "usd": "79.10",
+          "usd_foil": "157.39",
+          "usd_etched": null,
+          "eur": "77.73",
+          "eur_foil": "161.28",
+          "tix": null
+        },
+        "related_uris": {
+          "tcgplayer_infinite_articles": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&trafcat=tcgplayer.com%2Fsearch%2Farticles&u=https%3A%2F%2Fwww.tcgplayer.com%2Fsearch%2Farticles%3FproductLineName%3Dmagic%26q%3DSephiroth%252C%2BFabled%2BSOLDIER%2B%252F%252F%2BSephiroth%252C%2BOne-Winged%2BAngel",
+          "tcgplayer_infinite_decks": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&trafcat=tcgplayer.com%2Fsearch%2Fdecks&u=https%3A%2F%2Fwww.tcgplayer.com%2Fsearch%2Fdecks%3FproductLineName%3Dmagic%26q%3DSephiroth%252C%2BFabled%2BSOLDIER%2B%252F%252F%2BSephiroth%252C%2BOne-Winged%2BAngel",
+          "edhrec": "https://edhrec.com/route/?cc=Sephiroth%2C+Fabled+SOLDIER"
+        },
+        "purchase_uris": {
+          "tcgplayer": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&u=https%3A%2F%2Fwww.tcgplayer.com%2Fproduct%2F630959%3Fpage%3D1",
+          "cardmarket": "https://www.cardmarket.com/en/Magic/Products?idProduct=824254&referrer=scryfall&utm_campaign=card_prices&utm_medium=text&utm_source=scryfall",
+          "cardhoarder": "https://www.cardhoarder.com/cards/141759?affiliate_id=scryfall&ref=card-profile&utm_campaign=affiliate&utm_medium=card&utm_source=scryfall"
+        },
+        "set_code": "fin",
         "set_size": 586,
-        "type_line": "Legendary Creature — Human Avatar Soldier // Legendary Creature — Angel Nightmare Avatar",
-        "prints_search_uri": "https://api.scryfall.com/cards/search?order=released&q=oracleid%3A70113003-be5e-406a-9aec-cb480468c36d&unique=prints"
+        "eur": "77.73",
+        "is_proxy": false,
+        "purchase_price": ""
       },
       {
         "id": "d105068a-d4f1-4971-b5a0-72806a798497",
@@ -854,29 +976,131 @@
         "set_size": null
       },
       {
-        "id": "bd3d4b4b-cf31-4f89-8140-9650edb03c7b",
+        "object": "card",
+        "id": "41914164-311e-4f8d-b002-c0d313bf658b",
+        "oracle_id": "23467047-6dba-4498-b783-1ebc4f74b8c2",
+        "multiverse_ids": [],
         "name": "Ancient Tomb",
-        "set": "uma",
-        "set_code": "uma",
-        "collector_number": "236",
         "lang": "en",
+        "released_at": "2025-08-01",
+        "uri": "https://api.scryfall.com/cards/41914164-311e-4f8d-b002-c0d313bf658b",
+        "scryfall_uri": "https://scryfall.com/card/eos/136/ancient-tomb?utm_source=api",
+        "layout": "normal",
+        "highres_image": true,
+        "image_status": "highres_scan",
         "image_uris": {
-          "small": "https://cards.scryfall.io/small/front/b/d/bd3d4b4b-cf31-4f89-8140-9650edb03c7b.jpg?1582753000",
-          "normal": "https://cards.scryfall.io/normal/front/b/d/bd3d4b4b-cf31-4f89-8140-9650edb03c7b.jpg?1582753000",
-          "large": "https://cards.scryfall.io/large/front/b/d/bd3d4b4b-cf31-4f89-8140-9650edb03c7b.jpg?1582753000",
-          "png": "https://cards.scryfall.io/png/front/b/d/bd3d4b4b-cf31-4f89-8140-9650edb03c7b.png?1582753000",
-          "art_crop": "https://cards.scryfall.io/art_crop/front/b/d/bd3d4b4b-cf31-4f89-8140-9650edb03c7b.jpg?1582753000",
-          "border_crop": "https://cards.scryfall.io/border_crop/front/b/d/bd3d4b4b-cf31-4f89-8140-9650edb03c7b.jpg?1582753000"
+          "small": "https://cards.scryfall.io/small/front/4/1/41914164-311e-4f8d-b002-c0d313bf658b.jpg?1752581920",
+          "normal": "https://cards.scryfall.io/normal/front/4/1/41914164-311e-4f8d-b002-c0d313bf658b.jpg?1752581920",
+          "large": "https://cards.scryfall.io/large/front/4/1/41914164-311e-4f8d-b002-c0d313bf658b.jpg?1752581920",
+          "png": "https://cards.scryfall.io/png/front/4/1/41914164-311e-4f8d-b002-c0d313bf658b.png?1752581920",
+          "art_crop": "https://cards.scryfall.io/art_crop/front/4/1/41914164-311e-4f8d-b002-c0d313bf658b.jpg?1752581920",
+          "border_crop": "https://cards.scryfall.io/border_crop/front/4/1/41914164-311e-4f8d-b002-c0d313bf658b.jpg?1752581920"
         },
-        "card_faces": null,
-        "oracle_text": "{T}: Add {C}{C}. This land deals 2 damage to you.",
-        "type_line": "Land",
         "mana_cost": "",
-        "eur": "84.57",
-        "purchase_price": null,
-        "is_proxy": false,
+        "cmc": 0.0,
+        "type_line": "Land",
+        "oracle_text": "{T}: Add {C}{C}. This land deals 2 damage to you.",
+        "colors": [],
+        "color_identity": [],
+        "keywords": [],
+        "produced_mana": [
+          "C"
+        ],
+        "legalities": {
+          "standard": "not_legal",
+          "future": "not_legal",
+          "historic": "not_legal",
+          "timeless": "not_legal",
+          "gladiator": "not_legal",
+          "pioneer": "not_legal",
+          "modern": "not_legal",
+          "legacy": "legal",
+          "pauper": "not_legal",
+          "vintage": "legal",
+          "penny": "not_legal",
+          "commander": "legal",
+          "oathbreaker": "legal",
+          "standardbrawl": "not_legal",
+          "brawl": "not_legal",
+          "alchemy": "not_legal",
+          "paupercommander": "not_legal",
+          "duel": "banned",
+          "oldschool": "not_legal",
+          "premodern": "legal",
+          "predh": "legal"
+        },
+        "games": [
+          "paper",
+          "mtgo"
+        ],
+        "reserved": false,
+        "game_changer": true,
+        "foil": true,
+        "nonfoil": false,
+        "finishes": [
+          "foil"
+        ],
+        "oversized": false,
+        "promo": false,
+        "reprint": true,
+        "variation": false,
+        "set_id": "538306e5-d40a-44c0-b9df-2f6c4b130c9f",
+        "set": "eos",
+        "set_name": "Edge of Eternities: Stellar Sights",
+        "set_type": "masterpiece",
+        "set_uri": "https://api.scryfall.com/sets/538306e5-d40a-44c0-b9df-2f6c4b130c9f",
+        "set_search_uri": "https://api.scryfall.com/cards/search?order=set&q=e%3Aeos&unique=prints",
+        "scryfall_set_uri": "https://scryfall.com/sets/eos?utm_source=api",
+        "rulings_uri": "https://api.scryfall.com/cards/41914164-311e-4f8d-b002-c0d313bf658b/rulings",
         "prints_search_uri": "https://api.scryfall.com/cards/search?order=released&q=oracleid%3A23467047-6dba-4498-b783-1ebc4f74b8c2&unique=prints",
-        "set_size": null
+        "collector_number": "136",
+        "digital": false,
+        "rarity": "mythic",
+        "card_back_id": "0aeebaf5-8c7d-4636-9e82-8c27447861f7",
+        "artist": "Meel Tamphanon",
+        "artist_ids": [
+          "2238e3ab-8c32-4693-9588-a2feedfdc08e"
+        ],
+        "illustration_id": "bc3f2351-a4fa-4fbe-b6c3-f2b3c7cedfa8",
+        "border_color": "borderless",
+        "frame": "2015",
+        "security_stamp": "oval",
+        "full_art": false,
+        "textless": false,
+        "booster": false,
+        "story_spotlight": false,
+        "promo_types": [
+          "boosterfun"
+        ],
+        "edhrec_rank": 59,
+        "preview": {
+          "source": "Playing With Power MTG",
+          "source_uri": "https://x.com/PWPMtG/status/1944795327350845467",
+          "previewed_at": "2025-07-15"
+        },
+        "prices": {
+          "usd": null,
+          "usd_foil": null,
+          "usd_etched": null,
+          "eur": null,
+          "eur_foil": null,
+          "tix": null
+        },
+        "related_uris": {
+          "tcgplayer_infinite_articles": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&trafcat=tcgplayer.com%2Fsearch%2Farticles&u=https%3A%2F%2Fwww.tcgplayer.com%2Fsearch%2Farticles%3FproductLineName%3Dmagic%26q%3DAncient%2BTomb",
+          "tcgplayer_infinite_decks": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&trafcat=tcgplayer.com%2Fsearch%2Fdecks&u=https%3A%2F%2Fwww.tcgplayer.com%2Fsearch%2Fdecks%3FproductLineName%3Dmagic%26q%3DAncient%2BTomb",
+          "edhrec": "https://edhrec.com/route/?cc=Ancient+Tomb"
+        },
+        "purchase_uris": {
+          "tcgplayer": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&u=https%3A%2F%2Fwww.tcgplayer.com%2Fsearch%2Fmagic%2Fproduct%3FproductLineName%3Dmagic%26q%3DAncient%2BTomb%26view%3Dgrid",
+          "cardmarket": "https://www.cardmarket.com/en/Magic/Products/Search?referrer=scryfall&searchString=Ancient+Tomb&utm_campaign=card_prices&utm_medium=text&utm_source=scryfall",
+          "cardhoarder": "https://www.cardhoarder.com/cards?affiliate_id=scryfall&data%5Bsearch%5D=Ancient+Tomb&ref=card-profile&utm_campaign=affiliate&utm_medium=card&utm_source=scryfall"
+        },
+        "set_code": "eos",
+        "set_size": 131,
+        "eur": "84.57",
+        "is_proxy": true,
+        "purchase_price": ""
       },
       {
         "id": "f4f7cc5b-a52a-470b-8970-260b61c91ad5",
@@ -1154,29 +1378,144 @@
         "set_size": null
       },
       {
-        "id": "60bebd79-f88c-44ef-8920-e19031bad1d6",
+        "object": "card",
+        "id": "c5798e7d-a0e2-4a5e-a796-1b408c81091a",
+        "oracle_id": "a3c8d817-7949-4dae-b9f5-f9d952479270",
+        "multiverse_ids": [
+          646348
+        ],
+        "mtgo_id": 120449,
+        "tcgplayer_id": 530798,
         "name": "Crypt Ghast",
-        "set": "rvr",
-        "set_code": "rvr",
-        "collector_number": "70",
         "lang": "en",
+        "released_at": "2024-01-12",
+        "uri": "https://api.scryfall.com/cards/c5798e7d-a0e2-4a5e-a796-1b408c81091a",
+        "scryfall_uri": "https://scryfall.com/card/rvr/423/crypt-ghast?utm_source=api",
+        "layout": "normal",
+        "highres_image": true,
+        "image_status": "highres_scan",
         "image_uris": {
-          "small": "https://cards.scryfall.io/small/front/6/0/60bebd79-f88c-44ef-8920-e19031bad1d6.jpg?1702429435",
-          "normal": "https://cards.scryfall.io/normal/front/6/0/60bebd79-f88c-44ef-8920-e19031bad1d6.jpg?1702429435",
-          "large": "https://cards.scryfall.io/large/front/6/0/60bebd79-f88c-44ef-8920-e19031bad1d6.jpg?1702429435",
-          "png": "https://cards.scryfall.io/png/front/6/0/60bebd79-f88c-44ef-8920-e19031bad1d6.png?1702429435",
-          "art_crop": "https://cards.scryfall.io/art_crop/front/6/0/60bebd79-f88c-44ef-8920-e19031bad1d6.jpg?1702429435",
-          "border_crop": "https://cards.scryfall.io/border_crop/front/6/0/60bebd79-f88c-44ef-8920-e19031bad1d6.jpg?1702429435"
+          "small": "https://cards.scryfall.io/small/front/c/5/c5798e7d-a0e2-4a5e-a796-1b408c81091a.jpg?1702429862",
+          "normal": "https://cards.scryfall.io/normal/front/c/5/c5798e7d-a0e2-4a5e-a796-1b408c81091a.jpg?1702429862",
+          "large": "https://cards.scryfall.io/large/front/c/5/c5798e7d-a0e2-4a5e-a796-1b408c81091a.jpg?1702429862",
+          "png": "https://cards.scryfall.io/png/front/c/5/c5798e7d-a0e2-4a5e-a796-1b408c81091a.png?1702429862",
+          "art_crop": "https://cards.scryfall.io/art_crop/front/c/5/c5798e7d-a0e2-4a5e-a796-1b408c81091a.jpg?1702429862",
+          "border_crop": "https://cards.scryfall.io/border_crop/front/c/5/c5798e7d-a0e2-4a5e-a796-1b408c81091a.jpg?1702429862"
         },
-        "card_faces": null,
-        "oracle_text": "Extort (Whenever you cast a spell, you may pay {W/B}. If you do, each opponent loses 1 life and you gain that much life.)\nWhenever you tap a Swamp for mana, add an additional {B}.",
-        "type_line": "Creature — Spirit",
         "mana_cost": "{3}{B}",
-        "eur": "6.16",
-        "purchase_price": null,
-        "is_proxy": false,
+        "cmc": 4.0,
+        "type_line": "Creature — Spirit",
+        "oracle_text": "Extort (Whenever you cast a spell, you may pay {W/B}. If you do, each opponent loses 1 life and you gain that much life.)\nWhenever you tap a Swamp for mana, add an additional {B}.",
+        "power": "2",
+        "toughness": "2",
+        "colors": [
+          "B"
+        ],
+        "color_identity": [
+          "B"
+        ],
+        "keywords": [
+          "Extort"
+        ],
+        "produced_mana": [
+          "B"
+        ],
+        "legalities": {
+          "standard": "not_legal",
+          "future": "not_legal",
+          "historic": "not_legal",
+          "timeless": "not_legal",
+          "gladiator": "not_legal",
+          "pioneer": "legal",
+          "modern": "legal",
+          "legacy": "legal",
+          "pauper": "not_legal",
+          "vintage": "legal",
+          "penny": "legal",
+          "commander": "legal",
+          "oathbreaker": "legal",
+          "standardbrawl": "not_legal",
+          "brawl": "not_legal",
+          "alchemy": "not_legal",
+          "paupercommander": "not_legal",
+          "duel": "legal",
+          "oldschool": "not_legal",
+          "premodern": "not_legal",
+          "predh": "not_legal"
+        },
+        "games": [
+          "paper",
+          "mtgo"
+        ],
+        "reserved": false,
+        "game_changer": false,
+        "foil": true,
+        "nonfoil": true,
+        "finishes": [
+          "nonfoil",
+          "foil"
+        ],
+        "oversized": false,
+        "promo": false,
+        "reprint": true,
+        "variation": false,
+        "set_id": "fed2c8cd-ab92-44f6-808a-41e7809bcfe2",
+        "set": "rvr",
+        "set_name": "Ravnica Remastered",
+        "set_type": "masters",
+        "set_uri": "https://api.scryfall.com/sets/fed2c8cd-ab92-44f6-808a-41e7809bcfe2",
+        "set_search_uri": "https://api.scryfall.com/cards/search?order=set&q=e%3Arvr&unique=prints",
+        "scryfall_set_uri": "https://scryfall.com/sets/rvr?utm_source=api",
+        "rulings_uri": "https://api.scryfall.com/cards/c5798e7d-a0e2-4a5e-a796-1b408c81091a/rulings",
         "prints_search_uri": "https://api.scryfall.com/cards/search?order=released&q=oracleid%3Aa3c8d817-7949-4dae-b9f5-f9d952479270&unique=prints",
-        "set_size": null
+        "collector_number": "423",
+        "digital": false,
+        "rarity": "rare",
+        "card_back_id": "0aeebaf5-8c7d-4636-9e82-8c27447861f7",
+        "artist": "zizero",
+        "artist_ids": [
+          "63087f68-d923-41c2-827e-167796a9ac9f"
+        ],
+        "illustration_id": "65d5c52a-5f6e-4a52-a13c-b3b4dbd0cc6d",
+        "border_color": "borderless",
+        "frame": "2015",
+        "frame_effects": [
+          "inverted"
+        ],
+        "security_stamp": "oval",
+        "full_art": true,
+        "textless": false,
+        "booster": false,
+        "story_spotlight": false,
+        "promo_types": [
+          "boosterfun"
+        ],
+        "edhrec_rank": 530,
+        "penny_rank": 7668,
+        "prices": {
+          "usd": "10.99",
+          "usd_foil": "15.98",
+          "usd_etched": null,
+          "eur": null,
+          "eur_foil": null,
+          "tix": "0.19"
+        },
+        "related_uris": {
+          "gatherer": "https://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=646348&printed=false",
+          "tcgplayer_infinite_articles": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&trafcat=tcgplayer.com%2Fsearch%2Farticles&u=https%3A%2F%2Fwww.tcgplayer.com%2Fsearch%2Farticles%3FproductLineName%3Dmagic%26q%3DCrypt%2BGhast",
+          "tcgplayer_infinite_decks": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&trafcat=tcgplayer.com%2Fsearch%2Fdecks&u=https%3A%2F%2Fwww.tcgplayer.com%2Fsearch%2Fdecks%3FproductLineName%3Dmagic%26q%3DCrypt%2BGhast",
+          "edhrec": "https://edhrec.com/route/?cc=Crypt+Ghast"
+        },
+        "purchase_uris": {
+          "tcgplayer": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&u=https%3A%2F%2Fwww.tcgplayer.com%2Fproduct%2F530798%3Fpage%3D1",
+          "cardmarket": "https://www.cardmarket.com/en/Magic/Products/Search?referrer=scryfall&searchString=Crypt+Ghast&utm_campaign=card_prices&utm_medium=text&utm_source=scryfall",
+          "cardhoarder": "https://www.cardhoarder.com/cards/120449?affiliate_id=scryfall&ref=card-profile&utm_campaign=affiliate&utm_medium=card&utm_source=scryfall"
+        },
+        "set_code": "rvr",
+        "set_size": 531,
+        "eur": "6.16",
+        "is_proxy": false,
+        "purchase_price": ""
       },
       {
         "id": "2a807243-fdcd-4dfb-b9d1-a15859a15c51",

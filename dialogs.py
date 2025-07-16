@@ -374,6 +374,53 @@ class VariantSelector(QDialog):
                     set_size = "?"
 
             collector_number = card.get("collector_number", "?")
+           # --- Erweiterung: Zeige Foil-Typ, Preise, Legalities ---
+            # Kompakter Info-Block für Scryfall-Felder
+            info_block = QVBoxLayout()
+            info_block.setSpacing(2)
+            info_widget_block = QWidget()
+            info_widget_block.setLayout(info_block)
+            info_widget_block.setMaximumWidth(320)
+
+            finishes = card.get('finishes', [])
+            finishes_str = ', '.join(finishes) if finishes else 'Unbekannt'
+            finishes_label = QLabel(f"Foil-Typ: {finishes_str}")
+            finishes_label.setStyleSheet("font-size: 14px; color: #cccccc;")
+            finishes_label.setWordWrap(True)
+            info_block.addWidget(finishes_label)
+
+            prices = card.get('prices', {})
+            price_strs = []
+            for k, v in prices.items():
+                if v:
+                    if k == 'eur':
+                        price_strs.append(f"EUR: {v} €")
+                    elif k == 'usd':
+                        price_strs.append(f"USD: {v} $")
+                    elif k == 'tix':
+                        price_strs.append(f"TIX: {v}")
+                    else:
+                        price_strs.append(f"{k}: {v}")
+            prices_label = QLabel("Preise: " + (" | ".join(price_strs) if price_strs else "Keine Preise"))
+            prices_label.setStyleSheet("font-size: 14px; color: #cccccc;")
+            prices_label.setWordWrap(True)
+            info_block.addWidget(prices_label)
+
+            legalities = card.get('legalities', {})
+            legal_formats = [fmt.capitalize() for fmt, status in legalities.items() if status == 'legal']
+            not_legal_formats = [fmt.capitalize() for fmt, status in legalities.items() if status != 'legal']
+            legalities_text = "Legal: " + (', '.join(legal_formats) if legal_formats else "Keine")
+            not_legalities_text = "Nicht Legal: " + (', '.join(not_legal_formats) if not_legal_formats else "Keine")
+            legalities_label = QLabel(legalities_text)
+            legalities_label.setStyleSheet("font-size: 13px; color: #4caf50; margin-bottom: 2px;")
+            legalities_label.setWordWrap(True)
+            info_block.addWidget(legalities_label)
+            not_legalities_label = QLabel(not_legalities_text)
+            not_legalities_label.setStyleSheet("font-size: 13px; color: #e53935; margin-bottom: 8px;")
+            not_legalities_label.setWordWrap(True)
+            info_block.addWidget(not_legalities_label)
+
+            info_layout.addWidget(info_widget_block)
             fin_prefix = set_code.upper()[:3] if set_code and set_code != "?" else "?"
             fin_info = f"{fin_prefix} {collector_number}/{set_size}"
             fin_label = QLabel(fin_info)

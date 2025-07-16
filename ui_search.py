@@ -209,7 +209,6 @@ class MTGDesktopManager(QWidget):
     def display_card(self, card):
         collections_file = "collections.json"
 
-
         def add_to_collection():
             current = self.current_card_data if hasattr(self, 'current_card_data') and self.current_card_data else card
             print(f"DEBUG: Card being added to collection: {current}")  # Debugging
@@ -228,13 +227,6 @@ class MTGDesktopManager(QWidget):
             proxy = proxy_checkbox.isChecked()
             # Sprache aus Dropdown
             lang_selected = language_selector.currentText().lower()
-
-            # Kaufwert aus Eingabefeld
-            kaufwert_str = purchase_edit.text().replace(",", ".").strip()
-            try:
-                kaufwert_float = float(kaufwert_str) if kaufwert_str else None
-            except Exception:
-                kaufwert_float = None
 
             # Immer das größte verfügbare Bild cachen (large > normal > small), egal ob Flipkarte oder nicht
             image_uris = None
@@ -309,26 +301,15 @@ class MTGDesktopManager(QWidget):
 
             # Preis bei Proxy immer 0
             eur_value = 0 if proxy else current.get("prices", {}).get("eur", 0)
-            new_entry = {
-                "id": current.get("id"),
-                "name": current.get("name"),
-                "set": current.get("set_name"),
-                "set_code": set_code,
-                "lang": lang_selected,
-                "is_proxy": proxy,
-                "eur": eur_value,
-                "image_url": best_image_url,
-                "count": 1,
-                "oracle_text": current.get("oracle_text"),
-                "mana_cost": current.get("mana_cost"),
-                "card_faces": current.get("card_faces"),
-                "collector_number": current.get("collector_number"),
-                "set_size": set_size,
-                "type_line": current.get("type_line", ""),
-                "prints_search_uri": current.get("prints_search_uri")  # NEU: Varianten-URL speichern
-            }
-            if kaufwert_float is not None:
-                new_entry["purchase_price"] = kaufwert_float
+            # Übernehme ALLE Felder aus Scryfall-Response
+            new_entry = dict(current)
+            # Ergänze/überschreibe lokale Felder
+            new_entry["lang"] = lang_selected
+            new_entry["is_proxy"] = proxy
+            new_entry["count"] = 1
+            new_entry["image_url"] = best_image_url
+            new_entry["eur"] = eur_value
+            new_entry["set_size"] = set_size
 
             print(f"DEBUG: New entry being added: {new_entry}")  # Debugging
             selected_collection["cards"].append(new_entry)
@@ -347,7 +328,24 @@ class MTGDesktopManager(QWidget):
         mana_cost = card.get('mana_cost', '')
         set_code = card.get('set_code') or card.get('set') or ''
         collector_number = card.get('collector_number', '')
-        set_size = card.get('set_size', '?')
+        set_size = card.get('set_size')
+        # Falls set_size fehlt, hole sie aus Scryfall
+        if not set_size:
+            set_code = card.get('set_code') or card.get('set') or ''
+            if set_code:
+                try:
+                    set_api_url = f"https://api.scryfall.com/sets/{set_code}"
+                    import requests
+                    resp = requests.get(set_api_url, timeout=3)
+                    if resp.status_code == 200:
+                        set_data = resp.json()
+                        set_size = set_data.get("card_count", "?")
+                    else:
+                        set_size = "?"
+                except Exception as e:
+                    set_size = "?"
+            else:
+                set_size = "?"
         set_code_disp = set_code.upper() if set_code else ''
         info_parts = []
         if mana_cost:
@@ -377,6 +375,58 @@ class MTGDesktopManager(QWidget):
         price.setStyleSheet("font-size: 20px; font-weight: bold; color: #ffd700; margin-bottom: 12px;")
         price.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
         self.result_area.addWidget(price)
+
+        # --- Erweiterung: Zeige Foil-Typ, Preise, Legalities ---
+        # Kompakter Info-Block für Scryfall-Felder
+        info_block = QVBoxLayout()
+        info_block.setSpacing(2)
+        info_widget_block = QWidget()
+        info_widget_block.setLayout(info_block)
+        info_widget_block.setMaximumWidth(420)
+
+        finishes = card.get('finishes', [])
+        finishes_str = ', '.join(finishes) if finishes else 'Unbekannt'
+        finishes_label = QLabel(f"Foil-Typ: {finishes_str}")
+        finishes_label.setStyleSheet("font-size: 14px; color: #cccccc; margin-bottom: 2px;")
+        finishes_label.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
+        finishes_label.setWordWrap(True)
+        info_block.addWidget(finishes_label)
+
+        prices = card.get('prices', {})
+        price_strs = []
+        for k, v in prices.items():
+            if v:
+                if k == 'eur':
+                    price_strs.append(f"EUR: {v} €")
+                elif k == 'usd':
+                    price_strs.append(f"USD: {v} $")
+                elif k == 'tix':
+                    price_strs.append(f"TIX: {v}")
+                else:
+                    price_strs.append(f"{k}: {v}")
+        prices_label = QLabel("Preise: " + (" | ".join(price_strs) if price_strs else "Keine Preise"))
+        prices_label.setStyleSheet("font-size: 14px; color: #cccccc; margin-bottom: 2px;")
+        prices_label.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
+        prices_label.setWordWrap(True)
+        info_block.addWidget(prices_label)
+
+        legalities = card.get('legalities', {})
+        legal_formats = [fmt.capitalize() for fmt, status in legalities.items() if status == 'legal']
+        not_legal_formats = [fmt.capitalize() for fmt, status in legalities.items() if status != 'legal']
+        legalities_text = "Legal: " + (', '.join(legal_formats) if legal_formats else "Keine")
+        not_legalities_text = "Nicht Legal: " + (', '.join(not_legal_formats) if not_legal_formats else "Keine")
+        legalities_label = QLabel(legalities_text)
+        legalities_label.setStyleSheet("font-size: 13px; color: #4caf50; margin-bottom: 2px;")
+        legalities_label.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
+        legalities_label.setWordWrap(True)
+        info_block.addWidget(legalities_label)
+        not_legalities_label = QLabel(not_legalities_text)
+        not_legalities_label.setStyleSheet("font-size: 13px; color: #e53935; margin-bottom: 8px;")
+        not_legalities_label.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
+        not_legalities_label.setWordWrap(True)
+        info_block.addWidget(not_legalities_label)
+
+        self.result_area.addWidget(info_widget_block)
 
         # Oracle-Text mit besserer Trennung für Flip-/DFC-Karten
         if "card_faces" in card and isinstance(card["card_faces"], list) and len(card["card_faces"]) > 1:
@@ -445,11 +495,6 @@ class MTGDesktopManager(QWidget):
         # Proxy-Checkbox größer machen
         proxy_checkbox = QCheckBox("Als Proxy")
         proxy_checkbox.setStyleSheet("font-size: 22px; min-height: 32px; min-width: 32px; padding: 8px 16px;")
-        # Kaufwert-Eingabefeld
-        from PyQt6.QtWidgets import QLineEdit
-        purchase_edit = QLineEdit()
-        purchase_edit.setPlaceholderText("Kaufwert (€)")
-        purchase_edit.setFixedWidth(100)
         add_button = QPushButton("Zur Sammlung hinzufügen")
         add_button.clicked.connect(add_to_collection)
 
@@ -463,7 +508,6 @@ class MTGDesktopManager(QWidget):
         control_row.addWidget(collection_selector)
         control_row.addWidget(language_selector)
         control_row.addWidget(proxy_checkbox)
-        control_row.addWidget(purchase_edit)
         control_row.addWidget(add_button)
 
         control_widget = QWidget()

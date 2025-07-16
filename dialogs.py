@@ -374,7 +374,8 @@ class VariantSelector(QDialog):
                     set_size = "?"
 
             collector_number = card.get("collector_number", "?")
-            fin_info = f"FIN {collector_number}/{set_size}"
+            fin_prefix = set_code.upper()[:3] if set_code and set_code != "?" else "?"
+            fin_info = f"{fin_prefix} {collector_number}/{set_size}"
             fin_label = QLabel(fin_info)
             fin_label.setStyleSheet("font-size: 14px; color: #cccccc;")
             info_layout.addWidget(fin_label)

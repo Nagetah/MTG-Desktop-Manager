@@ -303,6 +303,9 @@ class CollectionViewer(QWidget):
 
             def update_fields(new_card):
                 # Übernehme alle relevanten Felder, auch eur, set_size etc.
+                # Set-Code aus Scryfall übernehmen, falls vorhanden
+                if 'set' in new_card:
+                    new_card['set_code'] = new_card['set']
                 # set_size ggf. nachladen
                 if not new_card.get('set_size') and new_card.get('set_code'):
                     try:

@@ -344,8 +344,8 @@ class MTGDesktopManager(QWidget):
         # Kartenbild(er) links (Flipkarten-Bilder nebeneinander mit Mindestabstand)
         if "card_faces" in card:
             image_hbox = QHBoxLayout()
-            image_hbox.setSpacing(6)  # Kleinerer Abstand zwischen Flipkarten-Bildern
-            image_hbox.setContentsMargins(4, 0, 0, 0)  # Wenig Abstand zum linken Rand
+            image_hbox.setSpacing(0)  # Kein Abstand zwischen Flipkarten-Bildern
+            image_hbox.setContentsMargins(0, 0, 0, 0)  # Kein Abstand zum linken Rand
             for face in card["card_faces"]:
                 img_url = face.get("image_uris", {}).get("large")
                 img_path = get_cached_image(img_url, face.get('id')) if img_url else None
@@ -383,9 +383,9 @@ class MTGDesktopManager(QWidget):
 
         # Infos rechts
         info_col = QVBoxLayout()
-        info_col.setSpacing(0)
+        info_col.setSpacing(-1)  # Negativer Spacing für maximalen Abstandabbau
         name = QLabel(f"<b>{card['name']}</b>")
-        name.setStyleSheet("font-size: 26px; font-weight: bold; margin: 0 0 1px 0; line-height: 1;")
+        name.setStyleSheet("font-size: 26px; font-weight: bold; margin: 0 !important; line-height: 1 !important; padding: 0 !important;")
         name.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
         name.setWordWrap(True)
         name.setSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
@@ -427,7 +427,7 @@ class MTGDesktopManager(QWidget):
             info_parts.append(f"<span style='color:#b0b0b0;'>Nr: {collector_number}/{set_size}</span>")
         if info_parts:
             info_label = QLabel(" | ".join(info_parts))
-            info_label.setStyleSheet("font-size: 15px; margin: 0; line-height: 1;")
+            info_label.setStyleSheet("font-size: 15px; margin: 0 !important; line-height: 1 !important; padding: 0 !important;")
             info_label.setTextFormat(Qt.TextFormat.RichText)
             info_label.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
             info_label.setWordWrap(True)
@@ -437,13 +437,13 @@ class MTGDesktopManager(QWidget):
         set_name = card.get('set_name', '')
         if set_name:
             set_label = QLabel(f"Set-Name: {set_name}")
-            set_label.setStyleSheet("font-size: 15px; margin: 0; line-height: 1;")
+            set_label.setStyleSheet("font-size: 15px; margin: 0 !important; line-height: 1 !important; padding: 0 !important;")
             set_label.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
             set_label.setWordWrap(True)
             set_label.setSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
             info_col.addWidget(set_label)
         type_line = QLabel(f"Typ: {card.get('type_line', '-')}")
-        type_line.setStyleSheet("font-size: 15px; margin: 0; line-height: 1;")
+        type_line.setStyleSheet("font-size: 15px; margin: 0 !important; line-height: 1 !important; padding: 0 !important;")
         type_line.setWordWrap(True)
         type_line.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
         type_line.setSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
@@ -457,7 +457,7 @@ class MTGDesktopManager(QWidget):
         if variant == 'foil':
             price_text += " <span style='color:#ffd700; font-weight:bold;'>FOIL</span>"
         price = QLabel(price_text)
-        price.setStyleSheet("font-size: 16px; font-weight: bold; color: #ffd700; margin: 0; line-height: 1;")
+        price.setStyleSheet("font-size: 16px; font-weight: bold; color: #ffd700; margin: 0 !important; line-height: 1 !important; padding: 0 !important;")
         price.setTextFormat(Qt.TextFormat.RichText)
         price.setWordWrap(True)
         price.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
@@ -470,8 +470,7 @@ class MTGDesktopManager(QWidget):
         finishes = card.get('finishes', [])
         finishes_str = ', '.join(finishes) if finishes else 'Unbekannt'
         finishes_label = QLabel(f"Foil-Typ: {finishes_str}")
-        finishes_label.setStyleSheet("font-size: 13px; color: #cccccc; margin-bottom: 1px;")
-        finishes_label.setStyleSheet("font-size: 13px; color: #cccccc; margin: 0; line-height: 1;")
+        finishes_label.setStyleSheet("font-size: 13px; color: #cccccc; margin: 0 !important; line-height: 1 !important; padding: 0 !important;")
         finishes_label.setWordWrap(True)
         finishes_label.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
         finishes_label.setWordWrap(True)
@@ -495,7 +494,7 @@ class MTGDesktopManager(QWidget):
         if prices.get('tix'):
             price_strs.append(f"TIX: {prices['tix']}")
         prices_label = QLabel("Preise: " + (" | ".join(price_strs) if price_strs else "Keine Preise"))
-        prices_label.setStyleSheet("font-size: 13px; color: #cccccc; margin: 0; line-height: 1;")
+        prices_label.setStyleSheet("font-size: 13px; color: #cccccc; margin: 0 !important; line-height: 1 !important; padding: 0 !important;")
         prices_label.setWordWrap(True)
         prices_label.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
         info_block.addWidget(prices_label)
@@ -506,13 +505,13 @@ class MTGDesktopManager(QWidget):
         legalities_text = "Legal: " + (', '.join(legal_formats) if legal_formats else "Keine")
         not_legalities_text = "Nicht Legal: " + (', '.join(not_legal_formats) if not_legal_formats else "Keine")
         legalities_label = QLabel(legalities_text)
-        legalities_label.setStyleSheet("font-size: 12px; color: #4caf50; margin: 0; line-height: 1;")
+        legalities_label.setStyleSheet("font-size: 12px; color: #4caf50; margin: 0 !important; line-height: 1 !important; padding: 0 !important;")
         legalities_label.setWordWrap(True)
         legalities_label.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
         legalities_label.setSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
         info_block.addWidget(legalities_label)
         not_legalities_label = QLabel(not_legalities_text)
-        not_legalities_label.setStyleSheet("font-size: 12px; color: #e53935; margin: 0; line-height: 1;")
+        not_legalities_label.setStyleSheet("font-size: 12px; color: #e53935; margin: 0 !important; line-height: 1 !important; padding: 0 !important;")
         not_legalities_label.setWordWrap(True)
         not_legalities_label.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
         not_legalities_label.setSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
@@ -529,7 +528,7 @@ class MTGDesktopManager(QWidget):
                 face_name = face.get('name', '')
                 face_text = face.get('oracle_text', '')
                 face_label = QLabel(f"<b>{face_name}</b><br>{face_text}")
-                face_label.setStyleSheet("background-color: #2e2e2e; color: white; padding: 2px; border-radius: 4px; font-size:13px; margin:0; line-height: 1;")
+                face_label.setStyleSheet("background-color: #2e2e2e; color: white; padding: 2px !important; border-radius: 4px; font-size:13px; margin:0 !important; line-height: 1 !important;")
                 face_label.setWordWrap(True)
                 face_label.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
                 info_col.addWidget(face_label)
@@ -542,7 +541,7 @@ class MTGDesktopManager(QWidget):
         else:
             oracle_text = card.get("oracle_text", "Kein Text verfügbar")
             oracle_label = QLabel(oracle_text.strip())
-            oracle_label.setStyleSheet("background-color: #2e2e2e; color: white; padding: 2px; border-radius: 4px; font-size:13px; margin:0; line-height: 1;")
+            oracle_label.setStyleSheet("background-color: #2e2e2e; color: white; padding: 2px !important; border-radius: 4px; font-size:13px; margin:0 !important; line-height: 1 !important;")
             oracle_label.setWordWrap(True)
             oracle_label.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
             info_col.addWidget(oracle_label)

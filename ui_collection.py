@@ -437,8 +437,13 @@ class CollectionViewer(QWidget):
                 price_str = "0 €"
             else:
                 price_str = f"{eur} €" if eur not in (None, '', 'Nicht verfügbar', 0, '0') else "- €"
-            price_label = QLabel(f"| {price_str}")
+            # FOIL-Label, wenn Variante foil
+            foil_str = ""
+            if card.get('variant') == 'foil':
+                foil_str = " <span style='color:#ffd700; font-weight:bold;'>FOIL</span>"
+            price_label = QLabel(f"| {price_str}{foil_str}")
             price_label.setStyleSheet("font-size: 20px; font-weight: bold; color: #ffd700; margin-bottom: 2px; margin-left: 8px;")
+            price_label.setTextFormat(Qt.TextFormat.RichText)
             price_label.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
             name_price_row.addWidget(price_label)
             if purchase_price is not None:

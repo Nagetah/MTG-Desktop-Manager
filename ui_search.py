@@ -215,6 +215,7 @@ class MTGDesktopManager(QWidget):
         collections_file = "collections.json"
 
         def add_to_collection():
+            variant_key, variant_price = variant_selector.currentData()
             current = self.current_card_data if hasattr(self, 'current_card_data') and self.current_card_data else card
             print(f"DEBUG: Card being added to collection: {current}")  # Debugging
             if not os.path.exists(collections_file):
@@ -305,7 +306,11 @@ class MTGDesktopManager(QWidget):
                     best_image_url = image_uris
 
             # Preis bei Proxy immer 0
-            eur_value = 0 if proxy else current.get("prices", {}).get("eur", 0)
+            # Preis je nach Variante, bei Proxy immer 0
+            if proxy:
+                eur_value = 0
+            else:
+                eur_value = variant_price if variant_price is not None else 0
             # Übernehme ALLE Felder aus Scryfall-Response
             new_entry = dict(current)
             # Ergänze/überschreibe lokale Felder
@@ -315,6 +320,7 @@ class MTGDesktopManager(QWidget):
             new_entry["image_url"] = best_image_url
             new_entry["eur"] = eur_value
             new_entry["set_size"] = set_size
+            new_entry["variant"] = variant_key
 
             print(f"DEBUG: New entry being added: {new_entry}")  # Debugging
             selected_collection["cards"].append(new_entry)
@@ -423,8 +429,17 @@ class MTGDesktopManager(QWidget):
         type_line.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
         type_line.setSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
         info_col.addWidget(type_line)
-        price = QLabel(f"Preis (EUR): {card['prices'].get('eur', 'Nicht verfügbar')}")
+
+        # Preis-Anzeige mit FOIL-Label, wenn nötig
+        # Prüfe, ob das aktuelle Card-Objekt aus der Sammlung kommt (hat 'variant')
+        variant = card.get('variant', None)
+        eur_price = card.get('eur') if 'eur' in card else card.get('prices', {}).get('eur')
+        price_text = f"Preis (EUR): {eur_price if eur_price is not None else 'Nicht verfügbar'}"
+        if variant == 'foil':
+            price_text += " <span style='color:#ffd700; font-weight:bold;'>FOIL</span>"
+        price = QLabel(price_text)
         price.setStyleSheet("font-size: 16px; font-weight: bold; color: #ffd700; margin: 0; line-height: 1;")
+        price.setTextFormat(Qt.TextFormat.RichText)
         price.setWordWrap(True)
         price.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
         price.setSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
@@ -532,6 +547,19 @@ class MTGDesktopManager(QWidget):
         language_selector = QComboBox()
         language_selector.addItem("DE")
         language_selector.addItem("ENG")
+
+        # Variantendropdown (Foil/Nonfoil + Preis)
+        variant_selector = QComboBox()
+        variant_options = []
+        prices = card.get('prices', {})
+        if prices.get('eur'):
+            variant_options.append((f"Nonfoil ({prices['eur']} €)", 'nonfoil', prices['eur']))
+        if prices.get('eur_foil'):
+            variant_options.append((f"Foil ({prices['eur_foil']} €)", 'foil', prices['eur_foil']))
+        if not variant_options:
+            variant_options.append(("Nonfoil (Preis unbekannt)", 'nonfoil', None))
+        for label, key, price in variant_options:
+            variant_selector.addItem(label, (key, price))
         # Proxy-Checkbox größer machen
         proxy_checkbox = QCheckBox("Als Proxy")
         proxy_checkbox.setStyleSheet("font-size: 22px; min-height: 32px; min-width: 32px; padding: 8px 16px;")
@@ -547,6 +575,7 @@ class MTGDesktopManager(QWidget):
 
         control_row.addWidget(collection_selector)
         control_row.addWidget(language_selector)
+        control_row.addWidget(variant_selector)
         control_row.addWidget(proxy_checkbox)
         control_row.addWidget(add_button)
 

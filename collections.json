@@ -1281,6 +1281,441 @@
         "image_url": "https://cards.scryfall.io/large/front/7/d/7d60e0bc-1ce1-4b91-9952-16b394b5a348.jpg?1699044877",
         "eur": "6.31",
         "set_size": 416
+      },
+      {
+        "object": "card",
+        "id": "10d42b35-844f-4a64-9981-c6118d45e826",
+        "oracle_id": "87b22b09-4f6d-4bc5-9cfc-663e4c7c6981",
+        "multiverse_ids": [
+          627825
+        ],
+        "mtgo_id": 114951,
+        "tcgplayer_id": 484935,
+        "cardmarket_id": 721740,
+        "name": "The Ur-Dragon",
+        "lang": "de",
+        "released_at": "2023-08-04",
+        "uri": "https://api.scryfall.com/cards/10d42b35-844f-4a64-9981-c6118d45e826",
+        "scryfall_uri": "https://scryfall.com/card/cmm/361/the-ur-dragon?utm_source=api",
+        "layout": "normal",
+        "highres_image": true,
+        "image_status": "highres_scan",
+        "image_uris": {
+          "small": "https://cards.scryfall.io/small/front/1/0/10d42b35-844f-4a64-9981-c6118d45e826.jpg?1689999317",
+          "normal": "https://cards.scryfall.io/normal/front/1/0/10d42b35-844f-4a64-9981-c6118d45e826.jpg?1689999317",
+          "large": "https://cards.scryfall.io/large/front/1/0/10d42b35-844f-4a64-9981-c6118d45e826.jpg?1689999317",
+          "png": "https://cards.scryfall.io/png/front/1/0/10d42b35-844f-4a64-9981-c6118d45e826.png?1689999317",
+          "art_crop": "https://cards.scryfall.io/art_crop/front/1/0/10d42b35-844f-4a64-9981-c6118d45e826.jpg?1689999317",
+          "border_crop": "https://cards.scryfall.io/border_crop/front/1/0/10d42b35-844f-4a64-9981-c6118d45e826.jpg?1689999317"
+        },
+        "mana_cost": "{4}{W}{U}{B}{R}{G}",
+        "cmc": 9.0,
+        "type_line": "Legendary Creature — Dragon Avatar",
+        "oracle_text": "Eminence — As long as The Ur-Dragon is in the command zone or on the battlefield, other Dragon spells you cast cost {1} less to cast.\nFlying\nWhenever one or more Dragons you control attack, draw that many cards, then you may put a permanent card from your hand onto the battlefield.",
+        "power": "10",
+        "toughness": "10",
+        "colors": [
+          "B",
+          "G",
+          "R",
+          "U",
+          "W"
+        ],
+        "color_identity": [
+          "B",
+          "G",
+          "R",
+          "U",
+          "W"
+        ],
+        "keywords": [
+          "Flying",
+          "Eminence"
+        ],
+        "legalities": {
+          "standard": "not_legal",
+          "future": "not_legal",
+          "historic": "not_legal",
+          "timeless": "not_legal",
+          "gladiator": "not_legal",
+          "pioneer": "not_legal",
+          "modern": "not_legal",
+          "legacy": "legal",
+          "pauper": "not_legal",
+          "vintage": "legal",
+          "penny": "not_legal",
+          "commander": "legal",
+          "oathbreaker": "legal",
+          "standardbrawl": "not_legal",
+          "brawl": "not_legal",
+          "alchemy": "not_legal",
+          "paupercommander": "not_legal",
+          "duel": "legal",
+          "oldschool": "not_legal",
+          "premodern": "not_legal",
+          "predh": "not_legal"
+        },
+        "games": [
+          "paper",
+          "mtgo"
+        ],
+        "reserved": false,
+        "game_changer": false,
+        "foil": true,
+        "nonfoil": true,
+        "finishes": [
+          "nonfoil",
+          "foil"
+        ],
+        "oversized": false,
+        "promo": false,
+        "reprint": true,
+        "variation": false,
+        "set_id": "cd05036f-2698-43e6-a48e-5c8d82f0a551",
+        "set": "cmm",
+        "set_name": "Commander Masters",
+        "set_type": "masters",
+        "set_uri": "https://api.scryfall.com/sets/cd05036f-2698-43e6-a48e-5c8d82f0a551",
+        "set_search_uri": "https://api.scryfall.com/cards/search?order=set&q=e%3Acmm&unique=prints",
+        "scryfall_set_uri": "https://scryfall.com/sets/cmm?utm_source=api",
+        "rulings_uri": "https://api.scryfall.com/cards/10d42b35-844f-4a64-9981-c6118d45e826/rulings",
+        "prints_search_uri": "https://api.scryfall.com/cards/search?order=released&q=oracleid%3A87b22b09-4f6d-4bc5-9cfc-663e4c7c6981&unique=prints",
+        "collector_number": "361",
+        "digital": false,
+        "rarity": "mythic",
+        "card_back_id": "0aeebaf5-8c7d-4636-9e82-8c27447861f7",
+        "artist": "Jaime Jones",
+        "artist_ids": [
+          "92f6c2c1-fa57-4b52-99c4-0fd866c13dc9"
+        ],
+        "illustration_id": "2140b832-65cd-4eb7-9502-c98be1b6349e",
+        "border_color": "black",
+        "frame": "2015",
+        "frame_effects": [
+          "legendary"
+        ],
+        "security_stamp": "oval",
+        "full_art": false,
+        "textless": false,
+        "booster": true,
+        "story_spotlight": false,
+        "edhrec_rank": 2425,
+        "preview": {
+          "source": "Wizards of the Coast",
+          "source_uri": "https://magic.wizards.com/en/news/announcements/commander-masters-arrives-august-4-2023",
+          "previewed_at": "2023-02-21"
+        },
+        "prices": {
+          "usd": "43.68",
+          "usd_foil": "61.70",
+          "usd_etched": null,
+          "eur": "37.32",
+          "eur_foil": "47.48",
+          "tix": "0.39"
+        },
+        "related_uris": {
+          "gatherer": "https://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=627825&printed=false",
+          "tcgplayer_infinite_articles": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&trafcat=tcgplayer.com%2Fsearch%2Farticles&u=https%3A%2F%2Fwww.tcgplayer.com%2Fsearch%2Farticles%3FproductLineName%3Dmagic%26q%3DThe%2BUr-Dragon",
+          "tcgplayer_infinite_decks": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&trafcat=tcgplayer.com%2Fsearch%2Fdecks&u=https%3A%2F%2Fwww.tcgplayer.com%2Fsearch%2Fdecks%3FproductLineName%3Dmagic%26q%3DThe%2BUr-Dragon",
+          "edhrec": "https://edhrec.com/route/?cc=The+Ur-Dragon"
+        },
+        "purchase_uris": {
+          "tcgplayer": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&u=https%3A%2F%2Fwww.tcgplayer.com%2Fproduct%2F484935%3Fpage%3D1",
+          "cardmarket": "https://www.cardmarket.com/en/Magic/Products?idProduct=721740&referrer=scryfall&utm_campaign=card_prices&utm_medium=text&utm_source=scryfall",
+          "cardhoarder": "https://www.cardhoarder.com/cards/114951?affiliate_id=scryfall&ref=card-profile&utm_campaign=affiliate&utm_medium=card&utm_source=scryfall"
+        },
+        "is_proxy": false,
+        "count": 1,
+        "image_url": "https://cards.scryfall.io/large/front/1/0/10d42b35-844f-4a64-9981-c6118d45e826.jpg?1689999317",
+        "eur": "37.32",
+        "set_size": 1067,
+        "variant": "nonfoil"
+      },
+      {
+        "object": "card",
+        "id": "10d42b35-844f-4a64-9981-c6118d45e826",
+        "oracle_id": "87b22b09-4f6d-4bc5-9cfc-663e4c7c6981",
+        "multiverse_ids": [
+          627825
+        ],
+        "mtgo_id": 114951,
+        "tcgplayer_id": 484935,
+        "cardmarket_id": 721740,
+        "name": "The Ur-Dragon",
+        "lang": "de",
+        "released_at": "2023-08-04",
+        "uri": "https://api.scryfall.com/cards/10d42b35-844f-4a64-9981-c6118d45e826",
+        "scryfall_uri": "https://scryfall.com/card/cmm/361/the-ur-dragon?utm_source=api",
+        "layout": "normal",
+        "highres_image": true,
+        "image_status": "highres_scan",
+        "image_uris": {
+          "small": "https://cards.scryfall.io/small/front/1/0/10d42b35-844f-4a64-9981-c6118d45e826.jpg?1689999317",
+          "normal": "https://cards.scryfall.io/normal/front/1/0/10d42b35-844f-4a64-9981-c6118d45e826.jpg?1689999317",
+          "large": "https://cards.scryfall.io/large/front/1/0/10d42b35-844f-4a64-9981-c6118d45e826.jpg?1689999317",
+          "png": "https://cards.scryfall.io/png/front/1/0/10d42b35-844f-4a64-9981-c6118d45e826.png?1689999317",
+          "art_crop": "https://cards.scryfall.io/art_crop/front/1/0/10d42b35-844f-4a64-9981-c6118d45e826.jpg?1689999317",
+          "border_crop": "https://cards.scryfall.io/border_crop/front/1/0/10d42b35-844f-4a64-9981-c6118d45e826.jpg?1689999317"
+        },
+        "mana_cost": "{4}{W}{U}{B}{R}{G}",
+        "cmc": 9.0,
+        "type_line": "Legendary Creature — Dragon Avatar",
+        "oracle_text": "Eminence — As long as The Ur-Dragon is in the command zone or on the battlefield, other Dragon spells you cast cost {1} less to cast.\nFlying\nWhenever one or more Dragons you control attack, draw that many cards, then you may put a permanent card from your hand onto the battlefield.",
+        "power": "10",
+        "toughness": "10",
+        "colors": [
+          "B",
+          "G",
+          "R",
+          "U",
+          "W"
+        ],
+        "color_identity": [
+          "B",
+          "G",
+          "R",
+          "U",
+          "W"
+        ],
+        "keywords": [
+          "Flying",
+          "Eminence"
+        ],
+        "legalities": {
+          "standard": "not_legal",
+          "future": "not_legal",
+          "historic": "not_legal",
+          "timeless": "not_legal",
+          "gladiator": "not_legal",
+          "pioneer": "not_legal",
+          "modern": "not_legal",
+          "legacy": "legal",
+          "pauper": "not_legal",
+          "vintage": "legal",
+          "penny": "not_legal",
+          "commander": "legal",
+          "oathbreaker": "legal",
+          "standardbrawl": "not_legal",
+          "brawl": "not_legal",
+          "alchemy": "not_legal",
+          "paupercommander": "not_legal",
+          "duel": "legal",
+          "oldschool": "not_legal",
+          "premodern": "not_legal",
+          "predh": "not_legal"
+        },
+        "games": [
+          "paper",
+          "mtgo"
+        ],
+        "reserved": false,
+        "game_changer": false,
+        "foil": true,
+        "nonfoil": true,
+        "finishes": [
+          "nonfoil",
+          "foil"
+        ],
+        "oversized": false,
+        "promo": false,
+        "reprint": true,
+        "variation": false,
+        "set_id": "cd05036f-2698-43e6-a48e-5c8d82f0a551",
+        "set": "cmm",
+        "set_name": "Commander Masters",
+        "set_type": "masters",
+        "set_uri": "https://api.scryfall.com/sets/cd05036f-2698-43e6-a48e-5c8d82f0a551",
+        "set_search_uri": "https://api.scryfall.com/cards/search?order=set&q=e%3Acmm&unique=prints",
+        "scryfall_set_uri": "https://scryfall.com/sets/cmm?utm_source=api",
+        "rulings_uri": "https://api.scryfall.com/cards/10d42b35-844f-4a64-9981-c6118d45e826/rulings",
+        "prints_search_uri": "https://api.scryfall.com/cards/search?order=released&q=oracleid%3A87b22b09-4f6d-4bc5-9cfc-663e4c7c6981&unique=prints",
+        "collector_number": "361",
+        "digital": false,
+        "rarity": "mythic",
+        "card_back_id": "0aeebaf5-8c7d-4636-9e82-8c27447861f7",
+        "artist": "Jaime Jones",
+        "artist_ids": [
+          "92f6c2c1-fa57-4b52-99c4-0fd866c13dc9"
+        ],
+        "illustration_id": "2140b832-65cd-4eb7-9502-c98be1b6349e",
+        "border_color": "black",
+        "frame": "2015",
+        "frame_effects": [
+          "legendary"
+        ],
+        "security_stamp": "oval",
+        "full_art": false,
+        "textless": false,
+        "booster": true,
+        "story_spotlight": false,
+        "edhrec_rank": 2425,
+        "preview": {
+          "source": "Wizards of the Coast",
+          "source_uri": "https://magic.wizards.com/en/news/announcements/commander-masters-arrives-august-4-2023",
+          "previewed_at": "2023-02-21"
+        },
+        "prices": {
+          "usd": "43.68",
+          "usd_foil": "61.70",
+          "usd_etched": null,
+          "eur": "37.32",
+          "eur_foil": "47.48",
+          "tix": "0.39"
+        },
+        "related_uris": {
+          "gatherer": "https://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=627825&printed=false",
+          "tcgplayer_infinite_articles": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&trafcat=tcgplayer.com%2Fsearch%2Farticles&u=https%3A%2F%2Fwww.tcgplayer.com%2Fsearch%2Farticles%3FproductLineName%3Dmagic%26q%3DThe%2BUr-Dragon",
+          "tcgplayer_infinite_decks": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&trafcat=tcgplayer.com%2Fsearch%2Fdecks&u=https%3A%2F%2Fwww.tcgplayer.com%2Fsearch%2Fdecks%3FproductLineName%3Dmagic%26q%3DThe%2BUr-Dragon",
+          "edhrec": "https://edhrec.com/route/?cc=The+Ur-Dragon"
+        },
+        "purchase_uris": {
+          "tcgplayer": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&u=https%3A%2F%2Fwww.tcgplayer.com%2Fproduct%2F484935%3Fpage%3D1",
+          "cardmarket": "https://www.cardmarket.com/en/Magic/Products?idProduct=721740&referrer=scryfall&utm_campaign=card_prices&utm_medium=text&utm_source=scryfall",
+          "cardhoarder": "https://www.cardhoarder.com/cards/114951?affiliate_id=scryfall&ref=card-profile&utm_campaign=affiliate&utm_medium=card&utm_source=scryfall"
+        },
+        "is_proxy": false,
+        "count": 1,
+        "image_url": "https://cards.scryfall.io/large/front/1/0/10d42b35-844f-4a64-9981-c6118d45e826.jpg?1689999317",
+        "eur": "47.48",
+        "set_size": 1067,
+        "variant": "foil"
+      },
+      {
+        "object": "card",
+        "id": "5aa02b7d-db31-4924-b75e-eb02f332ca3a",
+        "oracle_id": "afaef788-34d1-460b-b884-9d7ae6ddeb18",
+        "multiverse_ids": [
+          664056
+        ],
+        "mtgo_id": 125965,
+        "arena_id": 91103,
+        "tcgplayer_id": 552728,
+        "cardmarket_id": 771817,
+        "name": "Toxic Deluge",
+        "lang": "de",
+        "released_at": "2024-06-14",
+        "uri": "https://api.scryfall.com/cards/5aa02b7d-db31-4924-b75e-eb02f332ca3a",
+        "scryfall_uri": "https://scryfall.com/card/mh3/277/toxic-deluge?utm_source=api",
+        "layout": "normal",
+        "highres_image": true,
+        "image_status": "highres_scan",
+        "image_uris": {
+          "small": "https://cards.scryfall.io/small/front/5/a/5aa02b7d-db31-4924-b75e-eb02f332ca3a.jpg?1717013647",
+          "normal": "https://cards.scryfall.io/normal/front/5/a/5aa02b7d-db31-4924-b75e-eb02f332ca3a.jpg?1717013647",
+          "large": "https://cards.scryfall.io/large/front/5/a/5aa02b7d-db31-4924-b75e-eb02f332ca3a.jpg?1717013647",
+          "png": "https://cards.scryfall.io/png/front/5/a/5aa02b7d-db31-4924-b75e-eb02f332ca3a.png?1717013647",
+          "art_crop": "https://cards.scryfall.io/art_crop/front/5/a/5aa02b7d-db31-4924-b75e-eb02f332ca3a.jpg?1717013647",
+          "border_crop": "https://cards.scryfall.io/border_crop/front/5/a/5aa02b7d-db31-4924-b75e-eb02f332ca3a.jpg?1717013647"
+        },
+        "mana_cost": "{2}{B}",
+        "cmc": 3.0,
+        "type_line": "Sorcery",
+        "oracle_text": "As an additional cost to cast this spell, pay X life.\nAll creatures get -X/-X until end of turn.",
+        "colors": [
+          "B"
+        ],
+        "color_identity": [
+          "B"
+        ],
+        "keywords": [],
+        "legalities": {
+          "standard": "not_legal",
+          "future": "not_legal",
+          "historic": "legal",
+          "timeless": "legal",
+          "gladiator": "legal",
+          "pioneer": "not_legal",
+          "modern": "legal",
+          "legacy": "legal",
+          "pauper": "not_legal",
+          "vintage": "legal",
+          "penny": "not_legal",
+          "commander": "legal",
+          "oathbreaker": "legal",
+          "standardbrawl": "not_legal",
+          "brawl": "legal",
+          "alchemy": "not_legal",
+          "paupercommander": "not_legal",
+          "duel": "legal",
+          "oldschool": "not_legal",
+          "premodern": "not_legal",
+          "predh": "not_legal"
+        },
+        "games": [
+          "paper",
+          "mtgo",
+          "arena"
+        ],
+        "reserved": false,
+        "game_changer": false,
+        "foil": true,
+        "nonfoil": true,
+        "finishes": [
+          "nonfoil",
+          "foil"
+        ],
+        "oversized": false,
+        "promo": false,
+        "reprint": true,
+        "variation": false,
+        "set_id": "3ed80bb6-77e8-4aa7-8262-95377a38aba1",
+        "set": "mh3",
+        "set_name": "Modern Horizons 3",
+        "set_type": "draft_innovation",
+        "set_uri": "https://api.scryfall.com/sets/3ed80bb6-77e8-4aa7-8262-95377a38aba1",
+        "set_search_uri": "https://api.scryfall.com/cards/search?order=set&q=e%3Amh3&unique=prints",
+        "scryfall_set_uri": "https://scryfall.com/sets/mh3?utm_source=api",
+        "rulings_uri": "https://api.scryfall.com/cards/5aa02b7d-db31-4924-b75e-eb02f332ca3a/rulings",
+        "prints_search_uri": "https://api.scryfall.com/cards/search?order=released&q=oracleid%3Aafaef788-34d1-460b-b884-9d7ae6ddeb18&unique=prints",
+        "collector_number": "277",
+        "digital": false,
+        "rarity": "rare",
+        "watermark": "set",
+        "flavor_text": "\"It's a difficult task to quarantine a plague that moves with the clouds.\"\n—Esara, healer adept",
+        "card_back_id": "0aeebaf5-8c7d-4636-9e82-8c27447861f7",
+        "artist": "Svetlin Velinov",
+        "artist_ids": [
+          "ffd063ae-c097-4f26-b2e6-b1e2137708bc"
+        ],
+        "illustration_id": "4951cae4-b597-4449-bea0-1de81980f568",
+        "border_color": "black",
+        "frame": "2015",
+        "security_stamp": "oval",
+        "full_art": false,
+        "textless": false,
+        "booster": true,
+        "story_spotlight": false,
+        "edhrec_rank": 63,
+        "preview": {
+          "source": "MagicBlogs",
+          "source_uri": "https://www.youtube.com/watch?v=ECVCLcUy11Y",
+          "previewed_at": "2024-05-23"
+        },
+        "prices": {
+          "usd": "5.81",
+          "usd_foil": "5.70",
+          "usd_etched": null,
+          "eur": "6.27",
+          "eur_foil": "7.27",
+          "tix": "0.25"
+        },
+        "related_uris": {
+          "gatherer": "https://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=664056&printed=false",
+          "tcgplayer_infinite_articles": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&trafcat=tcgplayer.com%2Fsearch%2Farticles&u=https%3A%2F%2Fwww.tcgplayer.com%2Fsearch%2Farticles%3FproductLineName%3Dmagic%26q%3DToxic%2BDeluge",
+          "tcgplayer_infinite_decks": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&trafcat=tcgplayer.com%2Fsearch%2Fdecks&u=https%3A%2F%2Fwww.tcgplayer.com%2Fsearch%2Fdecks%3FproductLineName%3Dmagic%26q%3DToxic%2BDeluge",
+          "edhrec": "https://edhrec.com/route/?cc=Toxic+Deluge"
+        },
+        "purchase_uris": {
+          "tcgplayer": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&u=https%3A%2F%2Fwww.tcgplayer.com%2Fproduct%2F552728%3Fpage%3D1",
+          "cardmarket": "https://www.cardmarket.com/en/Magic/Products?idProduct=771817&referrer=scryfall&utm_campaign=card_prices&utm_medium=text&utm_source=scryfall",
+          "cardhoarder": "https://www.cardhoarder.com/cards/125965?affiliate_id=scryfall&ref=card-profile&utm_campaign=affiliate&utm_medium=card&utm_source=scryfall"
+        },
+        "is_proxy": false,
+        "count": 1,
+        "image_url": "https://cards.scryfall.io/large/front/5/a/5aa02b7d-db31-4924-b75e-eb02f332ca3a.jpg?1717013647",
+        "eur": "7.27",
+        "set_size": 528,
+        "variant": "foil"
       }
     ],
     "color": "#0000ff"

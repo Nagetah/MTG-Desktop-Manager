@@ -561,13 +561,19 @@ class MTGDesktopManager(QWidget):
         # Sammlung hinzufügen UI
 
         control_row = QHBoxLayout()
+        # Sammlung Dropdown (breiter)
         collection_selector = QComboBox()
-        # Sprachauswahl (Dropdown)
+        collection_selector.setFixedWidth(170)
+        collection_selector.setStyleSheet("QComboBox { font-size: 18px; font-weight: 600; min-width: 120px; max-width: 170px; padding: 8px 18px 8px 14px; border-radius: 8px; } QComboBox QAbstractItemView { font-size: 18px; }")
+
+        # Sprachauswahl (Dropdown, schmaler)
         language_selector = QComboBox()
         language_selector.addItem("DE")
         language_selector.addItem("ENG")
+        language_selector.setFixedWidth(80)
+        language_selector.setStyleSheet("QComboBox { font-size: 18px; font-weight: 600; min-width: 60px; max-width: 80px; padding: 8px 12px 8px 10px; border-radius: 8px; } QComboBox QAbstractItemView { font-size: 18px; }")
 
-        # Variantendropdown (Foil/Nonfoil + Preis)
+        # Variantendropdown (Foil/Nonfoil + Preis, breiter)
         variant_selector = QComboBox()
         variant_options = []
         prices = card.get('prices', {})
@@ -579,15 +585,19 @@ class MTGDesktopManager(QWidget):
             variant_options.append(("Nonfoil (Preis unbekannt)", 'nonfoil', None))
         for label, key, price in variant_options:
             variant_selector.addItem(label, (key, price))
-        # Proxy-Checkbox größer machen
-        proxy_checkbox = QCheckBox("Als Proxy")
+        variant_selector.setFixedWidth(170)
+        variant_selector.setStyleSheet("QComboBox { font-size: 18px; font-weight: 600; min-width: 120px; max-width: 170px; padding: 8px 18px 8px 14px; border-radius: 8px; } QComboBox QAbstractItemView { font-size: 18px; }")
+
+        # Proxy-Checkbox
         proxy_checkbox = QCheckBox("Proxy")
+        proxy_checkbox.setFixedWidth(100)
         proxy_checkbox.setStyleSheet('''
             QCheckBox {
-                font-size: 19px;
+                font-size: 18px;
                 min-height: 38px;
-                min-width: 140px;
-                padding: 8px 28px;
+                min-width: 100px;
+                max-width: 100px;
+                padding: 8px 10px;
                 color: white;
                 background-color: #222;
                 border: 1.5px solid #444;
@@ -616,24 +626,55 @@ class MTGDesktopManager(QWidget):
             }
         ''')
 
-
-        # --- Kaufpreisfeld mit Label direkt nebeneinander, ohne extra Widget ---
-        # Label und Eingabefeld in ein eigenes HBox-Layout für perfekten Abstand
+        # --- Kaufpreis Label + Eingabefeld: Label normal, Eingabebox mit grauem Rahmen, kleiner und mehr Abstand ---
         purchase_price_row = QHBoxLayout()
-        purchase_price_row.setSpacing(0)
-        purchase_price_row.setContentsMargins(0,0,0,0)
+        purchase_price_row.setContentsMargins(0, 0, 0, 0)
+        purchase_price_row.setSpacing(8)
         purchase_price_label = QLabel("Kaufpreis:")
-        purchase_price_label.setStyleSheet("font-size: 16px; margin: 0 !important; padding: 0 !important;")
+        purchase_price_label.setStyleSheet("font-size: 18px; font-weight: 600; color: #cccccc; margin-right: 2px;")
+        # Eingabebox in eigenem kleinen Rahmen
+        purchase_price_inner_frame = QFrame()
+        purchase_price_inner_frame.setFrameShape(QFrame.Shape.StyledPanel)
+        purchase_price_inner_frame.setStyleSheet("QFrame { border: 1.5px solid #888; border-radius: 6px; background: #232323; }")
+        purchase_price_inner_hbox = QHBoxLayout()
+        purchase_price_inner_hbox.setContentsMargins(6, 2, 6, 2)
+        purchase_price_inner_hbox.setSpacing(0)
         purchase_price_edit = QLineEdit()
         purchase_price_edit.setPlaceholderText("z.B. 2.50")
-        purchase_price_edit.setFixedWidth(70)
-        purchase_price_edit.setStyleSheet("margin: 0 !important; padding-left: 4px !important; padding-right: 0 !important;")
+        purchase_price_edit.setFixedWidth(90)
+        purchase_price_edit.setStyleSheet("QLineEdit { font-size: 18px; font-weight: 600; border: none; background: transparent; color: #cccccc; min-width: 0; max-width: 90px; padding: 0 0; }")
+        purchase_price_inner_hbox.addWidget(purchase_price_edit)
+        purchase_price_inner_frame.setLayout(purchase_price_inner_hbox)
+        purchase_price_inner_frame.setFixedHeight(32)
         purchase_price_row.addWidget(purchase_price_label)
-        purchase_price_row.addWidget(purchase_price_edit)
+        purchase_price_row.addWidget(purchase_price_inner_frame)
+        purchase_price_row.addSpacing(2)
         purchase_price_widget = QWidget()
         purchase_price_widget.setLayout(purchase_price_row)
+        purchase_price_widget.setContentsMargins(0, 8, 0, 8)
+        purchase_price_widget.setStyleSheet("")
 
-        add_button = QPushButton("Zur Sammlung hinzufügen")
+        # Hinzufügen Button
+        add_button = QPushButton("Hinzufügen")
+        add_button.setStyleSheet('''
+            QPushButton {
+                background-color: #4caf50;
+                color: white;
+                border: 1.5px solid #4caf50;
+                border-radius: 8px;
+                padding: 8px 24px;
+                font-size: 18px;
+                font-weight: 600;
+                min-width: 100px;
+                min-height: 38px;
+            }
+            QPushButton:hover {
+                background-color: #43a047;
+            }
+            QPushButton:pressed {
+                background-color: #388e3c;
+            }
+        ''')
         add_button.clicked.connect(add_to_collection)
 
         # Sammlungen laden
@@ -642,7 +683,6 @@ class MTGDesktopManager(QWidget):
                 collections = json.load(f)
                 for c in collections:
                     collection_selector.addItem(c["name"])
-
 
         control_row.addWidget(collection_selector)
         control_row.addWidget(language_selector)

@@ -26,6 +26,7 @@ class MTGDesktopManager(QWidget):
     def init_ui(self):
         top_bar = QHBoxLayout()
         back_button = QPushButton("← Hauptmenü")
+        back_button.setStyleSheet("font-size: 18px; font-weight: 600; padding: 8px 24px;")
         back_button.clicked.connect(self.return_to_menu)
         top_bar.addWidget(back_button)
         layout = QVBoxLayout()
@@ -34,15 +35,17 @@ class MTGDesktopManager(QWidget):
         search_layout = QHBoxLayout()
         self.search_input = QLineEdit()
         self.search_input.setPlaceholderText("Kartennamen eingeben (auch Teil möglich)...")
-        self.search_input.setStyleSheet("background-color: #2e2e2e; color: white; padding: 5px;")
+        self.search_input.setStyleSheet("background-color: #2e2e2e; color: white; padding: 7px; font-size: 18px; font-weight: 600;")
         self.search_input.returnPressed.connect(self.search_card)
         search_layout.addWidget(self.search_input)
 
         search_button = QPushButton("Suchen")
+        search_button.setStyleSheet("font-size: 18px; font-weight: 600; padding: 8px 24px;")
         search_button.clicked.connect(self.search_card)
         search_layout.addWidget(search_button)
 
         reset_button = QPushButton("Zurücksetzen")
+        reset_button.setStyleSheet("font-size: 18px; font-weight: 600; padding: 8px 24px;")
         reset_button.clicked.connect(self.clear_all)
         search_layout.addWidget(reset_button)
 
@@ -52,11 +55,13 @@ class MTGDesktopManager(QWidget):
         # Button-Zeile für Sprache/Variante
         button_row = QHBoxLayout()
         self.language_toggle_button = QPushButton("Karte auf Deutsch anzeigen")
+        self.language_toggle_button.setStyleSheet("font-size: 18px; font-weight: 600; padding: 8px 24px;")
         self.language_toggle_button.setVisible(False)
         self.language_toggle_button.clicked.connect(self.toggle_card_language)
         button_row.addWidget(self.language_toggle_button)
 
         self.variant_button = QPushButton("Alle Varianten anzeigen")
+        self.variant_button.setStyleSheet("font-size: 18px; font-weight: 600; padding: 8px 24px;")
         self.variant_button.setVisible(False)
         self.variant_button.clicked.connect(self.show_variants)
         button_row.addWidget(self.variant_button)

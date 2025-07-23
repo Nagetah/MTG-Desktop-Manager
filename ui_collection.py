@@ -264,13 +264,49 @@ class CollectionViewer(QWidget):
             lang_row.addWidget(lang_combo)
             layout.addLayout(lang_row)
 
-            # --- Proxy-Status ---
-            proxy_row = QHBoxLayout()
-            proxy_label = QLabel("Proxy:")
-            proxy_checkbox = QCheckBox()
+            # --- Proxy-Status (exakt wie Optionsleiste in ui_search.py) ---
+            proxy_checkbox = QCheckBox("Proxy")
             proxy_checkbox.setChecked(bool(card_obj.get("is_proxy")))
-            proxy_row.addWidget(proxy_label)
+            proxy_checkbox.setFixedWidth(100)
+            proxy_checkbox.setStyleSheet('''
+                QCheckBox {
+                    font-size: 18px;
+                    min-height: 38px;
+                    min-width: 100px;
+                    max-width: 100px;
+                    padding: 8px 10px;
+                    color: white;
+                    background-color: #222;
+                    border: 1.5px solid #444;
+                    border-radius: 8px;
+                    font-weight: 600;
+                    letter-spacing: 0.5px;
+                }
+                QCheckBox:hover {
+                    background-color: #333;
+                    border: 1.5px solid #888;
+                }
+                QCheckBox:checked {
+                    background-color: #262a36;
+                    border: 1.5px solid #0078d7;
+                }
+                QCheckBox::indicator {
+                    width: 22px;
+                    height: 22px;
+                    border-radius: 4px;
+                    border: 1.5px solid #444;
+                    background: #232323;
+                }
+                QCheckBox::indicator:checked {
+                    background: #0078d7;
+                    border: 1.5px solid #0078d7;
+                }
+            ''')
+            proxy_row = QHBoxLayout()
+            proxy_row.setContentsMargins(0,0,0,0)
+            proxy_row.setSpacing(0)
             proxy_row.addWidget(proxy_checkbox)
+            proxy_row.addStretch(1)
             layout.addLayout(proxy_row)
 
             # --- Kaufpreis ---
@@ -292,7 +328,29 @@ class CollectionViewer(QWidget):
 
             # --- Speichern-Button ---
             save_btn = QPushButton("Speichern")
-            save_btn.setStyleSheet("font-size: 18px; padding: 8px 24px; margin-top: 18px;")
+            save_btn.setStyleSheet('''
+                QPushButton {
+                    background-color: #4caf50;
+                    color: white;
+                    border: 1.5px solid #388e3c;
+                    border-radius: 8px;
+                    padding: 8px 24px;
+                    min-width: 100px;
+                    min-height: 38px;
+                    font-size: 18px;
+                    font-weight: 600;
+                    margin-top: 18px;
+                    letter-spacing: 0.5px;
+                }
+                QPushButton:hover {
+                    background-color: #43a047;
+                    border: 1.5px solid #66bb6a;
+                }
+                QPushButton:pressed {
+                    background-color: #388e3c;
+                    border: 1.5px solid #2e7031;
+                }
+            ''')
             layout.addWidget(save_btn)
 
             edit_dialog.setLayout(layout)

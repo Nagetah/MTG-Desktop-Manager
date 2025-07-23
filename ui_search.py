@@ -560,6 +560,9 @@ class MTGDesktopManager(QWidget):
 
         # Sammlung hinzufügen UI
 
+        # --- Optionsleiste mittig zentrieren ---
+        outer_center_row = QHBoxLayout()
+        outer_center_row.addStretch(1)
         control_row = QHBoxLayout()
         # Sammlung Dropdown (breiter)
         collection_selector = QComboBox()
@@ -690,8 +693,12 @@ class MTGDesktopManager(QWidget):
         control_row.addWidget(proxy_checkbox)
         control_row.addWidget(purchase_price_widget)
         control_row.addWidget(add_button)
-        control_row.addStretch(1)
+        # Kein Stretch im inneren Layout, damit Controls kompakt bleiben
 
         control_widget = QWidget()
         control_widget.setLayout(control_row)
-        self.result_area.addWidget(control_widget)
+        outer_center_row.addWidget(control_widget)
+        outer_center_row.addStretch(1)
+        outer_center_widget = QWidget()
+        outer_center_widget.setLayout(outer_center_row)
+        self.result_area.addWidget(outer_center_widget)

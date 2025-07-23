@@ -347,10 +347,10 @@ class MTGDesktopManager(QWidget):
         # --- NEU: Karte und Infos nebeneinander ---
         card_info_row = QHBoxLayout()
         # Kartenbild(er) links (Flipkarten-Bilder nebeneinander mit Mindestabstand)
+        image_hbox = QHBoxLayout()
+        image_hbox.setSpacing(0)
+        image_hbox.setContentsMargins(0, 0, 0, 0)
         if "card_faces" in card:
-            image_hbox = QHBoxLayout()
-            image_hbox.setSpacing(0)  # Kein Abstand zwischen Flipkarten-Bildern
-            image_hbox.setContentsMargins(0, 0, 0, 0)  # Kein Abstand zum linken Rand
             for face in card["card_faces"]:
                 img_url = face.get("image_uris", {}).get("large")
                 img_path = get_cached_image(img_url, face.get('id')) if img_url else None
@@ -363,13 +363,7 @@ class MTGDesktopManager(QWidget):
                 if not (img_path and os.path.exists(img_path)):
                     label.setText("Kein Bild")
                 image_hbox.addWidget(label)
-            image_widget = QWidget()
-            image_widget.setLayout(image_hbox)
-            image_widget.setSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Preferred)
-            card_info_row.addWidget(image_widget, 0)
         else:
-            image_row = QVBoxLayout()
-            image_row.setAlignment(Qt.AlignmentFlag.AlignTop)
             img_url = card.get("image_uris", {}).get("large")
             img_path = get_cached_image(img_url, card.get('id')) if img_url else None
             label = QLabel()
@@ -380,11 +374,11 @@ class MTGDesktopManager(QWidget):
             label.setAlignment(Qt.AlignmentFlag.AlignHCenter)
             if not (img_path and os.path.exists(img_path)):
                 label.setText("Kein Bild")
-            image_row.addWidget(label)
-            image_widget = QWidget()
-            image_widget.setLayout(image_row)
-            image_widget.setSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Preferred)
-            card_info_row.addWidget(image_widget, 0)
+            image_hbox.addWidget(label)
+        image_widget = QWidget()
+        image_widget.setLayout(image_hbox)
+        image_widget.setSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Preferred)
+        card_info_row.addWidget(image_widget, 0)
 
         # Infos rechts
         info_col = QVBoxLayout()

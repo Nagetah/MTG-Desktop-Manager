@@ -48,15 +48,20 @@ class MTGDesktopManager(QWidget):
 
         layout.addLayout(search_layout)
 
+
+        # Button-Zeile für Sprache/Variante
+        button_row = QHBoxLayout()
         self.language_toggle_button = QPushButton("Karte auf Deutsch anzeigen")
         self.language_toggle_button.setVisible(False)
         self.language_toggle_button.clicked.connect(self.toggle_card_language)
-        layout.addWidget(self.language_toggle_button)
+        button_row.addWidget(self.language_toggle_button)
 
         self.variant_button = QPushButton("Alle Varianten anzeigen")
         self.variant_button.setVisible(False)
         self.variant_button.clicked.connect(self.show_variants)
-        layout.addWidget(self.variant_button)
+        button_row.addWidget(self.variant_button)
+        button_row.addStretch(1)
+        layout.addLayout(button_row)
 
         scroll = QScrollArea()
         scroll.setWidgetResizable(True)
@@ -320,10 +325,47 @@ class MTGDesktopManager(QWidget):
 
         self.clear_result_area()
 
+        # (Kartenname und Infozeile außerhalb des Frames entfernt)
+        # Set-Name ausgeschrieben immer anzeigen
+
+        # --- NEU: Karte und Infos nebeneinander ---
+        card_info_row = QHBoxLayout()
+        # Kartenbild(er) links
+        image_row = QVBoxLayout()
+        image_row.setAlignment(Qt.AlignmentFlag.AlignTop)
+        if "card_faces" in card:
+            for face in card["card_faces"]:
+                img_url = face.get("image_uris", {}).get("large")
+                img_path = get_cached_image(img_url, face.get('id')) if img_url else None
+                label = QLabel()
+                if img_path and os.path.exists(img_path):
+                    pixmap = QPixmap(img_path)
+                    pixmap = pixmap.scaled(360, 510, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation)
+                    label.setPixmap(pixmap)
+                label.setAlignment(Qt.AlignmentFlag.AlignHCenter)
+                if not (img_path and os.path.exists(img_path)):
+                    label.setText("Kein Bild")
+                image_row.addWidget(label)
+        else:
+            img_url = card.get("image_uris", {}).get("large")
+            img_path = get_cached_image(img_url, card.get('id')) if img_url else None
+            label = QLabel()
+            if img_path and os.path.exists(img_path):
+                pixmap = QPixmap(img_path)
+                pixmap = pixmap.scaled(360, 510, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation)
+                label.setPixmap(pixmap)
+            label.setAlignment(Qt.AlignmentFlag.AlignHCenter)
+            if not (img_path and os.path.exists(img_path)):
+                label.setText("Kein Bild")
+            image_row.addWidget(label)
+        card_info_row.addLayout(image_row)
+
+        # Infos rechts
+        info_col = QVBoxLayout()
         name = QLabel(f"<b>{card['name']}</b>")
-        name.setStyleSheet("font-size: 30px; font-weight: bold; margin-bottom: 4px;")
+        name.setStyleSheet("font-size: 26px; font-weight: bold; margin: 0 0 1px 0; line-height: 1;")
         name.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
-        self.result_area.addWidget(name)
+        info_col.addWidget(name)
         # Kompakte Infozeile: Manakosten | Set | Nummer (nur einmal, auch bei Flipkarten)
         mana_cost = card.get('mana_cost', '')
         set_code = card.get('set_code') or card.get('set') or ''
@@ -356,38 +398,39 @@ class MTGDesktopManager(QWidget):
             info_parts.append(f"<span style='color:#b0b0b0;'>Nr: {collector_number}/{set_size}</span>")
         if info_parts:
             info_label = QLabel(" | ".join(info_parts))
-            info_label.setStyleSheet("font-size: 16px; margin-bottom: 4px;")
+            info_label.setStyleSheet("font-size: 15px; margin: 0; line-height: 1;")
             info_label.setTextFormat(Qt.TextFormat.RichText)
             info_label.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
-            self.result_area.addWidget(info_label)
+            info_label.setWordWrap(True)
+            info_col.addWidget(info_label)
         # Set-Name ausgeschrieben immer anzeigen
         set_name = card.get('set_name', '')
         if set_name:
             set_label = QLabel(f"Set-Name: {set_name}")
-            set_label.setStyleSheet("font-size: 16px; margin-bottom: 8px;")
+            set_label.setStyleSheet("font-size: 15px; margin: 0; line-height: 1;")
             set_label.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
-            self.result_area.addWidget(set_label)
+            set_label.setWordWrap(True)
+            info_col.addWidget(set_label)
         type_line = QLabel(f"Typ: {card.get('type_line', '-')}")
-        type_line.setStyleSheet("font-size: 18px; margin-bottom: 4px;")
+        type_line.setStyleSheet("font-size: 15px; margin: 0; line-height: 1;")
+        type_line.setWordWrap(True)
         type_line.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
-        self.result_area.addWidget(type_line)
+        info_col.addWidget(type_line)
         price = QLabel(f"Preis (EUR): {card['prices'].get('eur', 'Nicht verfügbar')}")
-        price.setStyleSheet("font-size: 20px; font-weight: bold; color: #ffd700; margin-bottom: 12px;")
+        price.setStyleSheet("font-size: 16px; font-weight: bold; color: #ffd700; margin: 0; line-height: 1;")
+        price.setWordWrap(True)
         price.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
-        self.result_area.addWidget(price)
+        info_col.addWidget(price)
 
         # --- Erweiterung: Zeige Foil-Typ, Preise, Legalities ---
-        # Kompakter Info-Block für Scryfall-Felder
         info_block = QVBoxLayout()
         info_block.setSpacing(2)
-        info_widget_block = QWidget()
-        info_widget_block.setLayout(info_block)
-        info_widget_block.setMaximumWidth(420)
-
         finishes = card.get('finishes', [])
         finishes_str = ', '.join(finishes) if finishes else 'Unbekannt'
         finishes_label = QLabel(f"Foil-Typ: {finishes_str}")
-        finishes_label.setStyleSheet("font-size: 14px; color: #cccccc; margin-bottom: 2px;")
+        finishes_label.setStyleSheet("font-size: 13px; color: #cccccc; margin-bottom: 1px;")
+        finishes_label.setStyleSheet("font-size: 13px; color: #cccccc; margin: 0; line-height: 1;")
+        finishes_label.setWordWrap(True)
         finishes_label.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
         finishes_label.setWordWrap(True)
         info_block.addWidget(finishes_label)
@@ -405,7 +448,9 @@ class MTGDesktopManager(QWidget):
                 else:
                     price_strs.append(f"{k}: {v}")
         prices_label = QLabel("Preise: " + (" | ".join(price_strs) if price_strs else "Keine Preise"))
-        prices_label.setStyleSheet("font-size: 14px; color: #cccccc; margin-bottom: 2px;")
+        prices_label.setStyleSheet("font-size: 13px; color: #cccccc; margin-bottom: 1px;")
+        prices_label.setStyleSheet("font-size: 13px; color: #cccccc; margin: 0; line-height: 1;")
+        prices_label.setWordWrap(True)
         prices_label.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
         prices_label.setWordWrap(True)
         info_block.addWidget(prices_label)
@@ -416,74 +461,60 @@ class MTGDesktopManager(QWidget):
         legalities_text = "Legal: " + (', '.join(legal_formats) if legal_formats else "Keine")
         not_legalities_text = "Nicht Legal: " + (', '.join(not_legal_formats) if not_legal_formats else "Keine")
         legalities_label = QLabel(legalities_text)
-        legalities_label.setStyleSheet("font-size: 13px; color: #4caf50; margin-bottom: 2px;")
+        legalities_label.setStyleSheet("font-size: 12px; color: #4caf50; margin-bottom: 1px;")
+        legalities_label.setStyleSheet("font-size: 12px; color: #4caf50; margin: 0; line-height: 1;")
+        legalities_label.setWordWrap(True)
         legalities_label.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
         legalities_label.setWordWrap(True)
         info_block.addWidget(legalities_label)
         not_legalities_label = QLabel(not_legalities_text)
-        not_legalities_label.setStyleSheet("font-size: 13px; color: #e53935; margin-bottom: 8px;")
+        not_legalities_label.setStyleSheet("font-size: 12px; color: #e53935; margin-bottom: 4px;")
+        not_legalities_label.setStyleSheet("font-size: 12px; color: #e53935; margin: 0; line-height: 1;")
+        not_legalities_label.setWordWrap(True)
         not_legalities_label.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
         not_legalities_label.setWordWrap(True)
         info_block.addWidget(not_legalities_label)
 
-        self.result_area.addWidget(info_widget_block)
+        info_widget_block = QWidget()
+        info_widget_block.setLayout(info_block)
+        info_widget_block.setMaximumWidth(420)
+        info_col.addWidget(info_widget_block)
 
-        # Oracle-Text mit besserer Trennung für Flip-/DFC-Karten
+        # Oracle-Text
         if "card_faces" in card and isinstance(card["card_faces"], list) and len(card["card_faces"]) > 1:
             for idx, face in enumerate(card["card_faces"]):
                 face_name = face.get('name', '')
                 face_text = face.get('oracle_text', '')
                 face_label = QLabel(f"<b>{face_name}</b><br>{face_text}")
-                face_label.setStyleSheet("background-color: #2e2e2e; color: white; padding: 8px; border-radius: 4px;")
+                face_label.setStyleSheet("background-color: #2e2e2e; color: white; padding: 2px; border-radius: 4px; font-size:13px; margin:0; line-height: 1;")
                 face_label.setWordWrap(True)
                 face_label.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
-                self.result_area.addWidget(face_label)
+                info_col.addWidget(face_label)
                 if idx < len(card["card_faces"]) - 1:
                     line = QFrame()
                     line.setFrameShape(QFrame.Shape.HLine)
                     line.setFrameShadow(QFrame.Shadow.Sunken)
-                    line.setStyleSheet("color: #888; margin: 8px 0;")
-                    self.result_area.addWidget(line)
+                    line.setStyleSheet("color: #888; margin: 0;")
+                    info_col.addWidget(line)
         else:
             oracle_text = card.get("oracle_text", "Kein Text verfügbar")
             oracle_label = QLabel(oracle_text.strip())
-            oracle_label.setStyleSheet("background-color: #2e2e2e; color: white; padding: 8px; border-radius: 4px;")
+            oracle_label.setStyleSheet("background-color: #2e2e2e; color: white; padding: 2px; border-radius: 4px; font-size:13px; margin:0; line-height: 1;")
             oracle_label.setWordWrap(True)
             oracle_label.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
-            self.result_area.addWidget(oracle_label)
+            info_col.addWidget(oracle_label)
 
-        # Kartenbilder zentriert anzeigen
-        image_row = QHBoxLayout()
-        image_row.setAlignment(Qt.AlignmentFlag.AlignHCenter)
-        if "card_faces" in card:
-            for face in card["card_faces"]:
-                img_url = face.get("image_uris", {}).get("large")
-                img_path = get_cached_image(img_url, face.get('id')) if img_url else None
-                label = QLabel()
-                if img_path and os.path.exists(img_path):
-                    pixmap = QPixmap(img_path)
-                    pixmap = pixmap.scaled(360, 510, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation)
-                    label.setPixmap(pixmap)
-                label.setAlignment(Qt.AlignmentFlag.AlignHCenter)
-                if not (img_path and os.path.exists(img_path)):
-                    label.setText("Kein Bild")
-                image_row.addWidget(label)
-        else:
-            img_url = card.get("image_uris", {}).get("large")
-            img_path = get_cached_image(img_url, card.get('id')) if img_url else None
-            label = QLabel()
-            if img_path and os.path.exists(img_path):
-                pixmap = QPixmap(img_path)
-                pixmap = pixmap.scaled(360, 510, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation)
-                label.setPixmap(pixmap)
-            label.setAlignment(Qt.AlignmentFlag.AlignHCenter)
-            if not (img_path and os.path.exists(img_path)):
-                label.setText("Kein Bild")
-            image_row.addWidget(label)
+        card_info_row.addLayout(info_col)
 
-        wrapper = QWidget()
-        wrapper.setLayout(image_row)
-        self.result_area.addWidget(wrapper)
+        # In QFrame für optische Trennung
+        frame = QFrame()
+        frame.setFrameShape(QFrame.Shape.StyledPanel)
+        frame.setStyleSheet("background-color: #232323; border-radius: 10px; padding: 16px;")
+        frame.setLayout(card_info_row)
+        self.result_area.addWidget(frame)
+        # (Alte, jetzt überflüssige Bild- und Oracle-Textanzeige entfernt)
+
+        # (Kein weiteres Widget mit image_row anhängen, da Bild bereits im Frame ist)
 
         # Sammlung hinzufügen UI
         control_row = QHBoxLayout()

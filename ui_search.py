@@ -214,6 +214,7 @@ class MTGDesktopManager(QWidget):
     def display_card(self, card):
         collections_file = "collections.json"
 
+
         def add_to_collection():
             variant_key, variant_price = variant_selector.currentData()
             current = self.current_card_data if hasattr(self, 'current_card_data') and self.current_card_data else card
@@ -233,6 +234,8 @@ class MTGDesktopManager(QWidget):
             proxy = proxy_checkbox.isChecked()
             # Sprache aus Dropdown
             lang_selected = language_selector.currentText().lower()
+            # Kaufpreis aus Feld übernehmen
+            purchase_price = purchase_price_edit.text().strip()
 
             # Immer das größte verfügbare Bild cachen (large > normal > small), egal ob Flipkarte oder nicht
             image_uris = None
@@ -305,6 +308,7 @@ class MTGDesktopManager(QWidget):
                 elif isinstance(image_uris, str):
                     best_image_url = image_uris
 
+
             # Preis bei Proxy immer 0
             # Preis je nach Variante, bei Proxy immer 0
             if proxy:
@@ -321,6 +325,7 @@ class MTGDesktopManager(QWidget):
             new_entry["eur"] = eur_value
             new_entry["set_size"] = set_size
             new_entry["variant"] = variant_key
+            new_entry["purchase_price"] = purchase_price
 
             print(f"DEBUG: New entry being added: {new_entry}")  # Debugging
             selected_collection["cards"].append(new_entry)
@@ -336,10 +341,11 @@ class MTGDesktopManager(QWidget):
 
         # --- NEU: Karte und Infos nebeneinander ---
         card_info_row = QHBoxLayout()
-        # Kartenbild(er) links
-        image_row = QVBoxLayout()
-        image_row.setAlignment(Qt.AlignmentFlag.AlignTop)
+        # Kartenbild(er) links (Flipkarten-Bilder nebeneinander mit Mindestabstand)
         if "card_faces" in card:
+            image_hbox = QHBoxLayout()
+            image_hbox.setSpacing(6)  # Kleinerer Abstand zwischen Flipkarten-Bildern
+            image_hbox.setContentsMargins(4, 0, 0, 0)  # Wenig Abstand zum linken Rand
             for face in card["card_faces"]:
                 img_url = face.get("image_uris", {}).get("large")
                 img_path = get_cached_image(img_url, face.get('id')) if img_url else None
@@ -351,8 +357,14 @@ class MTGDesktopManager(QWidget):
                 label.setAlignment(Qt.AlignmentFlag.AlignHCenter)
                 if not (img_path and os.path.exists(img_path)):
                     label.setText("Kein Bild")
-                image_row.addWidget(label)
+                image_hbox.addWidget(label)
+            image_widget = QWidget()
+            image_widget.setLayout(image_hbox)
+            image_widget.setSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Preferred)
+            card_info_row.addWidget(image_widget, 0)
         else:
+            image_row = QVBoxLayout()
+            image_row.setAlignment(Qt.AlignmentFlag.AlignTop)
             img_url = card.get("image_uris", {}).get("large")
             img_path = get_cached_image(img_url, card.get('id')) if img_url else None
             label = QLabel()
@@ -364,11 +376,13 @@ class MTGDesktopManager(QWidget):
             if not (img_path and os.path.exists(img_path)):
                 label.setText("Kein Bild")
             image_row.addWidget(label)
-        card_info_row.addLayout(image_row)
+            image_widget = QWidget()
+            image_widget.setLayout(image_row)
+            image_widget.setSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Preferred)
+            card_info_row.addWidget(image_widget, 0)
 
         # Infos rechts
         info_col = QVBoxLayout()
-        info_col.setSpacing(0)
         info_col.setSpacing(0)
         name = QLabel(f"<b>{card['name']}</b>")
         name.setStyleSheet("font-size: 26px; font-weight: bold; margin: 0 0 1px 0; line-height: 1;")
@@ -376,6 +390,11 @@ class MTGDesktopManager(QWidget):
         name.setWordWrap(True)
         name.setSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
         info_col.addWidget(name)
+
+        info_widget = QWidget()
+        info_widget.setLayout(info_col)
+        info_widget.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred)
+        card_info_row.addWidget(info_widget, 1)
         # Kompakte Infozeile: Manakosten | Set | Nummer (nur einmal, auch bei Flipkarten)
         mana_cost = card.get('mana_cost', '')
         set_code = card.get('set_code') or card.get('set') or ''
@@ -541,6 +560,7 @@ class MTGDesktopManager(QWidget):
         # (Kein weiteres Widget mit image_row anhängen, da Bild bereits im Frame ist)
 
         # Sammlung hinzufügen UI
+
         control_row = QHBoxLayout()
         collection_selector = QComboBox()
         # Sprachauswahl (Dropdown)
@@ -563,6 +583,15 @@ class MTGDesktopManager(QWidget):
         # Proxy-Checkbox größer machen
         proxy_checkbox = QCheckBox("Als Proxy")
         proxy_checkbox.setStyleSheet("font-size: 22px; min-height: 32px; min-width: 32px; padding: 8px 16px;")
+
+
+        # --- Kaufpreisfeld mit Label direkt nebeneinander, ohne extra Widget ---
+        purchase_price_label = QLabel("Kaufpreis:")
+        purchase_price_label.setStyleSheet("font-size: 16px; margin-right: 2px;")
+        purchase_price_edit = QLineEdit()
+        purchase_price_edit.setPlaceholderText("z.B. 2.50")
+        purchase_price_edit.setFixedWidth(70)
+
         add_button = QPushButton("Zur Sammlung hinzufügen")
         add_button.clicked.connect(add_to_collection)
 
@@ -573,10 +602,13 @@ class MTGDesktopManager(QWidget):
                 for c in collections:
                     collection_selector.addItem(c["name"])
 
+
         control_row.addWidget(collection_selector)
         control_row.addWidget(language_selector)
         control_row.addWidget(variant_selector)
         control_row.addWidget(proxy_checkbox)
+        control_row.addWidget(purchase_price_label)
+        control_row.addWidget(purchase_price_edit)
         control_row.addWidget(add_button)
 
         control_widget = QWidget()

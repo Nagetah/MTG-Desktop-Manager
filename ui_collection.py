@@ -264,6 +264,37 @@ class CollectionViewer(QWidget):
             lang_row.addWidget(lang_combo)
             layout.addLayout(lang_row)
 
+
+            # --- Foil/Nonfoil Dropdown ---
+            foil_row = QHBoxLayout()
+            foil_label = QLabel("Variante:")
+            foil_combo = QComboBox()
+            finishes = card_obj.get('finishes', [])
+            prices = card_obj.get('prices', {})
+            foil_options = []
+            # Always add nonfoil if available
+            if 'nonfoil' in finishes or prices.get('eur'):
+                foil_combo.addItem("Nonfoil", ('nonfoil', prices.get('eur')))
+                foil_options.append('nonfoil')
+            # Add foil if available
+            if 'foil' in finishes or prices.get('eur_foil'):
+                foil_combo.addItem("Foil", ('foil', prices.get('eur_foil')))
+                foil_options.append('foil')
+            # Add etched if available
+            if 'etched' in finishes or prices.get('eur_etched'):
+                foil_combo.addItem("Etched", ('etched', prices.get('eur_etched')))
+                foil_options.append('etched')
+            # Add gilded if available
+            if 'gilded' in finishes or prices.get('eur_gilded'):
+                foil_combo.addItem("Gilded", ('gilded', prices.get('eur_gilded')))
+                foil_options.append('gilded')
+            # Set current index based on card_obj["variant"] if present
+            if card_obj.get('variant') in foil_options:
+                foil_combo.setCurrentIndex(foil_options.index(card_obj.get('variant')))
+            foil_row.addWidget(foil_label)
+            foil_row.addWidget(foil_combo)
+            layout.addLayout(foil_row)
+
             # --- Proxy-Status (exakt wie Optionsleiste in ui_search.py) ---
             proxy_checkbox = QCheckBox("Proxy")
             proxy_checkbox.setChecked(bool(card_obj.get("is_proxy")))
@@ -309,16 +340,29 @@ class CollectionViewer(QWidget):
             proxy_row.addStretch(1)
             layout.addLayout(proxy_row)
 
-            # --- Kaufpreis ---
+
+            # --- Kaufpreis (dynamisch, je nach Foil/Nonfoil) ---
             price_row = QHBoxLayout()
             price_label = QLabel("Kaufpreis (€):")
             from PyQt6.QtWidgets import QLineEdit
             price_edit = QLineEdit()
             price_edit.setPlaceholderText("z.B. 2.50")
-            price_edit.setText(str(card_obj.get("purchase_price") or ""))
+            # Set initial price based on variant selection
+            def set_price_from_variant():
+                variant_key, variant_price = foil_combo.currentData()
+                if variant_price not in (None, '', '0', 0):
+                    price_edit.setText(str(variant_price))
+                else:
+                    price_edit.setText("")
+            set_price_from_variant()
+            foil_combo.currentIndexChanged.connect(set_price_from_variant)
+            # If card_obj has explicit purchase_price, prefer that
+            if card_obj.get("purchase_price") not in (None, '', '0', 0):
+                price_edit.setText(str(card_obj.get("purchase_price")))
             price_row.addWidget(price_label)
             price_row.addWidget(price_edit)
             layout.addLayout(price_row)
+
 
             # --- Varianten-Button ---
             variant_row = QHBoxLayout()
@@ -359,6 +403,7 @@ class CollectionViewer(QWidget):
             # Merke die ursprünglichen Identifikationsdaten der Karte
             original_keys = {k: card_obj.get(k) for k in ['id', 'lang', 'is_proxy', 'collector_number', 'set_code']}
 
+
             def update_fields(new_card):
                 # Übernehme alle relevanten Felder, auch eur, set_size etc.
                 # Set-Code aus Scryfall übernehmen, falls vorhanden
@@ -387,7 +432,43 @@ class CollectionViewer(QWidget):
                 info_label.setText(build_info_line(new_card))
                 lang_combo.setCurrentText(new_card.get("lang", "en"))
                 proxy_checkbox.setChecked(bool(new_card.get("is_proxy")))
-                price_edit.setText(str(new_card.get("purchase_price") or ""))
+                # Update foil_combo and price_edit
+                # Update foil_combo options
+                finishes = new_card.get('finishes', [])
+                prices = new_card.get('prices', {})
+                foil_combo.blockSignals(True)
+                foil_combo.clear()
+                foil_options = []
+                if 'nonfoil' in finishes or prices.get('eur'):
+                    foil_combo.addItem("Nonfoil", ('nonfoil', prices.get('eur')))
+                    foil_options.append('nonfoil')
+                if 'foil' in finishes or prices.get('eur_foil'):
+                    foil_combo.addItem("Foil", ('foil', prices.get('eur_foil')))
+                    foil_options.append('foil')
+                if 'etched' in finishes or prices.get('eur_etched'):
+                    foil_combo.addItem("Etched", ('etched', prices.get('eur_etched')))
+                    foil_options.append('etched')
+                if 'gilded' in finishes or prices.get('eur_gilded'):
+                    foil_combo.addItem("Gilded", ('gilded', prices.get('eur_gilded')))
+                    foil_options.append('gilded')
+                # Set current index based on new_card["variant"] if present
+                if new_card.get('variant') in foil_options:
+                    foil_combo.setCurrentIndex(foil_options.index(new_card.get('variant')))
+                else:
+                    foil_combo.setCurrentIndex(0)
+                foil_combo.blockSignals(False)
+                # Update price_edit
+                def set_price_from_variant():
+                    variant_key, variant_price = foil_combo.currentData()
+                    if variant_price not in (None, '', '0', 0):
+                        price_edit.setText(str(variant_price))
+                    else:
+                        price_edit.setText("")
+                set_price_from_variant()
+                foil_combo.currentIndexChanged.connect(set_price_from_variant)
+                # If new_card has explicit purchase_price, prefer that
+                if new_card.get("purchase_price") not in (None, '', '0', 0):
+                    price_edit.setText(str(new_card.get("purchase_price")))
                 update_image(new_card)
                 card_obj.clear()
                 card_obj.update(new_card)
@@ -405,6 +486,7 @@ class CollectionViewer(QWidget):
                 dlg.exec()
             variant_btn.clicked.connect(choose_variant)
 
+
             def save_changes():
                 try:
                     with open("collections.json", "r", encoding="utf-8") as f:
@@ -417,6 +499,14 @@ class CollectionViewer(QWidget):
                                     new_card = dict(card_obj)
                                     new_card['lang'] = lang_combo.currentText()
                                     new_card['is_proxy'] = proxy_checkbox.isChecked()
+                                    # Speichere die gewählte Variante
+                                    variant_key, variant_price = foil_combo.currentData()
+                                    new_card['variant'] = variant_key
+                                    # Setze den Marktwert (eur) auf den Preis der gewählten Variante
+                                    if variant_price not in (None, '', '0', 0):
+                                        new_card['eur'] = variant_price
+                                    else:
+                                        new_card['eur'] = ''
                                     try:
                                         new_card['purchase_price'] = float(price_edit.text().replace(",", "."))
                                     except Exception:

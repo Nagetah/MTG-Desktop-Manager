@@ -3,7 +3,7 @@
 import os
 import json
 import requests
-from PyQt6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLineEdit, QPushButton, QScrollArea, QLabel, QComboBox, QCheckBox, QMessageBox, QFrame
+from PyQt6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLineEdit, QPushButton, QScrollArea, QLabel, QComboBox, QCheckBox, QMessageBox, QFrame, QSizePolicy
 from PyQt6.QtGui import QPixmap
 from PyQt6.QtCore import Qt
 from dialogs import CardSelectorDialog, VariantSelector
@@ -362,9 +362,13 @@ class MTGDesktopManager(QWidget):
 
         # Infos rechts
         info_col = QVBoxLayout()
+        info_col.setSpacing(0)
+        info_col.setSpacing(0)
         name = QLabel(f"<b>{card['name']}</b>")
         name.setStyleSheet("font-size: 26px; font-weight: bold; margin: 0 0 1px 0; line-height: 1;")
         name.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
+        name.setWordWrap(True)
+        name.setSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
         info_col.addWidget(name)
         # Kompakte Infozeile: Manakosten | Set | Nummer (nur einmal, auch bei Flipkarten)
         mana_cost = card.get('mana_cost', '')
@@ -402,6 +406,7 @@ class MTGDesktopManager(QWidget):
             info_label.setTextFormat(Qt.TextFormat.RichText)
             info_label.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
             info_label.setWordWrap(True)
+            info_label.setSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
             info_col.addWidget(info_label)
         # Set-Name ausgeschrieben immer anzeigen
         set_name = card.get('set_name', '')
@@ -410,16 +415,19 @@ class MTGDesktopManager(QWidget):
             set_label.setStyleSheet("font-size: 15px; margin: 0; line-height: 1;")
             set_label.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
             set_label.setWordWrap(True)
+            set_label.setSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
             info_col.addWidget(set_label)
         type_line = QLabel(f"Typ: {card.get('type_line', '-')}")
         type_line.setStyleSheet("font-size: 15px; margin: 0; line-height: 1;")
         type_line.setWordWrap(True)
         type_line.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
+        type_line.setSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
         info_col.addWidget(type_line)
         price = QLabel(f"Preis (EUR): {card['prices'].get('eur', 'Nicht verfügbar')}")
         price.setStyleSheet("font-size: 16px; font-weight: bold; color: #ffd700; margin: 0; line-height: 1;")
         price.setWordWrap(True)
         price.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
+        price.setSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
         info_col.addWidget(price)
 
         # --- Erweiterung: Zeige Foil-Typ, Preise, Legalities ---
@@ -437,22 +445,25 @@ class MTGDesktopManager(QWidget):
 
         prices = card.get('prices', {})
         price_strs = []
-        for k, v in prices.items():
-            if v:
-                if k == 'eur':
-                    price_strs.append(f"EUR: {v} €")
-                elif k == 'usd':
-                    price_strs.append(f"USD: {v} $")
-                elif k == 'tix':
-                    price_strs.append(f"TIX: {v}")
-                else:
-                    price_strs.append(f"{k}: {v}")
+        # EUR normal
+        if prices.get('eur'):
+            price_strs.append(f"{prices['eur']} €")
+        # EUR Foil
+        if prices.get('eur_foil'):
+            price_strs.append(f"Foil: {prices['eur_foil']} €")
+        # USD normal
+        if prices.get('usd'):
+            price_strs.append(f"{prices['usd']} $")
+        # USD Foil
+        if prices.get('usd_foil'):
+            price_strs.append(f"Foil: {prices['usd_foil']} $")
+        # TIX (optional, falls vorhanden)
+        if prices.get('tix'):
+            price_strs.append(f"TIX: {prices['tix']}")
         prices_label = QLabel("Preise: " + (" | ".join(price_strs) if price_strs else "Keine Preise"))
-        prices_label.setStyleSheet("font-size: 13px; color: #cccccc; margin-bottom: 1px;")
         prices_label.setStyleSheet("font-size: 13px; color: #cccccc; margin: 0; line-height: 1;")
         prices_label.setWordWrap(True)
         prices_label.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
-        prices_label.setWordWrap(True)
         info_block.addWidget(prices_label)
 
         legalities = card.get('legalities', {})
@@ -461,18 +472,16 @@ class MTGDesktopManager(QWidget):
         legalities_text = "Legal: " + (', '.join(legal_formats) if legal_formats else "Keine")
         not_legalities_text = "Nicht Legal: " + (', '.join(not_legal_formats) if not_legal_formats else "Keine")
         legalities_label = QLabel(legalities_text)
-        legalities_label.setStyleSheet("font-size: 12px; color: #4caf50; margin-bottom: 1px;")
         legalities_label.setStyleSheet("font-size: 12px; color: #4caf50; margin: 0; line-height: 1;")
         legalities_label.setWordWrap(True)
         legalities_label.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
-        legalities_label.setWordWrap(True)
+        legalities_label.setSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
         info_block.addWidget(legalities_label)
         not_legalities_label = QLabel(not_legalities_text)
-        not_legalities_label.setStyleSheet("font-size: 12px; color: #e53935; margin-bottom: 4px;")
         not_legalities_label.setStyleSheet("font-size: 12px; color: #e53935; margin: 0; line-height: 1;")
         not_legalities_label.setWordWrap(True)
         not_legalities_label.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
-        not_legalities_label.setWordWrap(True)
+        not_legalities_label.setSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
         info_block.addWidget(not_legalities_label)
 
         info_widget_block = QWidget()

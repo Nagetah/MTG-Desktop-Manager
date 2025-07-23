@@ -581,15 +581,57 @@ class MTGDesktopManager(QWidget):
             variant_selector.addItem(label, (key, price))
         # Proxy-Checkbox größer machen
         proxy_checkbox = QCheckBox("Als Proxy")
-        proxy_checkbox.setStyleSheet("font-size: 22px; min-height: 32px; min-width: 32px; padding: 8px 16px;")
+        proxy_checkbox = QCheckBox("Proxy")
+        proxy_checkbox.setStyleSheet('''
+            QCheckBox {
+                font-size: 19px;
+                min-height: 38px;
+                min-width: 140px;
+                padding: 8px 28px;
+                color: white;
+                background-color: #222;
+                border: 1.5px solid #444;
+                border-radius: 8px;
+                font-weight: 600;
+                letter-spacing: 0.5px;
+            }
+            QCheckBox:hover {
+                background-color: #333;
+                border: 1.5px solid #888;
+            }
+            QCheckBox:checked {
+                background-color: #262a36;
+                border: 1.5px solid #0078d7;
+            }
+            QCheckBox::indicator {
+                width: 22px;
+                height: 22px;
+                border-radius: 4px;
+                border: 1.5px solid #444;
+                background: #232323;
+            }
+            QCheckBox::indicator:checked {
+                background: #0078d7;
+                border: 1.5px solid #0078d7;
+            }
+        ''')
 
 
         # --- Kaufpreisfeld mit Label direkt nebeneinander, ohne extra Widget ---
+        # Label und Eingabefeld in ein eigenes HBox-Layout für perfekten Abstand
+        purchase_price_row = QHBoxLayout()
+        purchase_price_row.setSpacing(0)
+        purchase_price_row.setContentsMargins(0,0,0,0)
         purchase_price_label = QLabel("Kaufpreis:")
-        purchase_price_label.setStyleSheet("font-size: 16px; margin-right: 2px;")
+        purchase_price_label.setStyleSheet("font-size: 16px; margin: 0 !important; padding: 0 !important;")
         purchase_price_edit = QLineEdit()
         purchase_price_edit.setPlaceholderText("z.B. 2.50")
         purchase_price_edit.setFixedWidth(70)
+        purchase_price_edit.setStyleSheet("margin: 0 !important; padding-left: 4px !important; padding-right: 0 !important;")
+        purchase_price_row.addWidget(purchase_price_label)
+        purchase_price_row.addWidget(purchase_price_edit)
+        purchase_price_widget = QWidget()
+        purchase_price_widget.setLayout(purchase_price_row)
 
         add_button = QPushButton("Zur Sammlung hinzufügen")
         add_button.clicked.connect(add_to_collection)
@@ -606,9 +648,9 @@ class MTGDesktopManager(QWidget):
         control_row.addWidget(language_selector)
         control_row.addWidget(variant_selector)
         control_row.addWidget(proxy_checkbox)
-        control_row.addWidget(purchase_price_label)
-        control_row.addWidget(purchase_price_edit)
+        control_row.addWidget(purchase_price_widget)
         control_row.addWidget(add_button)
+        control_row.addStretch(1)
 
         control_widget = QWidget()
         control_widget.setLayout(control_row)

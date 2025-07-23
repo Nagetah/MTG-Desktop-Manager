@@ -17,6 +17,11 @@ from PyQt6.QtWidgets import (
 
 # HIER BEGINNT DIE KORREKTE MAINWINDOW-KLASSE
 class MainWindow(QWidget):
+    def closeEvent(self, event):
+        # Beim Schließen des Hauptfensters: Beende alle CollectionOverview-Threads sauber
+        if hasattr(self, 'collection_view') and self.collection_view is not None:
+            self.collection_view.closeEvent(event)
+        super().closeEvent(event)
     
 
     def __init__(self):
@@ -59,6 +64,13 @@ class MainWindow(QWidget):
     from PyQt6.QtGui import QImage
 
     class CollectionOverview(QWidget):
+        def closeEvent(self, event):
+            # Beende alle laufenden Preisupdate-Threads sauber (mit Timeout)
+            for thread in self.threads.values():
+                thread.quit()
+                thread.wait(3000)  # max 3 Sekunden warten
+            self.threads.clear()
+            super().closeEvent(event)
         def __init__(self, return_to_menu):
             super().__init__()
             self.return_to_menu = return_to_menu
@@ -95,6 +107,13 @@ class MainWindow(QWidget):
             layout.addWidget(self.delete_button)
 
             self.setLayout(layout)
+
+            # Status-Tracking für Preisupdates
+            self.update_status = {}  # sammlungsname -> 'pending'|'done'|'error'
+            self.status_labels = {}  # sammlungsname -> QLabel
+            self.threads = {}        # sammlungsname -> QThread
+            self.status_timers = {}  # sammlungsname -> QTimer
+            self.status_start_times = {}  # sammlungsname -> float (startzeit)
             self.load_collections()
 
         def update_overview_diagram(self, collections):
@@ -213,10 +232,25 @@ class MainWindow(QWidget):
                 self.load_collections()
                 QMessageBox.information(self, "Gelöscht", f"Die Sammlung '{name}' wurde gelöscht.")
 
+
         def load_collections(self):
             from PyQt6.QtWidgets import QListWidgetItem, QWidget, QHBoxLayout, QLabel, QSizePolicy
             from PyQt6.QtGui import QPixmap, QPainter, QColor, QIcon
+            from PyQt6.QtCore import QThread
+            from price_updater import PriceUpdaterWorker
+            # --- Vor dem Leeren: Beende alle alten Threads sauber (Timeout) ---
+            for thread in self.threads.values():
+                thread.quit()
+                thread.wait(3000)
+            self.threads.clear()
+            # --- Stoppe und lösche alle Timer, damit keine auf gelöschte Labels zugreifen ---
+            for timer in self.status_timers.values():
+                timer.stop()
+            self.status_timers.clear()
+            self.status_start_times.clear()
             self.list_widget.clear()
+            self.update_status.clear()
+            self.status_labels.clear()
             collections = []
             if os.path.exists("collections.json"):
                 with open("collections.json", "r", encoding="utf-8") as f:
@@ -224,7 +258,6 @@ class MainWindow(QWidget):
             # Update das Kreisdiagramm mit allen Sammlungen
             self.update_overview_diagram(collections)
             for col in collections:
-                # Farbigen Punkt als Icon erzeugen
                 color = col.get('color', '#888888')
                 pix = QPixmap(28, 28)
                 pix.fill(QColor(0,0,0,0))
@@ -234,41 +267,35 @@ class MainWindow(QWidget):
                 painter.setPen(QColor(color))
                 painter.drawEllipse(4, 4, 20, 20)
                 painter.end()
-                # Summen berechnen
                 marktwert = sum(float(c.get('eur') or 0) for c in col['cards'])
                 einkauf = sum(float(c.get('purchase_price') or 0) for c in col['cards'])
                 diff = marktwert - einkauf
-                # Widget für Zeile bauen
                 row_widget = QWidget()
                 row_layout = QHBoxLayout()
                 row_layout.setContentsMargins(2,2,2,2)
-                # Farbkreis
                 icon_label = QLabel()
                 icon_label.setPixmap(pix)
                 icon_label.setFixedWidth(32)
                 row_layout.addWidget(icon_label)
-                # Name
                 name_label = QLabel(col['name'])
                 name_label.setStyleSheet("font-size: 18px; font-weight: bold;")
                 row_layout.addWidget(name_label)
-                # Kartenanzahl
                 count_label = QLabel(f"| {len(col['cards'])} Karten |")
                 count_label.setStyleSheet("font-size: 16px; margin-left: 8px;")
                 row_layout.addWidget(count_label)
-                # Marktwert
                 marktwert_label = QLabel(f"Marktwert: {marktwert:.2f} €")
                 marktwert_label.setStyleSheet("font-size: 16px; color: #ffd700; margin-left: 8px;")
                 row_layout.addWidget(marktwert_label)
                 # Kaufwert + Differenz
                 if einkauf > 0:
                     if diff > 0:
-                        diff_color = '#4caf50'  # grün
+                        diff_color = '#4caf50'
                         diff_symbol = '▲'
                     elif diff < 0:
-                        diff_color = '#e53935'  # rot
+                        diff_color = '#e53935'
                         diff_symbol = '▼'
                     else:
-                        diff_color = '#cccccc'  # neutral
+                        diff_color = '#cccccc'
                         diff_symbol = '•'
                     kaufwert_label = QLabel(f"Kaufwert: {einkauf:.2f} €")
                     kaufwert_label.setStyleSheet(f"font-size: 16px; margin-left: 8px; color: {diff_color};")
@@ -276,12 +303,103 @@ class MainWindow(QWidget):
                     diff_label = QLabel(f"{diff_symbol} {abs(diff):.2f} €")
                     diff_label.setStyleSheet(f"font-size: 16px; margin-left: 4px; color: {diff_color}; font-weight: bold;")
                     row_layout.addWidget(diff_label)
+                # --- Status-Icon für Preisupdate ---
+                status_label = QLabel()
+                status_label.setStyleSheet("font-size: 20px; margin-left: 12px;")
+                status_label.setText('⟳ 0s')  # Initial: Update läuft
+                row_layout.addWidget(status_label)
+                self.status_labels[col['name']] = status_label
+                if len(col['cards']) == 0:
+                    # Keine Karten: Kein Worker, Status sofort auf done
+                    status_label.setText('✅')
+                    status_label.setStyleSheet("font-size: 20px; margin-left: 12px; color: #4caf50;")
+                    self.update_status[col['name']] = 'done'
+                else:
+                    self.update_status[col['name']] = 'pending'
+                    # Timer für Sekundenanzeige
+                    from PyQt6.QtCore import QTimer
+                    timer = QTimer(self)
+                    timer.setInterval(1000)
+                    def update_label():
+                        import time
+                        start = self.status_start_times.get(col['name'])
+                        if start:
+                            sek = int(time.time() - start)
+                            status_label.setText(f'⟳ {sek}s')
+                    timer.timeout.connect(update_label)
+                    self.status_timers[col['name']] = timer
+                    # --- Preisupdate-Worker starten, aber nur wenn nicht schon einer läuft ---
+                    if col['name'] not in self.threads:
+                        import time
+                        print(f"[DEBUG] Starte Preisupdate-Worker für Sammlung '{col['name']}' um {time.strftime('%H:%M:%S')}")
+                        self.status_start_times[col['name']] = time.time()
+                        self.status_timers[col['name']].start()
+                        thread = QThread()
+                        worker = PriceUpdaterWorker(col, col['name'])
+                        worker.moveToThread(thread)
+                        worker.update_status.connect(self.on_update_status)
+                        worker.update_finished.connect(self.on_update_finished)
+                        # Fehlerbehandlung: Worker-Fehler abfangen
+                        def handle_worker_error(sammlungsname, status):
+                            print(f"[DEBUG] Fehler im Preisupdate-Worker für '{sammlungsname}' um {time.strftime('%H:%M:%S')}: Status={status}")
+                            self.on_update_status(sammlungsname, 'error')
+                        worker.update_status.connect(lambda name, status: handle_worker_error(name, status) if status == 'error' else None)
+                        thread.started.connect(worker.run)
+                        thread.start()
+                        self.threads[col['name']] = thread
                 row_layout.addStretch(1)
                 row_widget.setLayout(row_layout)
                 item = QListWidgetItem()
                 item.setSizeHint(row_widget.sizeHint())
                 self.list_widget.addItem(item)
                 self.list_widget.setItemWidget(item, row_widget)
+
+        def on_update_status(self, sammlungsname, status):
+            import time
+            label = self.status_labels.get(sammlungsname)
+            if not label:
+                return
+            if status == 'pending':
+                # Timer läuft weiter, Label zeigt Sekunden
+                sek = int(time.time() - self.status_start_times.get(sammlungsname, time.time()))
+                label.setText(f'⟳ {sek}s')
+                label.setStyleSheet("font-size: 20px; margin-left: 12px; color: #ffd700;")
+            elif status == 'done':
+                print(f"[DEBUG] Preisupdate für '{sammlungsname}' abgeschlossen um {time.strftime('%H:%M:%S')}")
+                label.setText('✅')
+                label.setStyleSheet("font-size: 20px; margin-left: 12px; color: #4caf50;")
+                timer = self.status_timers.get(sammlungsname)
+                if timer:
+                    timer.stop()
+            elif status == 'error':
+                print(f"[DEBUG] Preisupdate für '{sammlungsname}' FEHLER um {time.strftime('%H:%M:%S')}")
+                label.setText('❌')
+                label.setStyleSheet("font-size: 20px; margin-left: 12px; color: #e53935;")
+                timer = self.status_timers.get(sammlungsname)
+                if timer:
+                    timer.stop()
+            self.update_status[sammlungsname] = status
+
+        def on_update_finished(self, sammlungsname, cards):
+            import time
+            print(f"[DEBUG] on_update_finished für '{sammlungsname}' um {time.strftime('%H:%M:%S')}")
+            # Nach Abschluss: collections.json speichern
+            if os.path.exists("collections.json"):
+                with open("collections.json", "r", encoding="utf-8") as f:
+                    collections = json.load(f)
+                for col in collections:
+                    if col['name'] == sammlungsname:
+                        col['cards'] = cards
+                        break
+                with open("collections.json", "w", encoding="utf-8") as f:
+                    json.dump(collections, f, indent=2, ensure_ascii=False)
+            # UI-Update: Nur Diagramm und Labels neu zeichnen, keine neuen Worker starten!
+            # Finde alle Sammlungen neu einlesen und Diagramm aktualisieren
+            with open("collections.json", "r", encoding="utf-8") as f:
+                collections = json.load(f)
+            self.update_overview_diagram(collections)
+            # Status-Label auf 'done' setzen (wird ohnehin von on_update_status gemacht)
+            # (Optional: Hier könnte man gezielt die Zeile für die Sammlung aktualisieren)
 
         def create_collection(self):
             from PyQt6.QtWidgets import QColorDialog

@@ -241,6 +241,13 @@ class MTGDesktopManager(QWidget):
             lang_selected = language_selector.currentText().lower()
             # Kaufpreis aus Feld übernehmen
             purchase_price = purchase_price_edit.text().strip()
+            # Stückzahl aus Feld übernehmen
+            try:
+                count_val = int(count_edit.text())
+                if count_val < 1:
+                    count_val = 1
+            except Exception:
+                count_val = 1
 
             # Immer das größte verfügbare Bild cachen (large > normal > small), egal ob Flipkarte oder nicht
             image_uris = None
@@ -325,7 +332,7 @@ class MTGDesktopManager(QWidget):
             # Ergänze/überschreibe lokale Felder
             new_entry["lang"] = lang_selected
             new_entry["is_proxy"] = proxy
-            new_entry["count"] = 1
+            new_entry["count"] = count_val
             new_entry["image_url"] = best_image_url
             new_entry["eur"] = eur_value
             new_entry["set_size"] = set_size
@@ -628,6 +635,34 @@ class MTGDesktopManager(QWidget):
             }
         ''')
 
+        # Stückzahl-Eingabe (wie Kaufpreis, aber kleiner)
+        count_row = QHBoxLayout()
+        count_row.setContentsMargins(0, 0, 0, 0)
+        count_row.setSpacing(8)
+        count_label = QLabel("Stück:")
+        count_label.setStyleSheet("font-size: 18px; font-weight: 600; color: #cccccc; margin-right: 2px;")
+        count_inner_frame = QFrame()
+        count_inner_frame.setFrameShape(QFrame.Shape.StyledPanel)
+        count_inner_frame.setStyleSheet("QFrame { border: 1.5px solid #888; border-radius: 6px; background: #232323; }")
+        count_inner_hbox = QHBoxLayout()
+        count_inner_hbox.setContentsMargins(6, 2, 6, 2)
+        count_inner_hbox.setSpacing(0)
+        count_edit = QLineEdit()
+        count_edit.setPlaceholderText("z.B. 1")
+        count_edit.setFixedWidth(60)
+        count_edit.setText("1")
+        count_edit.setStyleSheet("QLineEdit { font-size: 18px; font-weight: 600; border: none; background: transparent; color: #cccccc; min-width: 0; max-width: 60px; padding: 0 0; }")
+        count_inner_hbox.addWidget(count_edit)
+        count_inner_frame.setLayout(count_inner_hbox)
+        count_inner_frame.setFixedHeight(32)
+        count_row.addWidget(count_label)
+        count_row.addWidget(count_inner_frame)
+        count_row.addSpacing(2)
+        count_widget = QWidget()
+        count_widget.setLayout(count_row)
+        count_widget.setContentsMargins(0, 8, 0, 8)
+        count_widget.setStyleSheet("")
+
         # --- Kaufpreis Label + Eingabefeld: Label normal, Eingabebox mit grauem Rahmen, kleiner und mehr Abstand ---
         purchase_price_row = QHBoxLayout()
         purchase_price_row.setContentsMargins(0, 0, 0, 0)
@@ -690,6 +725,7 @@ class MTGDesktopManager(QWidget):
         control_row.addWidget(language_selector)
         control_row.addWidget(variant_selector)
         control_row.addWidget(proxy_checkbox)
+        control_row.addWidget(count_widget)
         control_row.addWidget(purchase_price_widget)
         control_row.addWidget(add_button)
         # Kein Stretch im inneren Layout, damit Controls kompakt bleiben

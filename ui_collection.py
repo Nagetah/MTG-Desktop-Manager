@@ -341,13 +341,30 @@ class CollectionViewer(QWidget):
             layout.addLayout(proxy_row)
 
 
+
+            # --- Stückzahl (Count) ---
+            count_row = QHBoxLayout()
+            count_label = QLabel("Stückzahl:")
+            from PyQt6.QtWidgets import QLineEdit
+            count_edit = QLineEdit()
+            count_edit.setPlaceholderText("z.B. 1")
+            count_edit.setFixedWidth(60)
+            count_val = card_obj.get('count', 1)
+            try:
+                count_val = int(count_val)
+            except Exception:
+                count_val = 1
+            count_edit.setText(str(count_val))
+            count_row.addWidget(count_label)
+            count_row.addWidget(count_edit)
+            count_row.addStretch(1)
+            layout.addLayout(count_row)
+
             # --- Kaufpreis (dynamisch, je nach Foil/Nonfoil) ---
             price_row = QHBoxLayout()
             price_label = QLabel("Kaufpreis (€):")
-            from PyQt6.QtWidgets import QLineEdit
             price_edit = QLineEdit()
             price_edit.setPlaceholderText("z.B. 2.50")
-            # Set initial price based on variant selection
             def set_price_from_variant():
                 variant_key, variant_price = foil_combo.currentData()
                 if variant_price not in (None, '', '0', 0):
@@ -356,7 +373,6 @@ class CollectionViewer(QWidget):
                     price_edit.setText("")
             set_price_from_variant()
             foil_combo.currentIndexChanged.connect(set_price_from_variant)
-            # If card_obj has explicit purchase_price, prefer that
             if card_obj.get("purchase_price") not in (None, '', '0', 0):
                 price_edit.setText(str(card_obj.get("purchase_price")))
             price_row.addWidget(price_label)
@@ -511,6 +527,14 @@ class CollectionViewer(QWidget):
                                         new_card['purchase_price'] = float(price_edit.text().replace(",", "."))
                                     except Exception:
                                         new_card['purchase_price'] = price_edit.text()
+                                    # Speichere die Stückzahl
+                                    try:
+                                        count_val = int(count_edit.text())
+                                        if count_val < 1:
+                                            count_val = 1
+                                    except Exception:
+                                        count_val = 1
+                                    new_card['count'] = count_val
                                     c['cards'][idx_card] = new_card
                                     break
                             break
@@ -569,6 +593,28 @@ class CollectionViewer(QWidget):
             else:
                 image_label.setText("Kein Bild")
                 image_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+            # --- Stückzahl unter dem Bild anzeigen, falls count > 1 ---
+            count = card.get('count', 1)
+            try:
+                count = int(count)
+            except Exception:
+                count = 1
+            count_label = None
+            if count > 1:
+                count_label = QLabel(f"x{count}")
+                count_label.setAlignment(Qt.AlignmentFlag.AlignHCenter)
+                count_label.setStyleSheet("font-size: 20px; font-weight: bold; color: #ffd700; margin-top: 4px;")
+
+            # Bild und Stückzahl in einen eigenen VBox packen (ohne Stretch, damit kein Freiraum entsteht)
+            img_vbox = QVBoxLayout()
+            img_vbox.setSpacing(0)
+            img_vbox.setContentsMargins(0, 0, 0, 0)
+            img_vbox.addWidget(image_label, alignment=Qt.AlignmentFlag.AlignHCenter)
+            if count_label:
+                img_vbox.addWidget(count_label, alignment=Qt.AlignmentFlag.AlignHCenter)
+            img_widget = QWidget()
+            img_widget.setLayout(img_vbox)
             # --- Info-Block (Name, Preis, Editieren, Löschen, Proxy, Oracle-Text) ---
             info_layout = QVBoxLayout()
             info_layout.setSpacing(2)
@@ -733,7 +779,7 @@ class CollectionViewer(QWidget):
                 oracle_layout.addWidget(oracle_label)
                 oracle_frame.setLayout(oracle_layout)
                 info_layout.addWidget(oracle_frame)
-            hbox.addWidget(image_label)
+            hbox.addWidget(img_widget)
             hbox.addWidget(info_widget, 1)
             group.setLayout(hbox)
             grid.addWidget(group)
@@ -804,9 +850,10 @@ class CollectionViewer(QWidget):
         dlg.setLayout(layout)
 
 
+
         def do_import():
             lines = textedit.toPlainText().splitlines()
-            cards = []
+            imported_cards = []
             for line in lines:
                 line = line.strip()
                 if not line or line.startswith("//"):
@@ -816,7 +863,6 @@ class CollectionViewer(QWidget):
                     continue
                 qty = int(m.group(1))
                 rest = m.group(2).strip()
-                # Extrahiere Set-Code und Nummer, falls vorhanden
                 set_match = re.match(r"(.+?)\s*\(([^)]+)\)\s*([\w-]+)?", rest)
                 if set_match:
                     name = set_match.group(1).strip()
@@ -847,12 +893,9 @@ class CollectionViewer(QWidget):
                     scry_card = scry_resp.json()
                 except Exception:
                     continue
-                # --- Normalize card entry as in add_to_collection ---
-                # Variant detection (foil/nonfoil) - fallback to 'nonfoil' if not found
                 variant = 'nonfoil'
                 if scry_card.get('foil') and not scry_card.get('nonfoil'):
                     variant = 'foil'
-                # Best image URL (large > normal > small)
                 best_image_url = None
                 if scry_card.get("card_faces") and isinstance(scry_card["card_faces"], list):
                     face = scry_card["card_faces"][0]
@@ -871,7 +914,6 @@ class CollectionViewer(QWidget):
                                 break
                     elif isinstance(image_uris, str):
                         best_image_url = image_uris
-                # Set size
                 set_code_val = scry_card.get("set") or scry_card.get("set_code") or scry_card.get("set_id")
                 set_size = scry_card.get("set_size")
                 if not set_size and set_code_val:
@@ -883,23 +925,21 @@ class CollectionViewer(QWidget):
                             set_size = set_data.get("card_count")
                     except Exception:
                         set_size = None
-                # Price (EUR)
                 eur_value = scry_card.get("prices", {}).get("eur")
-                # Build normalized card entry
-                for _ in range(qty):
-                    card_entry = dict(scry_card)
-                    card_entry["lang"] = scry_card.get("lang", "en")
-                    card_entry["is_proxy"] = False
-                    card_entry["count"] = 1
-                    card_entry["image_url"] = best_image_url
-                    card_entry["eur"] = eur_value
-                    card_entry["set_size"] = set_size
-                    card_entry["variant"] = variant
-                    card_entry["purchase_price"] = None
-                    # For compatibility with collection logic
-                    card_entry["set_code"] = scry_card.get("set")
-                    cards.append(card_entry)
-            if not cards:
+                # Build normalized card entry (mit count)
+                card_entry = dict(scry_card)
+                card_entry["lang"] = scry_card.get("lang", "en")
+                card_entry["is_proxy"] = False
+                card_entry["count"] = qty
+                card_entry["image_url"] = best_image_url
+                card_entry["eur"] = eur_value
+                card_entry["set_size"] = set_size
+                card_entry["variant"] = variant
+                card_entry["purchase_price"] = None
+                card_entry["set_code"] = scry_card.get("set")
+                imported_cards.append(card_entry)
+
+            if not imported_cards:
                 QMessageBox.warning(dlg, "Fehler", "Keine Karten im Text gefunden oder alle Karten konnten nicht erkannt werden.")
                 return
             try:
@@ -907,11 +947,35 @@ class CollectionViewer(QWidget):
                     collections = json.load(f)
                 for c in collections:
                     if c["name"] == self.collection["name"]:
-                        c["cards"].extend(cards)
+                        # --- Karten zusammenfassen: gleiche Karte = gleicher Name, Edition, Sprache, Foil, Zustand, Collector Number, etc. ---
+                        def card_key(card):
+                            return (
+                                card.get('name'), card.get('set_code'), card.get('lang'), card.get('variant'),
+                                card.get('collector_number'), card.get('is_proxy'), card.get('purchase_price'), card.get('eur')
+                            )
+                        card_map = {}
+                        # Bestehende Karten übernehmen
+                        for card in c["cards"]:
+                            k = card_key(card)
+                            if k in card_map:
+                                card_map[k]["count"] += card.get("count", 1)
+                            else:
+                                card_map[k] = dict(card)
+                                if "count" not in card_map[k]:
+                                    card_map[k]["count"] = 1
+                        # Importierte Karten einfügen
+                        for card in imported_cards:
+                            k = card_key(card)
+                            if k in card_map:
+                                card_map[k]["count"] += card.get("count", 1)
+                            else:
+                                card_map[k] = dict(card)
+                        # Neue Kartenliste zurückschreiben
+                        c["cards"] = list(card_map.values())
                         break
                 with open("collections.json", "w", encoding="utf-8") as f:
                     json.dump(collections, f, indent=2, ensure_ascii=False)
-                QMessageBox.information(dlg, "Import erfolgreich", f"{len(cards)} Karten wurden importiert.")
+                QMessageBox.information(dlg, "Import erfolgreich", f"{sum(card.get('count',1) for card in imported_cards)} Karten wurden importiert.")
                 dlg.accept()
                 # Ansicht neu laden
                 stack = self.stack_widget or find_parent_with_attr(self, widget_type=QStackedWidget)

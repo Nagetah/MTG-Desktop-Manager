@@ -63,6 +63,19 @@ class MainWindow(QWidget):
     from PyQt6.QtGui import QImage
 
     class CollectionOverview(QWidget):
+        @staticmethod
+        def safe_float(val):
+            if val is None:
+                return 0.0
+            if isinstance(val, (int, float)):
+                return float(val)
+            if isinstance(val, str):
+                val = val.replace(',', '.')
+                try:
+                    return float(val)
+                except Exception:
+                    return 0.0
+            return 0.0
         def closeEvent(self, event):
             # Beende alle laufenden Preisupdate-Threads und Timer sauber (mit Timeout)
             print(f"[DEBUG] closeEvent: Beende {len(self.threads)} Threads...")
@@ -183,8 +196,8 @@ class MainWindow(QWidget):
             all_cards = []
             for col in collections:
                 all_cards.extend([c for c in col.get('cards', []) if isinstance(c, dict)])
-            marktwert = sum(float(c.get('eur') or 0) for c in all_cards)
-            einkauf = sum(float(c.get('purchase_price') or 0) for c in all_cards)
+            marktwert = sum(self.safe_float(c.get('eur')) for c in all_cards)
+            einkauf = sum(self.safe_float(c.get('purchase_price')) for c in all_cards)
             diff = marktwert - einkauf
             num_cards = len(all_cards)
             percent = (diff / einkauf * 100) if einkauf > 0 else 0
@@ -199,7 +212,7 @@ class MainWindow(QWidget):
             colors = []
             for col in collections:
                 col_cards = [c for c in col.get('cards', []) if isinstance(c, dict)]
-                col_value = sum(float(c.get('eur') or 0) for c in col_cards)
+                col_value = sum(self.safe_float(c.get('eur')) for c in col_cards)
                 if col_value > 0:
                     values.append(col_value)
                     colors.append(col.get('color', '#888888'))
@@ -356,8 +369,8 @@ class MainWindow(QWidget):
                     painter.setPen(QColor(color))
                     painter.drawEllipse(4, 4, 20, 20)
                     painter.end()
-                    marktwert = sum(float(c.get('eur') or 0) for c in col['cards'])
-                    einkauf = sum(float(c.get('purchase_price') or 0) for c in col['cards'])
+                    marktwert = sum(self.safe_float(c.get('eur')) * int(c.get('count', 1) or 1) for c in col['cards'])
+                    einkauf = sum(self.safe_float(c.get('purchase_price')) * int(c.get('count', 1) or 1) for c in col['cards'])
                     diff = marktwert - einkauf
                     row_widget = QWidget()
                     row_layout = QHBoxLayout()
@@ -369,7 +382,16 @@ class MainWindow(QWidget):
                     name_label = QLabel(col['name'])
                     name_label.setStyleSheet("font-size: 18px; font-weight: bold;")
                     row_layout.addWidget(name_label)
-                    count_label = QLabel(f"| {len(col['cards'])} Karten |")
+                    # Zeige die Gesamtanzahl aller Karten (inkl. Stückzahl)
+                    total_count = 0
+                    for card in col['cards']:
+                        cnt = card.get('count', 1)
+                        try:
+                            cnt = int(cnt)
+                        except Exception:
+                            cnt = 1
+                        total_count += cnt
+                    count_label = QLabel(f"| {total_count} Karten |")
                     count_label.setStyleSheet("font-size: 16px; margin-left: 8px;")
                     row_layout.addWidget(count_label)
                     marktwert_label = QLabel(f"Marktwert: {marktwert:.2f} €")

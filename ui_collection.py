@@ -811,36 +811,29 @@ class CollectionViewer(QWidget):
                 line = line.strip()
                 if not line or line.startswith("//"):
                     continue
-                # Versuche: Menge Name (SET) Nummer [*F*]
                 m = re.match(r"(\d+)[xX]?\s+(.+)", line)
                 if not m:
                     continue
                 qty = int(m.group(1))
                 rest = m.group(2).strip()
                 # Extrahiere Set-Code und Nummer, falls vorhanden
-                # z.B. "Cardname (SET) 123" oder "Cardname (SET) 123 *F*"
                 set_match = re.match(r"(.+?)\s*\(([^)]+)\)\s*([\w-]+)?", rest)
                 if set_match:
                     name = set_match.group(1).strip()
                     set_code = set_match.group(2).strip()
                     collector_number = set_match.group(3).strip() if set_match.group(3) else None
                 else:
-                    # Fallback: nur Name
                     name = rest
                     set_code = None
                     collector_number = None
-                # Scryfall-Query bauen
                 try:
                     if set_code and collector_number:
-                        # Suche nach Set+Nummer
                         scry_url = f"https://api.scryfall.com/cards/{set_code.lower()}/{collector_number}"
                         scry_resp = requests.get(scry_url, timeout=6)
                         if scry_resp.status_code != 200:
-                            # Fallback: nur Name
                             scry_url = f"https://api.scryfall.com/cards/named?exact={requests.utils.quote(name)}"
                             scry_resp = requests.get(scry_url, timeout=6)
                     elif set_code:
-                        # Suche nach Name + Set
                         scry_url = f"https://api.scryfall.com/cards/named?exact={requests.utils.quote(name)}&set={set_code.lower()}"
                         scry_resp = requests.get(scry_url, timeout=6)
                         if scry_resp.status_code != 200:
@@ -854,25 +847,57 @@ class CollectionViewer(QWidget):
                     scry_card = scry_resp.json()
                 except Exception:
                     continue
+                # --- Normalize card entry as in add_to_collection ---
+                # Variant detection (foil/nonfoil) - fallback to 'nonfoil' if not found
+                variant = 'nonfoil'
+                if scry_card.get('foil') and not scry_card.get('nonfoil'):
+                    variant = 'foil'
+                # Best image URL (large > normal > small)
+                best_image_url = None
+                if scry_card.get("card_faces") and isinstance(scry_card["card_faces"], list):
+                    face = scry_card["card_faces"][0]
+                    image_uris_face = face.get("image_uris")
+                    if image_uris_face:
+                        for key in ["large", "normal", "small"]:
+                            if image_uris_face.get(key):
+                                best_image_url = image_uris_face[key]
+                                break
+                else:
+                    image_uris = scry_card.get("image_uris")
+                    if isinstance(image_uris, dict):
+                        for key in ["large", "normal", "small"]:
+                            if image_uris.get(key):
+                                best_image_url = image_uris[key]
+                                break
+                    elif isinstance(image_uris, str):
+                        best_image_url = image_uris
+                # Set size
+                set_code_val = scry_card.get("set") or scry_card.get("set_code") or scry_card.get("set_id")
+                set_size = scry_card.get("set_size")
+                if not set_size and set_code_val:
+                    try:
+                        set_api_url = f"https://api.scryfall.com/sets/{set_code_val}"
+                        resp = requests.get(set_api_url, timeout=3)
+                        if resp.status_code == 200:
+                            set_data = resp.json()
+                            set_size = set_data.get("card_count")
+                    except Exception:
+                        set_size = None
+                # Price (EUR)
+                eur_value = scry_card.get("prices", {}).get("eur")
+                # Build normalized card entry
                 for _ in range(qty):
-                    card_entry = {
-                        "id": scry_card.get("id"),
-                        "name": scry_card.get("name"),
-                        "set": scry_card.get("set"),
-                        "set_code": scry_card.get("set"),
-                        "collector_number": scry_card.get("collector_number"),
-                        "lang": scry_card.get("lang", "en"),
-                        "image_uris": scry_card.get("image_uris"),
-                        "card_faces": scry_card.get("card_faces"),
-                        "oracle_text": scry_card.get("oracle_text"),
-                        "type_line": scry_card.get("type_line"),
-                        "mana_cost": scry_card.get("mana_cost"),
-                        "eur": scry_card.get("prices", {}).get("eur"),
-                        "purchase_price": None,
-                        "is_proxy": False,
-                        "prints_search_uri": scry_card.get("prints_search_uri"),
-                        "set_size": scry_card.get("set_size"),
-                    }
+                    card_entry = dict(scry_card)
+                    card_entry["lang"] = scry_card.get("lang", "en")
+                    card_entry["is_proxy"] = False
+                    card_entry["count"] = 1
+                    card_entry["image_url"] = best_image_url
+                    card_entry["eur"] = eur_value
+                    card_entry["set_size"] = set_size
+                    card_entry["variant"] = variant
+                    card_entry["purchase_price"] = None
+                    # For compatibility with collection logic
+                    card_entry["set_code"] = scry_card.get("set")
                     cards.append(card_entry)
             if not cards:
                 QMessageBox.warning(dlg, "Fehler", "Keine Karten im Text gefunden oder alle Karten konnten nicht erkannt werden.")

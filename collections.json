@@ -157,6 +157,331 @@
         "uri": "https://api.scryfall.com/cards/522aa72b-2b8c-484c-872b-f082101cee35",
         "variant": "foil",
         "variation": false
+      },
+      {
+        "all_parts": [
+          {
+            "component": "combo_piece",
+            "id": "9f347fa7-301f-4bc5-954c-b910a840a23b",
+            "name": "Dion, Bahamut's Dominant // Bahamut, Warden of Light",
+            "object": "related_card",
+            "type_line": "Legendary Creature — Human Noble Knight // Legendary Enchantment Creature — Saga Dragon",
+            "uri": "https://api.scryfall.com/cards/9f347fa7-301f-4bc5-954c-b910a840a23b"
+          },
+          {
+            "component": "token",
+            "id": "a7758a0b-9e85-4b4a-bf1c-ffcc6761dbad",
+            "name": "Knight",
+            "object": "related_card",
+            "type_line": "Token Creature — Knight",
+            "uri": "https://api.scryfall.com/cards/a7758a0b-9e85-4b4a-bf1c-ffcc6761dbad"
+          }
+        ],
+        "artist": "Maji",
+        "artist_ids": [
+          "78420533-7750-4c14-977b-51340e30a270"
+        ],
+        "booster": false,
+        "border_color": "borderless",
+        "card_faces": [
+          {
+            "artist": "Maji",
+            "artist_id": "78420533-7750-4c14-977b-51340e30a270",
+            "colors": [
+              "W"
+            ],
+            "illustration_id": "ddd44706-0b7f-4d83-ad4c-d374933d5e53",
+            "image_uris": {
+              "art_crop": "https://cards.scryfall.io/art_crop/front/9/f/9f347fa7-301f-4bc5-954c-b910a840a23b.jpg?1748707902",
+              "border_crop": "https://cards.scryfall.io/border_crop/front/9/f/9f347fa7-301f-4bc5-954c-b910a840a23b.jpg?1748707902",
+              "large": "https://cards.scryfall.io/large/front/9/f/9f347fa7-301f-4bc5-954c-b910a840a23b.jpg?1748707902",
+              "normal": "https://cards.scryfall.io/normal/front/9/f/9f347fa7-301f-4bc5-954c-b910a840a23b.jpg?1748707902",
+              "png": "https://cards.scryfall.io/png/front/9/f/9f347fa7-301f-4bc5-954c-b910a840a23b.png?1748707902",
+              "small": "https://cards.scryfall.io/small/front/9/f/9f347fa7-301f-4bc5-954c-b910a840a23b.jpg?1748707902"
+            },
+            "mana_cost": "{3}{W}",
+            "name": "Dion, Bahamut's Dominant",
+            "object": "card_face",
+            "oracle_text": "Dragonfire Dive — During your turn, Dion and other Knights you control have flying.\nWhen Dion enters, create a 2/2 white Knight creature token.\n{4}{W}{W}, {T}: Exile Dion, then return it to the battlefield transformed under its owner's control. Activate only as a sorcery.",
+            "power": "3",
+            "toughness": "3",
+            "type_line": "Legendary Creature — Human Noble Knight"
+          },
+          {
+            "artist": "Maji",
+            "artist_id": "78420533-7750-4c14-977b-51340e30a270",
+            "color_indicator": [
+              "W"
+            ],
+            "colors": [
+              "W"
+            ],
+            "illustration_id": "3272515d-ba11-44e5-a35b-660a13eaccc4",
+            "image_uris": {
+              "art_crop": "https://cards.scryfall.io/art_crop/back/9/f/9f347fa7-301f-4bc5-954c-b910a840a23b.jpg?1748707902",
+              "border_crop": "https://cards.scryfall.io/border_crop/back/9/f/9f347fa7-301f-4bc5-954c-b910a840a23b.jpg?1748707902",
+              "large": "https://cards.scryfall.io/large/back/9/f/9f347fa7-301f-4bc5-954c-b910a840a23b.jpg?1748707902",
+              "normal": "https://cards.scryfall.io/normal/back/9/f/9f347fa7-301f-4bc5-954c-b910a840a23b.jpg?1748707902",
+              "png": "https://cards.scryfall.io/png/back/9/f/9f347fa7-301f-4bc5-954c-b910a840a23b.png?1748707902",
+              "small": "https://cards.scryfall.io/small/back/9/f/9f347fa7-301f-4bc5-954c-b910a840a23b.jpg?1748707902"
+            },
+            "mana_cost": "",
+            "name": "Bahamut, Warden of Light",
+            "object": "card_face",
+            "oracle_text": "(As this Saga enters and after your draw step, add a lore counter.)\nI, II — Wings of Light — Put a +1/+1 counter on each other creature you control. Those creatures gain flying until end of turn.\nIII — Gigaflare — Destroy target permanent. Exile Bahamut, then return it to the battlefield (front face up).\nFlying",
+            "power": "5",
+            "toughness": "5",
+            "type_line": "Legendary Enchantment Creature — Saga Dragon"
+          }
+        ],
+        "cardmarket_id": 827824,
+        "cmc": 4.0,
+        "collector_number": "521",
+        "color_identity": [
+          "W"
+        ],
+        "count": 1,
+        "digital": false,
+        "edhrec_rank": 8915,
+        "eur": "21.31",
+        "finishes": [
+          "foil"
+        ],
+        "foil": true,
+        "frame": "2015",
+        "frame_effects": [
+          "enchantment",
+          "legendary",
+          "inverted"
+        ],
+        "full_art": true,
+        "game_changer": false,
+        "games": [
+          "paper"
+        ],
+        "highres_image": true,
+        "id": "9f347fa7-301f-4bc5-954c-b910a840a23b",
+        "image_status": "highres_scan",
+        "image_url": "https://cards.scryfall.io/large/front/9/f/9f347fa7-301f-4bc5-954c-b910a840a23b.jpg?1748707902",
+        "is_proxy": false,
+        "keywords": [
+          "Dragonfire Dive",
+          "Flying",
+          "Transform"
+        ],
+        "lang": "eng",
+        "layout": "transform",
+        "legalities": {
+          "alchemy": "legal",
+          "brawl": "legal",
+          "commander": "legal",
+          "duel": "legal",
+          "future": "legal",
+          "gladiator": "legal",
+          "historic": "legal",
+          "legacy": "legal",
+          "modern": "legal",
+          "oathbreaker": "legal",
+          "oldschool": "not_legal",
+          "pauper": "not_legal",
+          "paupercommander": "not_legal",
+          "penny": "not_legal",
+          "pioneer": "legal",
+          "predh": "not_legal",
+          "premodern": "not_legal",
+          "standard": "legal",
+          "standardbrawl": "legal",
+          "timeless": "legal",
+          "vintage": "legal"
+        },
+        "multiverse_ids": [],
+        "name": "Dion, Bahamut's Dominant // Bahamut, Warden of Light",
+        "nonfoil": false,
+        "object": "card",
+        "oracle_id": "4a0cc2a2-3711-473a-b2c5-b1e52b34e4fb",
+        "oversized": false,
+        "prices": {
+          "eur": null,
+          "eur_foil": "21.31",
+          "tix": null,
+          "usd": null,
+          "usd_etched": null,
+          "usd_foil": "28.89"
+        },
+        "prints_search_uri": "https://api.scryfall.com/cards/search?order=released&q=oracleid%3A4a0cc2a2-3711-473a-b2c5-b1e52b34e4fb&unique=prints",
+        "promo": false,
+        "promo_types": [
+          "ffxvi",
+          "surgefoil",
+          "boosterfun"
+        ],
+        "purchase_price": "25",
+        "purchase_uris": {
+          "cardhoarder": "https://www.cardhoarder.com/cards?affiliate_id=scryfall&data%5Bsearch%5D=Dion%2C+Bahamut%27s+Dominant&ref=card-profile&utm_campaign=affiliate&utm_medium=card&utm_source=scryfall",
+          "cardmarket": "https://www.cardmarket.com/en/Magic/Products?idProduct=827824&referrer=scryfall&utm_campaign=card_prices&utm_medium=text&utm_source=scryfall",
+          "tcgplayer": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&u=https%3A%2F%2Fwww.tcgplayer.com%2Fproduct%2F633957%3Fpage%3D1"
+        },
+        "rarity": "rare",
+        "related_uris": {
+          "edhrec": "https://edhrec.com/route/?cc=Dion%2C+Bahamut%27s+Dominant",
+          "tcgplayer_infinite_articles": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&trafcat=tcgplayer.com%2Fsearch%2Farticles&u=https%3A%2F%2Fwww.tcgplayer.com%2Fsearch%2Farticles%3FproductLineName%3Dmagic%26q%3DDion%252C%2BBahamut%2527s%2BDominant%2B%252F%252F%2BBahamut%252C%2BWarden%2Bof%2BLight",
+          "tcgplayer_infinite_decks": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&trafcat=tcgplayer.com%2Fsearch%2Fdecks&u=https%3A%2F%2Fwww.tcgplayer.com%2Fsearch%2Fdecks%3FproductLineName%3Dmagic%26q%3DDion%252C%2BBahamut%2527s%2BDominant%2B%252F%252F%2BBahamut%252C%2BWarden%2Bof%2BLight"
+        },
+        "released_at": "2025-06-13",
+        "reprint": false,
+        "reserved": false,
+        "rulings_uri": "https://api.scryfall.com/cards/9f347fa7-301f-4bc5-954c-b910a840a23b/rulings",
+        "scryfall_set_uri": "https://scryfall.com/sets/fin?utm_source=api",
+        "scryfall_uri": "https://scryfall.com/card/fin/521/dion-bahamuts-dominant-bahamut-warden-of-light?utm_source=api",
+        "security_stamp": "triangle",
+        "set": "fin",
+        "set_id": "d7beb4b7-e1ff-4d35-ab07-5700f17ea1ea",
+        "set_name": "Final Fantasy",
+        "set_search_uri": "https://api.scryfall.com/cards/search?order=set&q=e%3Afin&unique=prints",
+        "set_size": 586,
+        "set_type": "expansion",
+        "set_uri": "https://api.scryfall.com/sets/d7beb4b7-e1ff-4d35-ab07-5700f17ea1ea",
+        "story_spotlight": false,
+        "tcgplayer_id": 633957,
+        "textless": false,
+        "type_line": "Legendary Creature — Human Noble Knight // Legendary Enchantment Creature — Saga Dragon",
+        "uri": "https://api.scryfall.com/cards/9f347fa7-301f-4bc5-954c-b910a840a23b",
+        "variant": "foil",
+        "variation": false
+      },
+      {
+        "arena_id": 77569,
+        "artist": "Sumie Okazu",
+        "artist_ids": [
+          "d32e1d7f-08ff-423e-95d3-2387cfd15ac2"
+        ],
+        "booster": false,
+        "border_color": "borderless",
+        "card_back_id": "0aeebaf5-8c7d-4636-9e82-8c27447861f7",
+        "cardmarket_id": 540556,
+        "cmc": 2.0,
+        "collector_number": "90",
+        "color_identity": [
+          "B"
+        ],
+        "colors": [
+          "B"
+        ],
+        "count": 1,
+        "digital": false,
+        "edhrec_rank": 55,
+        "eur": "267.89",
+        "finishes": [
+          "nonfoil",
+          "foil",
+          "etched"
+        ],
+        "flavor_text": "「悪魔は、自分が賢く、騙されることなどないと信じている者を好む。」 ー巻物入れに刻まれた言葉",
+        "foil": true,
+        "frame": "2015",
+        "full_art": true,
+        "game_changer": true,
+        "games": [
+          "arena",
+          "paper",
+          "mtgo"
+        ],
+        "highres_image": true,
+        "id": "99b6e466-784b-48a6-8e72-beff72f39231",
+        "illustration_id": "3d3d4ccf-b3f2-4e9f-bbe1-ba7590d51efb",
+        "image_status": "highres_scan",
+        "image_uris": {
+          "art_crop": "https://cards.scryfall.io/art_crop/front/9/9/99b6e466-784b-48a6-8e72-beff72f39231.jpg?1624502333",
+          "border_crop": "https://cards.scryfall.io/border_crop/front/9/9/99b6e466-784b-48a6-8e72-beff72f39231.jpg?1624502333",
+          "large": "https://cards.scryfall.io/large/front/9/9/99b6e466-784b-48a6-8e72-beff72f39231.jpg?1624502333",
+          "normal": "https://cards.scryfall.io/normal/front/9/9/99b6e466-784b-48a6-8e72-beff72f39231.jpg?1624502333",
+          "png": "https://cards.scryfall.io/png/front/9/9/99b6e466-784b-48a6-8e72-beff72f39231.png?1624502333",
+          "small": "https://cards.scryfall.io/small/front/9/9/99b6e466-784b-48a6-8e72-beff72f39231.jpg?1624502333"
+        },
+        "image_url": "https://cards.scryfall.io/large/front/9/9/99b6e466-784b-48a6-8e72-beff72f39231.jpg?1624502333",
+        "is_proxy": false,
+        "keywords": [],
+        "lang": "de",
+        "layout": "normal",
+        "legalities": {
+          "alchemy": "not_legal",
+          "brawl": "banned",
+          "commander": "legal",
+          "duel": "legal",
+          "future": "not_legal",
+          "gladiator": "banned",
+          "historic": "banned",
+          "legacy": "banned",
+          "modern": "not_legal",
+          "oathbreaker": "legal",
+          "oldschool": "not_legal",
+          "pauper": "not_legal",
+          "paupercommander": "not_legal",
+          "penny": "not_legal",
+          "pioneer": "not_legal",
+          "predh": "legal",
+          "premodern": "not_legal",
+          "standard": "not_legal",
+          "standardbrawl": "not_legal",
+          "timeless": "restricted",
+          "vintage": "restricted"
+        },
+        "mana_cost": "{1}{B}",
+        "mtgo_id": 99579,
+        "multiverse_ids": [],
+        "name": "Demonic Tutor",
+        "nonfoil": true,
+        "object": "card",
+        "oracle_id": "82004860-e589-4e38-8d61-8c0210e4ea39",
+        "oracle_text": "Search your library for a card, put that card into your hand, then shuffle.",
+        "oversized": false,
+        "prices": {
+          "eur": "121.52",
+          "eur_foil": "267.89",
+          "tix": "8.76",
+          "usd": "126.42",
+          "usd_etched": "166.27",
+          "usd_foil": "302.39"
+        },
+        "printed_name": "悪魔の教示者",
+        "printed_text": "あなたのライブラリーからカード１枚を探し、あなたの手札に加える。その後、ライブラリーを切り直す。",
+        "printed_type_line": "ソーサリー",
+        "prints_search_uri": "https://api.scryfall.com/cards/search?order=released&q=oracleid%3A82004860-e589-4e38-8d61-8c0210e4ea39&unique=prints",
+        "promo": false,
+        "purchase_price": "100",
+        "purchase_uris": {
+          "cardhoarder": "https://www.cardhoarder.com/cards/99579?affiliate_id=scryfall&ref=card-profile&utm_campaign=affiliate&utm_medium=card&utm_source=scryfall",
+          "cardmarket": "https://www.cardmarket.com/en/Magic/Products?idProduct=540556&referrer=scryfall&utm_campaign=card_prices&utm_medium=text&utm_source=scryfall",
+          "tcgplayer": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&u=https%3A%2F%2Fwww.tcgplayer.com%2Fproduct%2F233497%3Fpage%3D1"
+        },
+        "rarity": "mythic",
+        "related_uris": {
+          "edhrec": "https://edhrec.com/route/?cc=Demonic+Tutor",
+          "tcgplayer_infinite_articles": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&trafcat=tcgplayer.com%2Fsearch%2Farticles&u=https%3A%2F%2Fwww.tcgplayer.com%2Fsearch%2Farticles%3FproductLineName%3Dmagic%26q%3DDemonic%2BTutor",
+          "tcgplayer_infinite_decks": "https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&trafcat=tcgplayer.com%2Fsearch%2Fdecks&u=https%3A%2F%2Fwww.tcgplayer.com%2Fsearch%2Fdecks%3FproductLineName%3Dmagic%26q%3DDemonic%2BTutor"
+        },
+        "released_at": "2021-04-23",
+        "reprint": true,
+        "reserved": false,
+        "rulings_uri": "https://api.scryfall.com/cards/99b6e466-784b-48a6-8e72-beff72f39231/rulings",
+        "scryfall_set_uri": "https://scryfall.com/sets/sta?utm_source=api",
+        "scryfall_uri": "https://scryfall.com/card/sta/90/ja/%E6%82%AA%E9%AD%94%E3%81%AE%E6%95%99%E7%A4%BA%E8%80%85-(demonic-tutor)?utm_source=api",
+        "security_stamp": "oval",
+        "set": "sta",
+        "set_id": "5064a720-907f-4cb6-a425-766dc1dd7374",
+        "set_name": "Strixhaven Mystical Archive",
+        "set_search_uri": "https://api.scryfall.com/cards/search?order=set&q=e%3Asta&unique=prints",
+        "set_size": 126,
+        "set_type": "masterpiece",
+        "set_uri": "https://api.scryfall.com/sets/5064a720-907f-4cb6-a425-766dc1dd7374",
+        "story_spotlight": false,
+        "tcgplayer_etched_id": 233496,
+        "tcgplayer_id": 233497,
+        "textless": false,
+        "type_line": "Sorcery",
+        "uri": "https://api.scryfall.com/cards/99b6e466-784b-48a6-8e72-beff72f39231",
+        "variant": "foil",
+        "variation": false
       }
     ],
     "color": "#c50000"
@@ -447,7 +772,7 @@
         "count": 1,
         "digital": false,
         "edhrec_rank": 4207,
-        "eur": "70.70",
+        "eur": "70.19",
         "finishes": [
           "nonfoil",
           "foil"
@@ -750,7 +1075,7 @@
         "count": 1,
         "digital": false,
         "edhrec_rank": 919,
-        "eur": "21.13",
+        "eur": "23.56",
         "finishes": [
           "nonfoil",
           "foil"
@@ -823,7 +1148,7 @@
           "B"
         ],
         "promo": false,
-        "purchase_price": null,
+        "purchase_price": 20.0,
         "purchase_uris": {
           "cardhoarder": "https://www.cardhoarder.com/cards/83139?affiliate_id=scryfall&ref=card-profile&utm_campaign=affiliate&utm_medium=card&utm_source=scryfall",
           "cardmarket": "https://www.cardmarket.com/en/Magic/Products?idProduct=496690&referrer=scryfall&utm_campaign=card_prices&utm_medium=text&utm_source=scryfall",
@@ -856,7 +1181,7 @@
         "textless": false,
         "type_line": "Sorcery // Land",
         "uri": "https://api.scryfall.com/cards/67f4c93b-080c-4196-b095-6a120a221988",
-        "variant": "nonfoil",
+        "variant": "foil",
         "variation": false
       },
       {
@@ -1429,7 +1754,7 @@
         "count": 1,
         "digital": false,
         "edhrec_rank": 346,
-        "eur": "0.62",
+        "eur": "0.68",
         "finishes": [
           "nonfoil",
           "foil"
@@ -3032,7 +3357,7 @@
         "count": 1,
         "digital": false,
         "edhrec_rank": 696,
-        "eur": "8.11",
+        "eur": "8.02",
         "finishes": [
           "nonfoil"
         ],

@@ -149,12 +149,20 @@ class MainWindow(QWidget):
                     col['last_price_update'] = 0
                 with open("collections.json", "w", encoding="utf-8") as f:
                     json.dump(collections, f, indent=2, ensure_ascii=False)
-            # Status-Tracking-Attribute zurücksetzen, damit alles sauber neu initialisiert wird
-            self.update_status.clear()
-            self.status_labels.clear()
-            self.threads.clear()
+            # --- ALLE laufenden Threads und Timer beenden, bevor Status zurückgesetzt wird ---
+            for name, thread in list(self.threads.items()):
+                try:
+                    thread.quit()
+                    thread.wait(5000)
+                except Exception:
+                    pass
+                del self.threads[name]
+            for timer in self.status_timers.values():
+                timer.stop()
             self.status_timers.clear()
             self.status_start_times.clear()
+            self.update_status.clear()
+            self.status_labels.clear()
             # Button deaktivieren während Update läuft
             self.update_all_button.setEnabled(False)
             self.load_collections()
@@ -305,6 +313,20 @@ class MainWindow(QWidget):
             from price_updater import PriceUpdaterWorker
             import time
             UPDATE_INTERVAL = 3600  # 1 Stunde (in Sekunden)
+            # --- ALLE laufenden Threads und Timer beenden, bevor Status zurückgesetzt wird ---
+            for name, thread in list(self.threads.items()):
+                try:
+                    thread.quit()
+                    thread.wait(5000)
+                except Exception:
+                    pass
+                del self.threads[name]
+            for timer in self.status_timers.values():
+                timer.stop()
+            self.status_timers.clear()
+            self.status_start_times.clear()
+            self.update_status.clear()
+            self.status_labels.clear()
             # --- SCHUTZ: Parallele Preisupdates verhindern ---
             if hasattr(self, 'updating_collections') and self.updating_collections:
                 print('[DEBUG] Preisupdate: Parallelversuch blockiert (Flag)')
@@ -313,17 +335,7 @@ class MainWindow(QWidget):
                 print(f"[DEBUG] Preisupdate: Es laufen noch alte Threads: {list(self.threads.keys())} – Starte KEINE neuen Worker!")
                 return
             self.updating_collections = True
-            for thread in self.threads.values():
-                thread.quit()
-                thread.wait(3000)
-            self.threads.clear()
-            for timer in self.status_timers.values():
-                timer.stop()
-            self.status_timers.clear()
-            self.status_start_times.clear()
             self.list_widget.clear()
-            self.update_status.clear()
-            self.status_labels.clear()
             collections = []
             if os.path.exists("collections.json"):
                 with open("collections.json", "r", encoding="utf-8") as f:

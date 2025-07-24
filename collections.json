@@ -485,7 +485,7 @@
       }
     ],
     "color": "#c50000",
-    "last_price_update": 1753352922.4449792
+    "last_price_update": 1753354185.5875955
   },
   {
     "name": "TestV2",
@@ -684,7 +684,7 @@
       }
     ],
     "color": "#00ffff",
-    "last_price_update": 1753352922.0939124
+    "last_price_update": 1753354185.237111
   },
   {
     "name": "TestV3",
@@ -5198,6 +5198,6 @@
       }
     ],
     "color": "#00aa00",
-    "last_price_update": 1753352927.2073724
+    "last_price_update": 1753354229.1083238
   }
 ]

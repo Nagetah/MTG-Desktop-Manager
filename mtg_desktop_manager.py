@@ -89,14 +89,19 @@ class MainWindow(QWidget):
             super().__init__()
             self.return_to_menu = return_to_menu
             self.setStyleSheet("background-color: #1e1e1e; color: white;")
-            layout = QVBoxLayout()
+
+            # --- Wichtige Attribute initialisieren, bevor load_collections() aufgerufen werden kann ---
+            self.threads = {}        # sammlungsname -> QThread
+            self.status_timers = {}  # sammlungsname -> QTimer
+            self.status_start_times = {}  # sammlungsname -> float (startzeit)
+            self.update_status = {}  # sammlungsname -> 'pending'|'done'|'error'
+            self.status_labels = {}  # sammlungsname -> QLabel
 
             # --- Kreisdiagramm für alle Sammlungen ---
             diagram_label = QLabel()
             diagram_label.setAlignment(Qt.AlignmentFlag.AlignHCenter)
             diagram_label.setStyleSheet("margin-bottom: 18px;")
             self.diagram_label = diagram_label
-            layout.addWidget(diagram_label)
 
             top_bar = QHBoxLayout()
             back_button = QPushButton("← Hauptmenü")
@@ -106,21 +111,56 @@ class MainWindow(QWidget):
             self.label = QLabel("Sammlungen")
             self.label.setStyleSheet("font-size: 18px; padding: 10px;")
             top_bar.addWidget(self.label)
-            layout.addLayout(top_bar)
+
+            top_bar.addStretch(1)
+
+            # --- Preise updaten Button (blau, rechts) ---
+            self.update_all_button = QPushButton("Preise updaten")
+            self.update_all_button.setStyleSheet("font-size: 18px; font-weight: bold; background-color: #1976d2; color: white; border-radius: 8px; padding: 10px 24px; min-width: 140px;")
+            self.update_all_button.clicked.connect(self.manual_update_all_prices)
+            top_bar.addWidget(self.update_all_button)
 
             self.list_widget = QListWidget()
             self.list_widget.itemDoubleClicked.connect(self.open_collection)
-            layout.addWidget(self.list_widget)
 
             self.new_button = QPushButton("Neue Sammlung erstellen")
             self.new_button.clicked.connect(self.create_collection)
-            layout.addWidget(self.new_button)
 
             self.delete_button = QPushButton("Ausgewählte Sammlung löschen")
             self.delete_button.clicked.connect(self.delete_collection)
-            layout.addWidget(self.delete_button)
 
+            # Layout erst jetzt anlegen und befüllen
+            layout = QVBoxLayout()
+            layout.addWidget(self.diagram_label)
+            layout.addLayout(top_bar)
+            layout.addWidget(self.list_widget)
+            layout.addWidget(self.new_button)
+            layout.addWidget(self.delete_button)
             self.setLayout(layout)
+        def manual_update_all_prices(self):
+            """Manuelles Update aller Preise: setzt alle last_price_update auf 0 und startet load_collections neu."""
+            if hasattr(self, 'updating_collections') and self.updating_collections:
+                return
+            # Setze alle last_price_update auf 0 (force update)
+            if os.path.exists("collections.json"):
+                with open("collections.json", "r", encoding="utf-8") as f:
+                    collections = json.load(f)
+                for col in collections:
+                    col['last_price_update'] = 0
+                with open("collections.json", "w", encoding="utf-8") as f:
+                    json.dump(collections, f, indent=2, ensure_ascii=False)
+            # Status-Tracking-Attribute zurücksetzen, damit alles sauber neu initialisiert wird
+            self.update_status.clear()
+            self.status_labels.clear()
+            self.threads.clear()
+            self.status_timers.clear()
+            self.status_start_times.clear()
+            # Button deaktivieren während Update läuft
+            self.update_all_button.setEnabled(False)
+            self.load_collections()
+
+
+
 
             # Status-Tracking für Preisupdates
             self.update_status = {}  # sammlungsname -> 'pending'|'done'|'error'
@@ -256,10 +296,15 @@ class MainWindow(QWidget):
 
 
         def load_collections(self):
+            # Button während Update deaktivieren
+            if hasattr(self, 'update_all_button'):
+                self.update_all_button.setEnabled(False)
             from PyQt6.QtWidgets import QListWidgetItem, QWidget, QHBoxLayout, QLabel, QSizePolicy
             from PyQt6.QtGui import QPixmap, QPainter, QColor, QIcon
             from PyQt6.QtCore import QThread, QTimer
             from price_updater import PriceUpdaterWorker
+            import time
+            UPDATE_INTERVAL = 3600  # 1 Stunde (in Sekunden)
             # --- SCHUTZ: Parallele Preisupdates verhindern ---
             if hasattr(self, 'updating_collections') and self.updating_collections:
                 print('[DEBUG] Preisupdate: Parallelversuch blockiert (Flag)')
@@ -268,7 +313,6 @@ class MainWindow(QWidget):
                 print(f"[DEBUG] Preisupdate: Es laufen noch alte Threads: {list(self.threads.keys())} – Starte KEINE neuen Worker!")
                 return
             self.updating_collections = True
-            # --- Vor dem Leeren: Beende alle alten Threads sauber (Timeout) ---
             for thread in self.threads.values():
                 thread.quit()
                 thread.wait(3000)
@@ -285,8 +329,12 @@ class MainWindow(QWidget):
                 with open("collections.json", "r", encoding="utf-8") as f:
                     collections = json.load(f)
             self.update_overview_diagram(collections)
+            now = time.time()
             def start_workers():
                 for col in collections:
+                    # Prüfe, ob das letzte Update zu lange her ist
+                    last_update = col.get('last_price_update', 0)
+                    needs_update = (now - last_update) > UPDATE_INTERVAL
                     color = col.get('color', '#888888')
                     pix = QPixmap(28, 28)
                     pix.fill(QColor(0,0,0,0))
@@ -341,7 +389,15 @@ class MainWindow(QWidget):
                         status_label.setStyleSheet("font-size: 20px; margin-left: 12px; color: #4caf50;")
                         self.update_status[col['name']] = 'done'
                     else:
-                        self.update_status[col['name']] = 'pending'
+                        if needs_update:
+                            self.update_status[col['name']] = 'pending'
+                            # Status-Label sofort auf gelb setzen
+                            status_label.setText('⟳ 0s')
+                            status_label.setStyleSheet("font-size: 20px; margin-left: 12px; color: #ffd700;")
+                        else:
+                            self.update_status[col['name']] = 'done'
+                            status_label.setText('✅')
+                            status_label.setStyleSheet("font-size: 20px; margin-left: 12px; color: #4caf50;")
                         timer = QTimer(self)
                         timer.setInterval(1000)
                         def update_label(name=col['name'], label=status_label):
@@ -352,9 +408,8 @@ class MainWindow(QWidget):
                                 label.setText(f'⟳ {sek}s')
                         timer.timeout.connect(update_label)
                         self.status_timers[col['name']] = timer
-                        # --- Preisupdate-Worker nur starten, wenn nicht schon einer läuft und Status nicht 'done' ---
-                        if col['name'] not in self.threads and self.update_status.get(col['name']) != 'done':
-                            import time
+                        # --- Preisupdate-Worker nur starten, wenn nötig ---
+                        if needs_update and col['name'] not in self.threads:
                             print(f"[DEBUG] Starte Preisupdate-Worker für Sammlung '{col['name']}' um {time.strftime('%H:%M:%S')}")
                             self.status_start_times[col['name']] = time.time()
                             self.status_timers[col['name']].start()
@@ -377,6 +432,9 @@ class MainWindow(QWidget):
                     self.list_widget.addItem(item)
                     self.list_widget.setItemWidget(item, row_widget)
                 self.updating_collections = False
+                # Button wieder aktivieren, wenn keine Updates mehr laufen
+                if hasattr(self, 'update_all_button'):
+                    self.update_all_button.setEnabled(True)
             # Starte Worker erst nach kurzem Delay, damit alle alten Threads wirklich beendet sind
             QTimer.singleShot(150, start_workers)
 
@@ -410,12 +468,15 @@ class MainWindow(QWidget):
         def on_update_finished(self, sammlungsname, cards):
             import time
             print(f"[DEBUG] on_update_finished für '{sammlungsname}' um {time.strftime('%H:%M:%S')} (Threads: {list(self.threads.keys())})")
+            # --- Update last_price_update Zeitstempel ---
+            now = time.time()
             if os.path.exists("collections.json"):
                 with open("collections.json", "r", encoding="utf-8") as f:
                     collections = json.load(f)
                 for col in collections:
                     if col['name'] == sammlungsname:
                         col['cards'] = cards
+                        col['last_price_update'] = now
                         break
                 with open("collections.json", "w", encoding="utf-8") as f:
                     json.dump(collections, f, indent=2, ensure_ascii=False)

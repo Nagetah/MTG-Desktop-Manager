@@ -484,7 +484,8 @@
         "variation": false
       }
     ],
-    "color": "#c50000"
+    "color": "#c50000",
+    "last_price_update": 1753352922.4449792
   },
   {
     "name": "TestV2",
@@ -682,7 +683,8 @@
         "variation": false
       }
     ],
-    "color": "#00ffff"
+    "color": "#00ffff",
+    "last_price_update": 1753352922.0939124
   },
   {
     "name": "TestV3",
@@ -772,7 +774,7 @@
         "count": 1,
         "digital": false,
         "edhrec_rank": 4207,
-        "eur": "70.19",
+        "eur": "70.70",
         "finishes": [
           "nonfoil",
           "foil"
@@ -1754,7 +1756,7 @@
         "count": 1,
         "digital": false,
         "edhrec_rank": 346,
-        "eur": "0.68",
+        "eur": "0.62",
         "finishes": [
           "nonfoil",
           "foil"
@@ -3357,7 +3359,7 @@
         "count": 1,
         "digital": false,
         "edhrec_rank": 696,
-        "eur": "8.02",
+        "eur": "8.11",
         "finishes": [
           "nonfoil"
         ],
@@ -5195,6 +5197,7 @@
         "variation": false
       }
     ],
-    "color": "#00aa00"
+    "color": "#00aa00",
+    "last_price_update": 1753352927.2073724
   }
 ]

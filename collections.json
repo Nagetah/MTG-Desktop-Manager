@@ -485,7 +485,7 @@
       }
     ],
     "color": "#c50000",
-    "last_price_update": 1753364448.5372303
+    "last_price_update": 1753365115.4735806
   },
   {
     "name": "TestV2",
@@ -684,7 +684,7 @@
       }
     ],
     "color": "#00ffff",
-    "last_price_update": 0
+    "last_price_update": 1753365115.1875246
   },
   {
     "name": "TestV3",
@@ -5363,7 +5363,7 @@
       }
     ],
     "color": "#00aa00",
-    "last_price_update": 1753364453.773107
+    "last_price_update": 1753365119.4738116
   },
   {
     "name": "TestV4",
@@ -14897,7 +14897,7 @@
       }
     ],
     "color": "#2720ff",
-    "last_price_update": 1753364460.133938
+    "last_price_update": 1753365123.7570665
   },
   {
     "name": "TestV5",
@@ -15034,6 +15034,6 @@
       }
     ],
     "color": "#ff8e42",
-    "last_price_update": 1753364448.1833165
+    "last_price_update": 1753365115.3005512
   }
 ]

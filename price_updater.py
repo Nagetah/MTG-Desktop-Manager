@@ -19,22 +19,29 @@ class PriceUpdaterWorker(QObject):
         self._abort = True
 
     def run(self):
+        import traceback
         self.update_status.emit(self.sammlungsname, 'pending')
         cards = self.sammlung.get('cards', [])
         for idx, card in enumerate(cards):
             if self._abort:
+                print(f"[DEBUG] Preisupdate-Worker für '{self.sammlungsname}' abgebrochen bei Karte {idx+1}/{len(cards)}: {card.get('name')}")
                 self.update_status.emit(self.sammlungsname, 'error')
                 return
             try:
-                # Scryfall-API: Preis für exakte Variante holen
                 scryfall_id = card.get('id')
+                print(f"[DEBUG] Preisupdate-Worker: {self.sammlungsname} | {idx+1}/{len(cards)} | {card.get('name')} | id={scryfall_id}")
                 if not scryfall_id:
+                    print(f"[DEBUG] Preisupdate-Worker: Karte ohne Scryfall-ID übersprungen: {card.get('name')}")
                     continue
                 url = f"https://api.scryfall.com/cards/{scryfall_id}"
-                resp = requests.get(url, timeout=5)
+                try:
+                    resp = requests.get(url, timeout=5)
+                except Exception as e:
+                    print(f"[ERROR] Preisupdate-Worker: Request-Fehler bei {card.get('name')} ({scryfall_id}): {e}")
+                    card['eur'] = ''
+                    continue
                 if resp.status_code == 200:
                     data = resp.json()
-                    # Preis je nach Variante
                     variant = card.get('variant', 'nonfoil')
                     price = None
                     if variant == 'foil':
@@ -46,11 +53,14 @@ class PriceUpdaterWorker(QObject):
                     else:
                         price = data.get('prices', {}).get('eur')
                     card['eur'] = price if price not in (None, '', '0', 0) else ''
+                    print(f"[DEBUG] Preisupdate-Worker: {card.get('name')} | Variante: {variant} | Preis: {card['eur']}")
                 else:
+                    print(f"[ERROR] Preisupdate-Worker: HTTP {resp.status_code} für {card.get('name')} ({scryfall_id})")
                     card['eur'] = ''
-            except Exception:
+            except Exception as e:
+                print(f"[ERROR] Preisupdate-Worker: Exception bei {card.get('name')} ({card.get('id')}): {e}\n{traceback.format_exc()}")
                 card['eur'] = ''
             self.update_progress.emit(self.sammlungsname, idx+1, len(cards))
-            time.sleep(0.1)  # UI-Entlastung
+            time.sleep(0.05)  # UI-Entlastung
         self.update_status.emit(self.sammlungsname, 'done')
         self.update_finished.emit(self.sammlungsname, cards)

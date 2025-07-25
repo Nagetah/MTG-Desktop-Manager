@@ -1037,13 +1037,14 @@ class CollectionViewer(QWidget):
         title.setAlignment(Qt.AlignmentFlag.AlignHCenter)
         layout.addWidget(title)
 
-        # --- Zweite Zeile: Buttons links, Suche/Sortierung rechts ---
+        # --- Neue Kopfzeile: Links, Mitte, Rechts ---
         bar_row = QHBoxLayout()
-        # Linke Seite: Buttons
-        btns_layout = QHBoxLayout()
+
+        # Links: Hauptmenü- und Sammlung-Button
+        left_layout = QHBoxLayout()
         back_button = QPushButton("← Hauptmenü")
         back_button.clicked.connect(self.return_to_menu)
-        btns_layout.addWidget(back_button)
+        left_layout.addWidget(back_button)
         back_to_collections_button = QPushButton("← Sammlung")
         back_to_collections_button.setStyleSheet("margin-left: 10px;")
         def go_to_collections():
@@ -1051,31 +1052,38 @@ class CollectionViewer(QWidget):
             if parent:
                 parent.show_collections()
         back_to_collections_button.clicked.connect(go_to_collections)
-        btns_layout.addWidget(back_to_collections_button)
-        # --- Moxfield-Import-Button ---
+        left_layout.addWidget(back_to_collections_button)
+        left_layout.addStretch(1)
+
+        # Mitte: Import/Export
+        center_layout = QHBoxLayout()
+        center_layout.addStretch(1)
         import_btn = QPushButton("Importieren")
         import_btn.setStyleSheet("margin-left: 10px; background-color: #0078d7; color: white; font-weight: bold;")
         import_btn.clicked.connect(self.import_deck_text)
-        btns_layout.addWidget(import_btn)
-        # --- Deck Exportieren Button ---
+        center_layout.addWidget(import_btn)
         export_btn = QPushButton("Exportieren")
         export_btn.setStyleSheet("margin-left: 10px; background-color: #4caf50; color: white; font-weight: bold;")
         export_btn.clicked.connect(self.export_deck_text)
-        btns_layout.addWidget(export_btn)
-        btns_layout.addStretch(1)
-        bar_row.addLayout(btns_layout, 2)
-        # Rechte Seite: Suche und Sortierung
-        search_sort_layout = QHBoxLayout()
+        center_layout.addWidget(export_btn)
+        center_layout.addStretch(1)
+
+        # Rechts: Suche und Sortierung
+        right_layout = QHBoxLayout()
+        right_layout.addStretch(1)
         self.search_field = QLineEdit()
         self.search_field.setPlaceholderText("Nach Name suchen...")
         self.search_field.setFixedWidth(220)
-        search_sort_layout.addWidget(self.search_field)
+        right_layout.addWidget(self.search_field)
         self.sort_dropdown = QComboBox()
         self.sort_dropdown.addItems(["Name (A-Z)", "Name (Z-A)"])
         self.sort_dropdown.setFixedWidth(160)
-        search_sort_layout.addWidget(self.sort_dropdown)
-        search_sort_layout.addStretch(1)
-        bar_row.addLayout(search_sort_layout, 1)
+        right_layout.addWidget(self.sort_dropdown)
+
+        # Gesamte Zeile zusammenfügen
+        bar_row.addLayout(left_layout, 2)
+        bar_row.addLayout(center_layout, 2)
+        bar_row.addLayout(right_layout, 2)
         layout.addLayout(bar_row)
 
         # Signalverbindungen für Live-Filter und Sortierung
@@ -1176,45 +1184,6 @@ class CollectionViewer(QWidget):
         # --- Scrollbarer Bereich für Kartenliste ---
         scroll = QScrollArea()
         scroll.setWidgetResizable(True)
-        # Style für Scrollbar (dunkel, modern)
-        scroll.setStyleSheet('''
-            QScrollBar:vertical, QScrollBar:horizontal {
-                background: transparent;
-                width: 16px;
-                height: 16px;
-                margin: 0px;
-                border: none;
-            }
-            QScrollBar::groove:vertical, QScrollBar::groove:horizontal {
-                background: #444;
-                border-radius: 8px;
-                margin: 2px;
-            }
-            QScrollBar::handle:vertical, QScrollBar::handle:horizontal {
-                background: #888;
-                min-height: 36px;
-                min-width: 36px;
-                border-radius: 50%;
-                margin: 4px;
-                border: none;
-                width: 8px;
-                height: 8px;
-            }
-            QScrollBar::handle:vertical:hover, QScrollBar::handle:horizontal:hover {
-                background: #aaa;
-            }
-            QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical,
-            QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {
-                height: 0px;
-                width: 0px;
-                border: none;
-                background: none;
-            }
-            QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical,
-            QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {
-                background: none;
-            }
-        ''')
         content = QWidget()
         grid = QVBoxLayout()
         content.setLayout(grid)

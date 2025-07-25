@@ -123,15 +123,18 @@ class MainWindow(QWidget):
             padding_px = 28  # wie im Stylesheet
             min_width = font_metrics.horizontalAdvance(back_button.text()) + 2 * padding_px
             back_button.setMinimumWidth(max(min_width, 2 * padding_px + 80))  # 80 als sinnvolles Minimum
-            back_button.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
+            back_button.setSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Fixed)
             back_button.clicked.connect(self.return_to_menu)
             top_bar.addWidget(back_button)
 
+            # --- Überschrift wirklich mittig: eigenes Layout ---
+            label_row = QHBoxLayout()
+            label_row.addStretch(1)
             self.label = QLabel("Sammlungen")
-            self.label.setStyleSheet("font-size: 18px; padding: 10px;")
-            top_bar.addWidget(self.label)
-
-            top_bar.addStretch(1)
+            self.label.setStyleSheet("font-size: 30px; font-weight: bold; padding: 10px 0 10px 0;")
+            self.label.setAlignment(Qt.AlignmentFlag.AlignHCenter)
+            label_row.addWidget(self.label)
+            label_row.addStretch(1)
 
             # --- Preise updaten Button (blau, rechts) ---
             self.update_all_button = QPushButton("Preise updaten")
@@ -143,25 +146,23 @@ class MainWindow(QWidget):
             self.update_all_button.clicked.connect(self.manual_update_all_prices)
             top_bar.addWidget(self.update_all_button)
 
+            # Layout erst jetzt anlegen und befüllen
+            layout = QVBoxLayout()
+            layout.addWidget(self.diagram_label)
+            layout.addLayout(label_row)
+            layout.addLayout(top_bar)
             self.list_widget = QListWidget()
             self.list_widget.itemDoubleClicked.connect(self.open_collection)
-
             self.new_button = QPushButton("Neue Sammlung erstellen")
             font_metrics3 = self.new_button.fontMetrics()
             min_width3 = font_metrics3.horizontalAdvance(self.new_button.text()) + 2 * padding_px
             self.new_button.setMinimumWidth(max(min_width3, 2 * padding_px + 80))
             self.new_button.clicked.connect(self.create_collection)
-
             self.delete_button = QPushButton("Ausgewählte Sammlung löschen")
             font_metrics4 = self.delete_button.fontMetrics()
             min_width4 = font_metrics4.horizontalAdvance(self.delete_button.text()) + 2 * padding_px
             self.delete_button.setMinimumWidth(max(min_width4, 2 * padding_px + 80))
             self.delete_button.clicked.connect(self.delete_collection)
-
-            # Layout erst jetzt anlegen und befüllen
-            layout = QVBoxLayout()
-            layout.addWidget(self.diagram_label)
-            layout.addLayout(top_bar)
             layout.addWidget(self.list_widget)
             layout.addWidget(self.new_button)
             layout.addWidget(self.delete_button)
@@ -578,7 +579,7 @@ except Exception:
 app.setStyleSheet("""
 QWidget { background-color: #1e1e1e; color: white; font-size: 17px; }
 QPushButton {
-    background-color: #222;
+    background-color: #1a1a1a; /* Updated to Qt standard */
     color: white;
     border: 1px solid #444;
     border-radius: 8px;
@@ -620,7 +621,7 @@ QComboBox {
     min-height: 38px;
     min-width: 140px;
     qproperty-iconSize: 22px 22px;
-}
+    font-size: 18px; /* Updated to Qt standard */
 QComboBox:focus {
     border: 1.5px solid #0078d7;
     background-color: #262a36;
@@ -639,7 +640,7 @@ QComboBox::down-arrow {
     width: 16px;
     height: 16px;
     margin-right: 8px;
-}
+    font-size: 16px; /* Updated to Qt standard */
 QComboBox QAbstractItemView {
     background: #232323;
     color: white;
@@ -650,6 +651,50 @@ QComboBox QAbstractItemView {
     font-size: 18px;
 }
 QScrollArea { background-color: #1e1e1e; }
+QScrollBar:vertical, QScrollBar:horizontal {
+    background: transparent;
+    width: 18px;
+    height: 18px;
+    margin: 0px;
+    border: none;
+}
+QScrollBar::groove:vertical, QScrollBar::groove:horizontal {
+    background: #787878;
+    border-radius: 9px;
+    margin: 2px;
+}
+QScrollBar::handle:vertical, QScrollBar::handle:horizontal {
+    background: #b0b0b0;
+    min-height: 40px;
+    min-width: 40px;
+    border-radius: 9px;
+    margin: 3px;
+    border: none;
+    width: 12px;
+    height: 12px;
+    /* Qt kennt kein 'transition', daher entfernt */
+}
+QScrollBar::handle:vertical:hover, QScrollBar::handle:horizontal:hover {
+    background: #e0e0e0;
+}
+QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical,
+QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {
+    height: 0px;
+    width: 0px;
+    border: none;
+    background: none;
+}
+QScrollBar::up-arrow:vertical, QScrollBar::down-arrow:vertical,
+QScrollBar::left-arrow:horizontal, QScrollBar::right-arrow:horizontal {
+    width: 0px;
+    height: 0px;
+    background: none;
+    border: none;
+}
+QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical,
+QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {
+    background: none;
+}
 QGroupBox {
     background-color: #232323;
     color: white;

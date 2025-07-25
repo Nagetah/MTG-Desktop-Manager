@@ -16,44 +16,6 @@ class CardSelectorDialog(QDialog):
         self.layout = QVBoxLayout()
         self.scroll = QScrollArea()
         self.scroll.setWidgetResizable(True)
-        self.scroll.setStyleSheet('''
-            QScrollBar:vertical, QScrollBar:horizontal {
-                background: transparent;
-                width: 16px;
-                height: 16px;
-                margin: 0px;
-                border: none;
-            }
-            QScrollBar::groove:vertical, QScrollBar::groove:horizontal {
-                background: #444;
-                border-radius: 8px;
-                margin: 2px;
-            }
-            QScrollBar::handle:vertical, QScrollBar::handle:horizontal {
-                background: #888;
-                min-height: 36px;
-                min-width: 36px;
-                border-radius: 50%;
-                margin: 4px;
-                border: none;
-                width: 8px;
-                height: 8px;
-            }
-            QScrollBar::handle:vertical:hover, QScrollBar::handle:horizontal:hover {
-                background: #aaa;
-            }
-            QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical,
-            QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {
-                height: 0px;
-                width: 0px;
-                border: none;
-                background: none;
-            }
-            QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical,
-            QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {
-                background: none;
-            }
-        ''')
         self.result_widget = QWidget()
         self.result_layout = QVBoxLayout()
         self.result_widget.setLayout(self.result_layout)
@@ -261,44 +223,6 @@ class VariantSelector(QDialog):
         # ScrollArea für Varianten, damit nichts abgeschnitten wird
         self.scroll = QScrollArea()
         self.scroll.setWidgetResizable(True)
-        self.scroll.setStyleSheet('''
-            QScrollBar:vertical, QScrollBar:horizontal {
-                background: transparent;
-                width: 16px;
-                height: 16px;
-                margin: 0px;
-                border: none;
-            }
-            QScrollBar::groove:vertical, QScrollBar::groove:horizontal {
-                background: #444;
-                border-radius: 8px;
-                margin: 2px;
-            }
-            QScrollBar::handle:vertical, QScrollBar::handle:horizontal {
-                background: #888;
-                min-height: 36px;
-                min-width: 36px;
-                border-radius: 50%;
-                margin: 4px;
-                border: none;
-                width: 8px;
-                height: 8px;
-            }
-            QScrollBar::handle:vertical:hover, QScrollBar::handle:horizontal:hover {
-                background: #aaa;
-            }
-            QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical,
-            QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {
-                height: 0px;
-                width: 0px;
-                border: none;
-                background: none;
-            }
-            QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical,
-            QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {
-                background: none;
-            }
-        ''')
         self.result_widget = QWidget()
         self.result_layout = QVBoxLayout()
         self.result_widget.setLayout(self.result_layout)

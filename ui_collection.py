@@ -1128,11 +1128,12 @@ class CollectionViewer(QWidget):
             foil = card.get('is_foil', False) or (str(card.get('collector_number', '')).endswith('*F*'))
             # Moxfield: Foil wird als *F* am Ende dargestellt
             return (name, set_code, collector_number, foil)
-        # Zähle alle Karten
+        # Zähle alle Karten unter Berücksichtigung von 'count'
         counter = defaultdict(int)
         for card in self.collection.get('cards', []):
             key = card_key(card)
-            counter[key] += 1
+            count = int(card.get('count', 1) or 1)
+            counter[key] += count
         for (name, set_code, collector_number, foil), qty in counter.items():
             line = f"{qty} {name}"
             if set_code:

@@ -117,7 +117,13 @@ class MainWindow(QWidget):
             self.diagram_label = diagram_label
 
             top_bar = QHBoxLayout()
+            # --- Back-Button: ← Hauptmenü ---
             back_button = QPushButton("← Hauptmenü")
+            font_metrics = back_button.fontMetrics()
+            padding_px = 28  # wie im Stylesheet
+            min_width = font_metrics.horizontalAdvance(back_button.text()) + 2 * padding_px
+            back_button.setMinimumWidth(max(min_width, 2 * padding_px + 80))  # 80 als sinnvolles Minimum
+            back_button.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
             back_button.clicked.connect(self.return_to_menu)
             top_bar.addWidget(back_button)
 
@@ -129,7 +135,11 @@ class MainWindow(QWidget):
 
             # --- Preise updaten Button (blau, rechts) ---
             self.update_all_button = QPushButton("Preise updaten")
-            self.update_all_button.setStyleSheet("font-size: 18px; font-weight: bold; background-color: #1976d2; color: white; border-radius: 8px; padding: 10px 24px; min-width: 140px;")
+            font_metrics2 = self.update_all_button.fontMetrics()
+            min_width2 = font_metrics2.horizontalAdvance(self.update_all_button.text()) + 2 * padding_px
+            self.update_all_button.setMinimumWidth(max(min_width2, 2 * padding_px + 80))
+            self.update_all_button.setSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Fixed)
+            self.update_all_button.setStyleSheet("background-color: #1976d2; color: white; border-radius: 8px; padding: 10px 24px;")
             self.update_all_button.clicked.connect(self.manual_update_all_prices)
             top_bar.addWidget(self.update_all_button)
 
@@ -137,9 +147,15 @@ class MainWindow(QWidget):
             self.list_widget.itemDoubleClicked.connect(self.open_collection)
 
             self.new_button = QPushButton("Neue Sammlung erstellen")
+            font_metrics3 = self.new_button.fontMetrics()
+            min_width3 = font_metrics3.horizontalAdvance(self.new_button.text()) + 2 * padding_px
+            self.new_button.setMinimumWidth(max(min_width3, 2 * padding_px + 80))
             self.new_button.clicked.connect(self.create_collection)
 
             self.delete_button = QPushButton("Ausgewählte Sammlung löschen")
+            font_metrics4 = self.delete_button.fontMetrics()
+            min_width4 = font_metrics4.horizontalAdvance(self.delete_button.text()) + 2 * padding_px
+            self.delete_button.setMinimumWidth(max(min_width4, 2 * padding_px + 80))
             self.delete_button.clicked.connect(self.delete_collection)
 
             # Layout erst jetzt anlegen und befüllen
@@ -567,11 +583,12 @@ QPushButton {
     border: 1px solid #444;
     border-radius: 8px;
     padding: 12px 28px;
-    min-width: 100px;
     min-height: 38px;
+    min-width: 140px;
     font-size: 21px;
     font-weight: 600;
     letter-spacing: 0.5px;
+    white-space: nowrap;
 }
 QPushButton:hover {
     background-color: #333;

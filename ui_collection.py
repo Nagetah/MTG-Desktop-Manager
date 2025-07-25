@@ -383,11 +383,19 @@ class CollectionViewer(QWidget):
             # --- Varianten-Button ---
             variant_row = QHBoxLayout()
             variant_btn = QPushButton("Variante wählen ...")
+            font_metrics_variant = variant_btn.fontMetrics()
+            padding_px_variant = 28
+            min_width_variant = font_metrics_variant.horizontalAdvance(variant_btn.text()) + 2 * padding_px_variant
+            variant_btn.setMinimumWidth(max(min_width_variant, 2 * padding_px_variant + 80))
             variant_row.addWidget(variant_btn)
             layout.addLayout(variant_row)
 
             # --- Speichern-Button ---
             save_btn = QPushButton("Speichern")
+            font_metrics_save = save_btn.fontMetrics()
+            padding_px_save = 24
+            min_width_save = font_metrics_save.horizontalAdvance(save_btn.text()) + 2 * padding_px_save
+            save_btn.setMinimumWidth(max(min_width_save, 2 * padding_px_save + 80))
             save_btn.setStyleSheet('''
                 QPushButton {
                     background-color: #4caf50;
@@ -1036,7 +1044,7 @@ class CollectionViewer(QWidget):
         back_button = QPushButton("← Hauptmenü")
         back_button.clicked.connect(self.return_to_menu)
         btns_layout.addWidget(back_button)
-        back_to_collections_button = QPushButton("Zurück zu Sammlungen")
+        back_to_collections_button = QPushButton("← Sammlung")
         back_to_collections_button.setStyleSheet("margin-left: 10px;")
         def go_to_collections():
             parent = find_parent_with_attr(self, attr_name='show_collections')
@@ -1045,12 +1053,12 @@ class CollectionViewer(QWidget):
         back_to_collections_button.clicked.connect(go_to_collections)
         btns_layout.addWidget(back_to_collections_button)
         # --- Moxfield-Import-Button ---
-        import_btn = QPushButton("Deck importieren")
+        import_btn = QPushButton("Importieren")
         import_btn.setStyleSheet("margin-left: 10px; background-color: #0078d7; color: white; font-weight: bold;")
         import_btn.clicked.connect(self.import_deck_text)
         btns_layout.addWidget(import_btn)
         # --- Deck Exportieren Button ---
-        export_btn = QPushButton("Deck exportieren")
+        export_btn = QPushButton("Exportieren")
         export_btn.setStyleSheet("margin-left: 10px; background-color: #4caf50; color: white; font-weight: bold;")
         export_btn.clicked.connect(self.export_deck_text)
         btns_layout.addWidget(export_btn)
